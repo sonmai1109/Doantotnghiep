@@ -1,0 +1,175 @@
+﻿@model  PagedList.IPagedList<Maison.Models.Danhmuc>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
+<div class=" mt-3 d-flex justify-content-between " style="margin-top:10px">
+
+    <div class="ml-4 pt-10 h4 " style="font-weight:bold">Danh sách danh mục </div>
+    <div class="buttons ml-4 pr-2 mt-3 ">
+        <button id="addpopup"><span class="fas fa-plus mr-2"></span>Thêm danh mục</button>
+
+
+    </div>
+</div>
+<style>
+
+    .popupprivate {
+        display: none;
+        position: fixed; /* hoặc absolute */
+        left: 40%;
+        bottom: 35%;
+        border-radius: 15px;
+        z-index: 1050;
+    }
+</style>
+<table class="table table-hover mt-4 m-3">
+
+    <thead>
+        <tr>
+
+            <th>Tên danh mục</th>
+            <th>Ngày tạo</th>
+            @*<th>Người tạo</th>*@
+            <th>Ngày sửa</th>
+            @*<th>Người sửa</th>*@
+            <th>Tùy chọn</th>
+        </tr>
+
+    </thead>
+    <tbody>
+
+
+        @foreach (var a in Model)
+        {
+
+            <tr class="row-@a.MaDM">
+
+                <td>@a.TenDM</td>
+                <td><span class="font-weight-normal">@a.NgayTao</span></td>
+                @*<td><span class="font-weight-bold">@a.NguoiTao</span></td>*@
+                <td><span class="font-weight-normal">@a.NgaySua</span></td>
+                @*<td><span class="font-weight-bold">@a.NguoiSua</span></td>*@
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="icon icon-sm">
+                                <span class="fas fa-ellipsis-h icon-dark"></span>
+                            </span>
+                            <span class="sr-only">Danh mục lựa chọn</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item change" onclick="loaddata(@a.MaDM)"><span class="fas fa-edit mr-2"></span>Chỉnh sửa</button>
+                            <button class="dropdown-item text-danger delete" onclick="deleteData(@a.MaDM)"><span class="fas fa-trash-alt mr-2"></span>Xóa</button>
+                        </div>
+                    </div>
+                </td>
+
+            </tr>
+
+        }
+
+
+    </tbody>
+
+
+
+
+
+
+
+
+
+
+</table>
+<div class="card-footer px-3 border-0 d-flex align-items-center justify-content-between">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination mb-0">
+            @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, pageSize = Model.PageSize, searchString = ViewBag.searchString }))
+        </ul>
+    </nav>
+</div>
+@section popup{
+    <div class="popup popupprivate  border p-5  bg-white shadow-soft " id="popup">
+
+        <div>
+            <form id="add-form" onsubmit="return themdanhmuc()">
+                <div>
+                    <p id="add-mess"></p>
+                    <br />
+                    <h1>Tạo danh mục</h1>
+                    <br />
+                    <input type="text" name="TenDM" class="form-control" placeholder="Tên danh mục" id="danhmucs" />
+                </div>
+                <br />
+                <button type="submit" class="btn btn-block btn-primary">Thêm danh muc</button>
+                <div class="btn btn-block border-primary cancelPopup" id="cancel">Hủy </div>
+            </form>
+
+
+        </div>
+    </div>
+
+}
+@section changepopup{
+    <div class="changepopup popupprivate  border p-5  bg-white shadow-soft " id="changepopup">
+
+        <div>
+            <form id="update-form" onsubmit="return suadanhmuc()">
+                <div>
+                    <p id="update-mess"></p>
+                    <br />
+                    <h1 class="text-danger">Sửa danh mục</h1>
+                    <br />
+                    <input class="hidden-text" type="hidden" id="madm" name="MaDM" />
+                    <input type="text" name="TenDM" class="form-control" placeholder="Tên danh mục" id="tendm" autofocus required />
+                </div>
+                <br />
+                <button type="submit" class="btn btn-block btn-primary">Sửa danh muc</button>
+                <div class="btn btn-block border-primary cancelPopup" id="cancelPopupDel">Hủy </div>
+            </form>
+
+
+        </div>
+    </div>
+
+}
+@section deletepopup{
+    <div class="changepopup popupprivate  border p-5  bg-white shadow-soft " id="deletepopup">
+
+        <div>
+         
+                <div>
+                    <h1 class="text-warning text-center">Xóa danh mục</h1>
+                    <br />
+                    <input class="hidden-text" type="hidden" id="delete-madm" name="MaDM" />
+                   <h5 class="text-center fw-bold">Bạn có chắc chắn muốn xóa không?</h5>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-block btn-primary" onclick="xoadanhmuc()" >Chắn chắn</button>
+                <div class="btn btn-block border-primary cancelPopup" id="cancelPopupDel">Hủy </div>
+            
+
+
+        </div>
+    </div>
+
+}
+@section Script{
+    <script src="~/Content/admin/JS/addpopup.js">
+
+    </script>
+    <script src="~/Content/admin/JS/danhmuc.js">
+
+    </script>
+
+}
+
+
+
+

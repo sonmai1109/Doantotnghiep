@@ -1,0 +1,70 @@
+﻿.headfrs {
+    background: #FFF1BF;
+    color: #BC1B24;
+}
+
+.headersc {
+    background-color: #F53F3F;
+}
+
+.logo img {
+    width: 100px; /* phóng to */
+
+    transform: scaleX(1.8) scaleY(1.35);
+}
+
+.logo {
+    margin-left: -50px;
+    margin-right: 20px;
+}
+
+.overlay {
+    position: fixed;
+    background: rgba(0,0,0,.5); /* nền mờ */
+    inset: 0;
+    z-index: 1000;
+    display: none;
+  
+}
+main {
+    position: relative;
+    z-index:900;
+}
+.menu-wrapper {
+    position: relative;
+}
+    .menu-wrapper ul {
+        background-color: gray;
+    }
+.dropmenu {
+    position: absolute;
+    top: 175%;
+    right: 94px;
+    width: 160px;
+    padding-right: 30px;
+    list-style: none;
+    text-decoration: none;
+    display:none;
+}
+    .dropmenu li a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        white-space: nowrap;
+        text-decoration: none;
+        color: black;
+        font-size: 20px;
+    }
+  
+.dropmenu li:hover{
+    background-color:red;
+
+
+}
+
+header {
+    position: sticky;
+    z-index: 1039;
+    width: 100%;
+    top: 0;
+}

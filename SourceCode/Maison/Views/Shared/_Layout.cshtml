@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css" />
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+ <link rel="stylesheet" href="~/Content/client/css/layout.css" />
+</head>
+<body>
+    <header>
+        <div class="headfrs text-center">
+            Happy New Year -Vui Tết Tràn Ngập!
+
+        </div>
+
+        <div class="headersc">
+
+            <div class="container">
+                <div class="d-flex align-items-center gap-3">
+
+                    <div class="logo">
+                        <img src="~/Content/client/img/lg.png" />
+                    </div>
+
+                    <div class="menu-wrapper">
+                        <button class="btn btn-light" id="buttondropmenu"> Danh Mục</button>
+                        <ul class="border bg-white text-center dropmenu t" id="dropmenu">@{Html.RenderAction("dropdanhmuc", "Home");}</ul>
+                    </div>
+                    <div class="flex-grow-1">
+                        <div class="input-group">
+
+                            <span class="input-group-text bg-white">
+                                <i class="fas fa-search "></i>
+                            </span>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Bạn muốn tìm gì?">
+                        </div>
+                    </div>
+                    <div class="btn btn-light"><i class="nav-icon fas fa-shopping-cart"></i> Giỏ hàng</div>
+                    <div class="btn btn-light"><i class="nav-icon fas fa-user"></i> Tài khoản</div>
+
+                    <a href="#" class="btn btn-light">
+                        <i class="fas fa-phone text-danger"></i>  Liên hệ
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+        
+    </header>
+    
+
+    <main>
+
+        @RenderBody()
+
+
+
+
+    </main>
+
+    <footer>
+    </footer>
+    <div class="overlay" id="overlay"></div>
+    <script src="~/Content/client/JS/layout.js"></script>
+</body>
+
+</html>
