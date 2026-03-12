@@ -162,6 +162,10 @@
     <Compile Include="Migrations\202601270908402_addtkqt.Designer.cs">
       <DependentUpon>202601270908402_addtkqt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202603121723203_suabangtknd.cs" />
+    <Compile Include="Migrations\202603121723203_suabangtknd.Designer.cs">
+      <DependentUpon>202603121723203_suabangtknd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Danhmuc.cs" />
     <Compile Include="Models\Sanpham.cs" />
@@ -170,6 +174,9 @@
     <Compile Include="Models\TaiKhoanNguoiDung.cs" />
     <Compile Include="Models\TaiKhoanQuanTri.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Session\SSCart.cs" />
+    <Compile Include="Session\SSLogin.cs" />
+    <Compile Include="Session\SSUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\admin\JS\addpopup.js" />
@@ -2207,6 +2214,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\dropdanhmuc.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Signup.cshtml" />
+    <Content Include="Views\Home\test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2255,6 +2264,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202601270908402_addtkqt.resx">
       <DependentUpon>202601270908402_addtkqt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202603121723203_suabangtknd.resx">
+      <DependentUpon>202603121723203_suabangtknd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

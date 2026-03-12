@@ -182,3 +182,4 @@ D:\Download\Dự án cá nhân\Maison\SourceCode\Maison\obj\Debug\Maison.csproj.
 D:\Download\Dự án cá nhân\Maison\SourceCode\Maison\obj\Debug\Maison.csproj.Up2Date
 D:\Download\Dự án cá nhân\Maison\SourceCode\Maison\obj\Debug\Maison.dll
 D:\Download\Dự án cá nhân\Maison\SourceCode\Maison\obj\Debug\Maison.pdb
+D:\Download\Dự án cá nhân\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.suabangtknd.resources

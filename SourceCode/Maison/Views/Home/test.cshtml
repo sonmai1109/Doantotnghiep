@@ -1,0 +1,13 @@
+﻿@model IEnumerable<Maison.Models.TaiKhoanNguoiDung>
+@{
+    ViewBag.Title = "test";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>test</h2>
+            @foreach(var a in Model)
+            {
+
+                @a.TenDangNhap
+
+            }

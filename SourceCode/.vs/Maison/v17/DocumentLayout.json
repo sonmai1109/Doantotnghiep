@@ -3,60 +3,88 @@
   "WorkspaceRootPath": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\d\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\maison\\sourcecode\\maison\\content\\admin\\js\\addpopup.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\admin\\js\\addpopup.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\d\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\maison\\sourcecode\\maison\\views\\home\\signup.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\signup.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\content\\client\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\client\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\views\\home\\dropdanhmuc.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\dropdanhmuc.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\models\\taikhoanquantri.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\taikhoanquantri.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\models\\shopdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\shopdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\content\\admin\\js\\danhmuc.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\admin\\js\\danhmuc.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\d\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\maison\\sourcecode\\maison\\views\\home\\test.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\test.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\areas\\admin\\views\\danhmucs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\views\\danhmucs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\content\\client\\js\\layout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\client\\js\\layout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\areas\\admin\\controllers\\danhmucscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\controllers\\danhmucscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\content\\admin\\js\\danhmuc.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\admin\\js\\danhmuc.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\d\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\maison\\sourcecode\\maison\\content\\admin\\js\\addpopup.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\admin\\js\\addpopup.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\models\\sanphamchitiet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\sanphamchitiet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\models\\danhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\danhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\views\\home\\dropdanhmuc.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\dropdanhmuc.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\models\\taikhoannguoidung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\taikhoannguoidung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\models\\sanphamchitiet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\sanphamchitiet.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\d\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\maison\\sourcecode\\maison\\migrations\\202603121723203_suabangtknd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\migrations\\202603121723203_suabangtknd.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\content\\client\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\client\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\d\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\maison\\sourcecode\\maison\\session\\ssuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\session\\ssuser.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\models\\shopdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\shopdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\d\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\maison\\sourcecode\\maison\\session\\sslogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\session\\sslogin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\d\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\maison\\sourcecode\\maison\\session\\sscart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\session\\sscart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\models\\taikhoanquantri.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\taikhoanquantri.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\content\\client\\js\\layout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\client\\js\\layout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\migrations\\202601270908402_addtkqt.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -65,10 +93,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\areas\\admin\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\maison\\areas\\admin\\controllers\\danhmucscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\controllers\\danhmucscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -78,30 +102,31 @@
       "DocumentGroups": [
         {
           "DockedHeight": 303,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 16,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Maison\\Views\\Home\\Index.cshtml",
               "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Views\\Home\\Index.cshtml",
               "RelativeToolTip": "Maison\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAADIBAAAAAAAAAAAAADIBAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAACkBAAAAAAAAAAAAADIBAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-02-05T15:11:21.671Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "addpopup.js",
               "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\addpopup.js",
               "RelativeDocumentMoniker": "Maison\\Content\\admin\\JS\\addpopup.js",
               "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\addpopup.js",
               "RelativeToolTip": "Maison\\Content\\admin\\JS\\addpopup.js",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAACEAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2026-01-21T08:51:06.227Z",
               "IsPinned": true,
@@ -109,16 +134,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 13,
               "Title": "layout.css",
               "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Content\\client\\css\\layout.css",
               "RelativeDocumentMoniker": "Maison\\Content\\client\\css\\layout.css",
               "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Content\\client\\css\\layout.css",
               "RelativeToolTip": "Maison\\Content\\client\\css\\layout.css",
-              "ViewState": "AgIAACcAAAAAAAAAAAAwwDoAAAATAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAAAwwDoAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2026-02-04T09:05:21.359Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "test.cshtml",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Views\\Home\\test.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Views\\Home\\test.cshtml",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Views\\Home\\test.cshtml",
+              "RelativeToolTip": "Maison\\Views\\Home\\test.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-12T18:59:32.712Z",
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
@@ -127,6 +167,97 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAAAAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-05T07:57:35.159Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Danhmuc.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\Danhmuc.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\Danhmuc.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\Danhmuc.cs",
+              "RelativeToolTip": "Maison\\Models\\Danhmuc.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA2AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-21T09:06:02.295Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "sanphamchitiet.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\sanphamchitiet.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\sanphamchitiet.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\sanphamchitiet.cs",
+              "RelativeToolTip": "Maison\\Models\\sanphamchitiet.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T07:04:13.431Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Maison\\Controllers\\HomeController.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Maison\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAACEAAAAAAAAAAADwvysAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T09:27:26.358Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Signup.cshtml",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Views\\Home\\Signup.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Views\\Home\\Signup.cshtml",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Views\\Home\\Signup.cshtml",
+              "RelativeToolTip": "Maison\\Views\\Home\\Signup.cshtml",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABsAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-12T16:08:14.182Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DanhmucsController.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABEAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-05T07:57:07.143Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "danhmuc.js",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\danhmuc.js",
+              "RelativeDocumentMoniker": "Maison\\Content\\admin\\JS\\danhmuc.js",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\danhmuc.js",
+              "RelativeToolTip": "Maison\\Content\\admin\\JS\\danhmuc.js",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAAwB4AAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-01-13T09:55:53.098Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "dropdanhmuc.cshtml",
               "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Views\\Home\\dropdanhmuc.cshtml",
               "RelativeDocumentMoniker": "Maison\\Views\\Home\\dropdanhmuc.cshtml",
@@ -134,47 +265,90 @@
               "RelativeToolTip": "Maison\\Views\\Home\\dropdanhmuc.cshtml",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-04T09:32:47.442Z"
+              "WhenOpened": "2026-02-04T09:32:47.442Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 10,
+              "Title": "TaiKhoanNguoiDung.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanNguoiDung.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\TaiKhoanNguoiDung.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanNguoiDung.cs",
+              "RelativeToolTip": "Maison\\Models\\TaiKhoanNguoiDung.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAA4AAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-23T09:48:58.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "_Layout.cshtml",
               "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Views\\Shared\\_Layout.cshtml",
               "RelativeDocumentMoniker": "Maison\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Maison\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAACMAAAAuAAAAAAAAAA==",
+              "ViewState": "AgIAABsAAAAAAAAAAAAAAAAAAABqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-02T10:28:32.185Z"
+              "WhenOpened": "2026-02-02T10:28:32.185Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "TaiKhoanQuanTri.cs",
-              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanQuanTri.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\TaiKhoanQuanTri.cs",
-              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanQuanTri.cs",
-              "RelativeToolTip": "Maison\\Models\\TaiKhoanQuanTri.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAA4wBsAAAApAAAAAAAAAA==",
+              "DocumentIndex": 12,
+              "Title": "202603121723203_suabangtknd.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Migrations\\202603121723203_suabangtknd.cs",
+              "RelativeDocumentMoniker": "Maison\\Migrations\\202603121723203_suabangtknd.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Migrations\\202603121723203_suabangtknd.cs",
+              "RelativeToolTip": "Maison\\Migrations\\202603121723203_suabangtknd.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T08:58:54.357Z"
+              "WhenOpened": "2026-03-12T17:23:25.029Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "shopdb.cs",
-              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\shopdb.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\shopdb.cs",
-              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\shopdb.cs",
-              "RelativeToolTip": "Maison\\Models\\shopdb.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAIwBEAAABKAAAAAAAAAA==",
+              "DocumentIndex": 14,
+              "Title": "SSUser.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Session\\SSUser.cs",
+              "RelativeDocumentMoniker": "Maison\\Session\\SSUser.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Session\\SSUser.cs",
+              "RelativeToolTip": "Maison\\Session\\SSUser.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-23T10:02:01.498Z"
+              "WhenOpened": "2026-03-12T15:11:08.454Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
+              "Title": "SSLogin.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Session\\SSLogin.cs",
+              "RelativeDocumentMoniker": "Maison\\Session\\SSLogin.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Session\\SSLogin.cs",
+              "RelativeToolTip": "Maison\\Session\\SSLogin.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-12T15:12:29.753Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "SSCart.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Session\\SSCart.cs",
+              "RelativeDocumentMoniker": "Maison\\Session\\SSCart.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Session\\SSCart.cs",
+              "RelativeToolTip": "Maison\\Session\\SSCart.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-12T15:10:16.266Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
               "Title": "layout.js",
               "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Content\\client\\JS\\layout.js",
               "RelativeDocumentMoniker": "Maison\\Content\\client\\JS\\layout.js",
@@ -186,79 +360,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "danhmuc.js",
-              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\danhmuc.js",
-              "RelativeDocumentMoniker": "Maison\\Content\\admin\\JS\\danhmuc.js",
-              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\danhmuc.js",
-              "RelativeToolTip": "Maison\\Content\\admin\\JS\\danhmuc.js",
-              "ViewState": "AgIAAE0AAAAAAAAAAAAAwHUAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-01-13T09:55:53.098Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "Maison\\Controllers\\HomeController.cs",
-              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "Maison\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 15,
+              "Title": "shopdb.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\shopdb.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\shopdb.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\shopdb.cs",
+              "RelativeToolTip": "Maison\\Models\\shopdb.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAIwBEAAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T09:27:26.358Z"
+              "WhenOpened": "2026-01-23T10:02:01.498Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "TaiKhoanNguoiDung.cs",
-              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanNguoiDung.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\TaiKhoanNguoiDung.cs",
-              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanNguoiDung.cs",
-              "RelativeToolTip": "Maison\\Models\\TaiKhoanNguoiDung.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAAwBIAAAASAAAAAAAAAA==",
+              "DocumentIndex": 19,
+              "Title": "TaiKhoanQuanTri.cs",
+              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanQuanTri.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\TaiKhoanQuanTri.cs",
+              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanQuanTri.cs",
+              "RelativeToolTip": "Maison\\Models\\TaiKhoanQuanTri.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAA4wBsAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-23T09:48:58.287Z"
+              "WhenOpened": "2026-01-27T08:58:54.357Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
-              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
-              "ViewState": "AgIAACEAAAAAAAAAAAAAACsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-01-05T07:57:35.159Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Danhmuc.cs",
-              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\Danhmuc.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\Danhmuc.cs",
-              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\Danhmuc.cs",
-              "RelativeToolTip": "Maison\\Models\\Danhmuc.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-21T09:06:02.295Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "sanphamchitiet.cs",
-              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\sanphamchitiet.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\sanphamchitiet.cs",
-              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Models\\sanphamchitiet.cs",
-              "RelativeToolTip": "Maison\\Models\\sanphamchitiet.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T07:04:13.431Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 21,
               "Title": "202601270908402_addtkqt.cs",
               "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Migrations\\202601270908402_addtkqt.cs",
               "RelativeDocumentMoniker": "Maison\\Migrations\\202601270908402_addtkqt.cs",
@@ -270,7 +397,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 22,
               "Title": "LoginController.cs",
               "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\LoginController.cs",
@@ -279,18 +406,6 @@
               "ViewState": "AgIAAAMAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-27T09:21:44.238Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "DanhmucsController.cs",
-              "DocumentMoniker": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
-              "ToolTip": "D:\\Download\\D\u1EF1 \u00E1n c\u00E1 nh\u00E2n\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
-              "ViewState": "AgIAAEgAAAAAAAAAAAAAAFQAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-05T07:57:07.143Z"
             }
           ]
         }
