@@ -14,7 +14,7 @@
 }
 
 .logo {
-    margin-left: -50px;
+    margin-left: -103px;
     margin-right: 20px;
 }
 
@@ -67,4 +67,123 @@ header {
     z-index: 1039;
     width: 100%;
     top: 0;
+}
+.dot {
+    height: 10px;
+    width: 10px;
+    background-color: red;
+    border-radius: 50%;
+    display: inline-block;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+/*phan css cua phan dang nhap (login)*/
+/*cai link tu trang chu sang login*/
+.breadcrumb-area {
+    margin-top: 30px;
+}
+
+.breadcrumb {
+    background: #f5f5f5;
+    padding: 12px 20px;
+    border-radius: 6px;
+}
+
+ .breadcrumb ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+ .breadcrumb ul li {
+            display: inline-block;
+            font-size: 14px;
+            color: #666;
+        }
+
+   .breadcrumb ul li a {
+                color: #007bff;
+                text-decoration: none;
+            }
+    .breadcrumb ul li a:hover {
+       color:red;
+    }
+
+  .breadcrumb ul li.active {
+                color: red;
+                font-weight: 500;
+            }
+ .breadcrumb ul .active a{
+                color:red;
+            }
+            /* dấu > */
+ .breadcrumb ul li + li:before {
+                content: "›";
+                margin: 0 8px;
+                color: #999;
+            }
+ /*button dang ky ngay*/
+.customer-btn {
+    margin-top: 15px;
+    display: inline-block;
+    background: #ff3c00;
+    color: #fff !important;
+    padding: 10px 22px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-decoration: none !important; /* 🔥 thêm !important */
+}
+
+    .customer-btn:hover,
+    .customer-btn:focus,
+    .customer-btn:active {
+        text-decoration: none !important; /* 🔥 chặn hover vẫn bị gạch */
+        background: #cc3000;
+        color: #fff !important;
+    }
+/*button dang nhap*/
+.return-customer-btn {
+    
+    background: #222;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .return-customer-btn:hover {
+        background-color:red;
+    }
+  /*  font chu*/
+body {
+    font-family: 'Inter', sans-serif;
+}
+/*account*/
+.checktk {
+    position: fixed;
+    background-color: white;
+    border-radius: 15px;
+    width: 400px;
+    height: 200px;
+    /* nền mờ */
+    inset: 0;
+    top: 34%;
+    left: -2%;
+    display: none;
 }

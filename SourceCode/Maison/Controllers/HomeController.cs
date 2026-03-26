@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Maison.Models;
 using Maison.Session;
+using Maison.Areas.Admin.Data;
 namespace Maison.Controllers
 {
     public class HomeController : Controller
@@ -22,6 +23,12 @@ namespace Maison.Controllers
         [HttpGet]
         public ActionResult SignUp()
         {
+            TaiKhoanNguoiDung session = (TaiKhoanNguoiDung)Session[Maison.Session.ConstaintUser.USER_SESSION];
+            if (session != null)
+            {
+                return RedirectToAction("error", "Error");
+
+            }
             return View();
         }
         [HttpPost]
@@ -37,7 +44,7 @@ namespace Maison.Controllers
             if (check != null)
             {
                 //nếu chưa báo lỗi 
-                ModelState.AddModelError("ERRORSIGNUP", "Tên đăng nhập đã tồn tại !");
+                //ModelState.AddModelError("TenDangNhap", "Tên đăng nhập đã tồn tại !");
                 ViewBag.mess= "Tên đăng nhập đã tồn tại";
                  return View(tk);
             }
@@ -49,7 +56,7 @@ namespace Maison.Controllers
                     db.TaiKhoanNguoiDungs.Add(tk);
                     db.SaveChanges();
                     TaiKhoanNguoiDung session = db.TaiKhoanNguoiDungs.Where(a => a.TenDangNhap.Equals(tk.TenDangNhap)).FirstOrDefault();
-                    Session[Maison.Session.SSUser.SS_USER] = session;
+                    Session[Maison.Session.ConstaintUser.USER_SESSION] = session;
                     return RedirectToAction("Index", "Home");
                 }
                 catch (Exception)
@@ -59,13 +66,59 @@ namespace Maison.Controllers
             }
             return View(tk);
         }
+
         [HttpGet]
+        public ActionResult Login()
+        {
+            TaiKhoanNguoiDung session = (TaiKhoanNguoiDung)Session[Maison.Session.ConstaintUser.USER_SESSION];
+            if (session != null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Login(LoginAccount loginAccount)
+        {
+            if (ModelState.IsValid)
+            {
+                TaiKhoanNguoiDung tk = db.TaiKhoanNguoiDungs.Where
+                (a => a.TenDangNhap.Equals(loginAccount.username) && a.MatKhau.Equals(loginAccount.password)).FirstOrDefault();
+                if (tk != null)
+                {
+                    if (tk.TrangThai == false)
+                    {
+                        ModelState.AddModelError("ErrorLogin", "Tài khoản của bạn đã bị vô hiệu hóa !");
+                    }
+                    else
+                    {
+                        Session.Add(ConstaintUser.USER_SESSION, tk);
+                        return RedirectToAction("Index", "Home");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("ErrorLogin", "Tài khoản hoặc mật khẩu không đúng!");
+                }
+            }
+            return View(loginAccount);
+        }
+        [HttpGet]
+        public ActionResult Logout()
+        {
+
+            Session.Remove(ConstaintUser.USER_SESSION);
+            return RedirectToAction("Index", "Home");
+
+        }
         public ActionResult test()
         {
-            var a = db.TaiKhoanNguoiDungs.Select(tk => tk);
-            return View(a);
+
+            var sp = db.Danhmucs.ToList();
+            return PartialView(sp);
 
 
         }
+      
     }
 }

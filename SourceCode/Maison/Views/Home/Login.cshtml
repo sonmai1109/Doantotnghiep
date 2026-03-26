@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model Maison.Areas.Admin.Data.LoginAccount
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Breadcrumb Start -->
+<div class="breadcrumb-area mt-30">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul class="d-flex align-items-center">
+                <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                <li class="active">@Html.ActionLink("Đăng nhập", "Login")</li>
+                <!-- <li class="active"><a href="contact.html">contact us</a></li> -->
+            </ul>
+        </div>
+    </div>
+    <!-- Container End -->
+</div>
+<!-- Breadcrumb End -->
+<!-- LogIn Page Start -->
+<div class="log-in ptb-100 ptb-sm-60">
+    <div class="container">
+        <div class="row">
+            <!-- New Customer Start -->
+            <div class="col-md-6">
+                <div class="well mb-sm-30">
+                    <div class="new-customer">
+                        <h3 class="custom-title">Khách hàng mới?</h3>
+                        <p class="mtb-10"><strong></strong></p>
+                        <p>Bạn là khách hàng mới? Đăng ký ngay cho riêng mình 1 tài khoản để mua sắm dễ hàng hơn nhé!</p>
+                        @Html.ActionLink("Đăng ký ngay", "SignUp", "Home", null, new { @class = "customer-btn" })
+                    </div>
+                </div>
+            </div>
+            <!-- New Customer End -->
+            <!-- Returning Customer Start -->
+            <div class="col-md-6">
+                <div class="well">
+                    <div class="return-customer">
+                        <h3 class="mb-10 custom-title">Đăng nhập</h3>
+                        <p class="mb-10"><strong></strong></p>
+                        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                        {
+                            @Html.ValidationMessage("ErrorLogin", new { @class = "text-danger" })
+                            <hr />
+                            <div class="form-group">
+                                <label>Tài khoản</label>
+                                @Html.TextBoxFor(model => model.username,
+                                            new { @class = "form-control", @name = "username", @autoforcus = "autofocus", @required = "required", @placeholder = "Nhập tài khoản" })
+                            </div>
+                            <div class="form-group">
+                                <label>Mật khẩu</label>
+                                @Html.PasswordFor(model => model.password,
+                                           new { @class = "form-control", @name = "password", @required = "required", @placeholder = "Nhập mật khẩu" })
+                            </div>
+                            <!-- <p class="lost-password"><a href="forgot-password.html">Forgot password?</a></p> -->
+                            <input type="submit" value="Đăng nhập" class="return-customer-btn">
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- Returning Customer End -->
+        </div>
+        <!-- Row End -->
+    </div>
+    <!-- Container End -->
+</div>
+<!-- LogIn Page End -->
