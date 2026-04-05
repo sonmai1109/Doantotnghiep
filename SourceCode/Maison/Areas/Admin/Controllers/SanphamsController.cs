@@ -1,132 +1,142 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Maison.Models;
+using System.Data.Entity;
+using System.IO;
 
-namespace Maison.Areas.Admin.Controllers
+namespace Maison.Areas.Admin.Controllers // Nhớ sửa namespace
 {
-    public class SanphamsController : Controller
+    public class SanphamsController : BaseController
     {
-        private shopdb db = new shopdb();
+        shopdb db = new shopdb();
 
-        // GET: Admin/Sanphams
-        public ActionResult Index()
+        public ActionResult Index(string timkiem)
         {
-            var sanphams = db.Sanphams.Include(s => s.DanhMuc);
-            return View(sanphams.ToList());
-        }
+            ViewBag.timkiem = timkiem;
+            // Dùng Include để lấy tên Danh mục và tên Hãng
+            var sanphams = db.Sanphams.Include(s => s.DanhMuc).Include(s => s.Brand).AsQueryable();
 
-        // GET: Admin/Sanphams/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
+            if (!string.IsNullOrEmpty(timkiem))
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                sanphams = sanphams.Where(s => s.TenSP.Contains(timkiem));
             }
-            Sanpham sanpham = db.Sanphams.Find(id);
-            if (sanpham == null)
-            {
-                return HttpNotFound();
-            }
-            return View(sanpham);
-        }
 
-        // GET: Admin/Sanphams/Create
-        public ActionResult Create()
-        {
+            // Đẩy dữ liệu ra ViewBag để làm thẻ <select> trong Popup
             ViewBag.MaDM = new SelectList(db.Danhmucs, "MaDM", "TenDM");
-            return View();
+            ViewBag.MaBrand = new SelectList(db.Brands, "MaBrand", "TenBrand");
+
+            return View(sanphams.OrderByDescending(s => s.MaSP).ToList());
         }
 
-        // POST: Admin/Sanphams/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MaSP,MaDM,TenSP,Gia,MoTa,ChatLieu,HuongDan,NgayTao,NguoiTao,NgaySua,NguoiSua,HinhAnh")] Sanpham sanpham)
+      
+        public JsonResult Create(Sanpham sp, HttpPostedFileBase ImageFile)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Sanphams.Add(sanpham);
+                // Lấy thông tin tài khoản đang đăng nhập từ Session
+                TaiKhoanQuanTri tk = (TaiKhoanQuanTri)Session[Maison.Session.ConstaintUser.ADMIN_SESSION];
+
+                if (tk != null)
+                {
+                    sp.NgayTao = DateTime.Now;
+                    sp.NguoiTao = tk.HoTen;
+                    sp.NgaySua = DateTime.Now;
+                    sp.NguoiSua = tk.HoTen; // Khi mới tạo thì người tạo cũng là người sửa lần cuối
+                }
+
+                // Xử lý upload ảnh
+                if (ImageFile != null && ImageFile.ContentLength > 0)
+                {
+                    string dirPath = Server.MapPath("~/Content/Images/SanPhams/");
+                    if (!System.IO.Directory.Exists(dirPath)) System.IO.Directory.CreateDirectory(dirPath);
+
+                    string fileName = DateTime.Now.Ticks + "_" + System.IO.Path.GetFileName(ImageFile.FileName);
+                    string path = System.IO.Path.Combine(dirPath, fileName);
+                    ImageFile.SaveAs(path);
+                    sp.HinhAnh = "/Content/Images/SanPhams/" + fileName;
+                }
+
+                db.Sanphams.Add(sp);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { status = true, message = "Thêm sản phẩm thành công!" });
             }
-
-            ViewBag.MaDM = new SelectList(db.Danhmucs, "MaDM", "TenDM", sanpham.MaDM);
-            return View(sanpham);
+            catch (Exception ex)
+            {
+                return Json(new { status = false, message = "Lỗi: " + ex.Message });
+            }
         }
 
-        // GET: Admin/Sanphams/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Sanpham sanpham = db.Sanphams.Find(id);
-            if (sanpham == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.MaDM = new SelectList(db.Danhmucs, "MaDM", "TenDM", sanpham.MaDM);
-            return View(sanpham);
-        }
-
-        // POST: Admin/Sanphams/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MaSP,MaDM,TenSP,Gia,MoTa,ChatLieu,HuongDan,NgayTao,NguoiTao,NgaySua,NguoiSua,HinhAnh")] Sanpham sanpham)
+        public JsonResult Loaddata(int id)
         {
-            if (ModelState.IsValid)
+            db.Configuration.ProxyCreationEnabled = false;
+            var sp = db.Sanphams.FirstOrDefault(a => a.MaSP == id);
+            return Json(sp, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult Update(Sanpham sp, HttpPostedFileBase ImageFile)
+        {
+            try
             {
-                db.Entry(sanpham).State = EntityState.Modified;
+                var doi = db.Sanphams.FirstOrDefault(a => a.MaSP == sp.MaSP);
+                if (doi == null) return Json(new { status = false, message = "Không tìm thấy dữ liệu!" });
+
+                // Cập nhật thông tin cơ bản
+                doi.TenSP = sp.TenSP;
+                doi.MaDM = sp.MaDM;
+                doi.MaBrand = sp.MaBrand;
+                doi.MoTa = sp.MoTa;
+                doi.ThoiHanBaoHanh = sp.ThoiHanBaoHanh;
+
+                // Bắt Session Người sửa
+                TaiKhoanQuanTri tk = (TaiKhoanQuanTri)Session[Maison.Session.ConstaintUser.ADMIN_SESSION];
+                if (tk != null)
+                {
+                    doi.NgaySua = DateTime.Now;
+                    doi.NguoiSua = tk.HoTen;
+                }
+
+                // Xử lý đổi ảnh (nếu có up ảnh mới)
+                if (ImageFile != null && ImageFile.ContentLength > 0)
+                {
+                    string dirPath = Server.MapPath("~/Content/Images/SanPhams/");
+                    if (!System.IO.Directory.Exists(dirPath)) System.IO.Directory.CreateDirectory(dirPath);
+
+                    string fileName = DateTime.Now.Ticks + "_" + System.IO.Path.GetFileName(ImageFile.FileName);
+                    string path = System.IO.Path.Combine(dirPath, fileName);
+                    ImageFile.SaveAs(path);
+                    doi.HinhAnh = "/Content/Images/SanPhams/" + fileName;
+                }
+
+                db.Entry(doi).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Json(new { status = true, message = "Cập nhật thành công!" });
             }
-            ViewBag.MaDM = new SelectList(db.Danhmucs, "MaDM", "TenDM", sanpham.MaDM);
-            return View(sanpham);
+            catch (Exception ex)
+            {
+                return Json(new { status = false, message = "Lỗi cập nhật: " + ex.Message });
+            }
         }
 
-        // GET: Admin/Sanphams/Delete/5
-        public ActionResult Delete(int? id)
+        [HttpPost]
+        public JsonResult Delete(int id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var sp = db.Sanphams.FirstOrDefault(a => a.MaSP == id);
+                db.Sanphams.Remove(sp);
+                db.SaveChanges();
+                return Json(new { status = true });
             }
-            Sanpham sanpham = db.Sanphams.Find(id);
-            if (sanpham == null)
+            catch
             {
-                return HttpNotFound();
+                return Json(new { status = false, message = "Không thể xóa vì sản phẩm này đang có biến thể hoặc hóa đơn!" });
             }
-            return View(sanpham);
-        }
-
-        // POST: Admin/Sanphams/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Sanpham sanpham = db.Sanphams.Find(id);
-            db.Sanphams.Remove(sanpham);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
         }
     }
 }

@@ -134,13 +134,20 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AreasAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\AdminUserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BienThesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BrandsController.cs" />
     <Compile Include="Areas\Admin\Controllers\DanhmucsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\KhuyenMaisController.cs" />
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanphamsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ThuocTinhsController.cs" />
     <Compile Include="Areas\Admin\Data\LoginAccount.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -168,14 +175,71 @@
     <Compile Include="Migrations\202603121723203_suabangtknd.Designer.cs">
       <DependentUpon>202603121723203_suabangtknd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202603311125351_Themnhieubang.cs" />
+    <Compile Include="Migrations\202603311125351_Themnhieubang.Designer.cs">
+      <DependentUpon>202603311125351_Themnhieubang.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202603311151423_Suabangsanphambaohanhthembrand.cs" />
+    <Compile Include="Migrations\202603311151423_Suabangsanphambaohanhthembrand.Designer.cs">
+      <DependentUpon>202603311151423_Suabangsanphambaohanhthembrand.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604032041250_AddAuditToBienThe.cs" />
+    <Compile Include="Migrations\202604032041250_AddAuditToBienThe.Designer.cs">
+      <DependentUpon>202604032041250_AddAuditToBienThe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604041746061_addthuoctinhdanhmuc.cs" />
+    <Compile Include="Migrations\202604041746061_addthuoctinhdanhmuc.Designer.cs">
+      <DependentUpon>202604041746061_addthuoctinhdanhmuc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604041953068_addcacbangmoi.cs" />
+    <Compile Include="Migrations\202604041953068_addcacbangmoi.Designer.cs">
+      <DependentUpon>202604041953068_addcacbangmoi.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604050759518_fixkhoangoai1.cs" />
+    <Compile Include="Migrations\202604050759518_fixkhoangoai1.Designer.cs">
+      <DependentUpon>202604050759518_fixkhoangoai1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604050809298_Fix_Duplicate_FK.cs" />
+    <Compile Include="Migrations\202604050809298_Fix_Duplicate_FK.Designer.cs">
+      <DependentUpon>202604050809298_Fix_Duplicate_FK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604050814101_bangthuvienanh.cs" />
+    <Compile Include="Migrations\202604050814101_bangthuvienanh.Designer.cs">
+      <DependentUpon>202604050814101_bangthuvienanh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604050904103_addthutubangthuvienanh.cs" />
+    <Compile Include="Migrations\202604050904103_addthutubangthuvienanh.Designer.cs">
+      <DependentUpon>202604050904103_addthutubangthuvienanh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604051256557_themthuoctinh.cs" />
+    <Compile Include="Migrations\202604051256557_themthuoctinh.Designer.cs">
+      <DependentUpon>202604051256557_themthuoctinh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604051404213_them2bangai.cs" />
+    <Compile Include="Migrations\202604051404213_them2bangai.Designer.cs">
+      <DependentUpon>202604051404213_them2bangai.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Baohanh.cs" />
+    <Compile Include="Models\BienThe.cs" />
+    <Compile Include="Models\Brand.cs" />
+    <Compile Include="Models\ChatbotKnowledge.cs" />
+    <Compile Include="Models\ChatbotLog.cs" />
+    <Compile Include="Models\ChiTietBT.cs" />
+    <Compile Include="Models\ChiTietHoaDon.cs" />
+    <Compile Include="Models\DanhGia.cs" />
     <Compile Include="Models\Danhmuc.cs" />
+    <Compile Include="Models\GiaTriTT.cs" />
+    <Compile Include="Models\HoaDon.cs" />
+    <Compile Include="Models\KhuyenMai.cs" />
     <Compile Include="Models\Sanpham.cs" />
-    <Compile Include="Models\sanphamchitiet.cs" />
+    <Compile Include="Models\SanPhamKhuyenMai.cs" />
     <Compile Include="Models\shopdb.cs" />
     <Compile Include="Models\TaiKhoanNguoiDung.cs" />
     <Compile Include="Models\TaiKhoanQuanTri.cs" />
+    <Compile Include="Models\ThuocTinh.cs" />
+    <Compile Include="Models\ThuVienAnh.cs" />
+    <Compile Include="Models\TinTuc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Session\ConstainCart.cs" />
     <Compile Include="Session\ConstaintUser.cs" />
@@ -183,7 +247,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\admin\JS\addpopup.js" />
+    <Content Include="Content\admin\JS\AdminAccount.js" />
+    <Content Include="Content\admin\JS\bienthe.js" />
+    <Content Include="Content\admin\JS\brand.js" />
     <Content Include="Content\admin\JS\danhmuc.js" />
+    <Content Include="Content\admin\JS\KhuyenMai.js" />
+    <Content Include="Content\admin\JS\sanpham.js" />
+    <Content Include="Content\admin\JS\thuoctinh.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -2145,11 +2215,6 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\Sanphams\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\Sanphams\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\Sanphams\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\Sanphams\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Sanphams\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Danhmucs\Index.cshtml" />
     <Content Include="Content\admin\dist\css\adminlte.css.map" />
     <Content Include="Content\admin\dist\css\adminlte.min.css.map" />
@@ -2242,6 +2307,14 @@
     <Content Include="Content\client\fonts\Linearicons-Free.ttf" />
     <Content Include="Content\client\fonts\Linearicons-Free.woff" />
     <Content Include="Content\client\fonts\Linearicons-Free.woff2" />
+    <Content Include="Areas\Admin\Views\BienThes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Brands\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AdminUser\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Login\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ThuocTinhs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Sanphams\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMais\ManageProducts.cshtml" />
+    <Content Include="Areas\Admin\Views\KhuyenMais\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -2270,10 +2343,14 @@
     <Content Include="Views\Error\error.cshtml" />
     <Content Include="Views\Home\test.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Product\Shop.cshtml" />
+    <Content Include="Views\Product\ProductDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\Login\" />
+    <Folder Include="Areas\Admin\Views\Base\" />
+    <Folder Include="Content\Images\Brands\" />
+    <Folder Include="Content\Images\SanPhams\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -2320,6 +2397,39 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202603121723203_suabangtknd.resx">
       <DependentUpon>202603121723203_suabangtknd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202603311125351_Themnhieubang.resx">
+      <DependentUpon>202603311125351_Themnhieubang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202603311151423_Suabangsanphambaohanhthembrand.resx">
+      <DependentUpon>202603311151423_Suabangsanphambaohanhthembrand.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604032041250_AddAuditToBienThe.resx">
+      <DependentUpon>202604032041250_AddAuditToBienThe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604041746061_addthuoctinhdanhmuc.resx">
+      <DependentUpon>202604041746061_addthuoctinhdanhmuc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604041953068_addcacbangmoi.resx">
+      <DependentUpon>202604041953068_addcacbangmoi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604050759518_fixkhoangoai1.resx">
+      <DependentUpon>202604050759518_fixkhoangoai1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604050809298_Fix_Duplicate_FK.resx">
+      <DependentUpon>202604050809298_Fix_Duplicate_FK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604050814101_bangthuvienanh.resx">
+      <DependentUpon>202604050814101_bangthuvienanh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604050904103_addthutubangthuvienanh.resx">
+      <DependentUpon>202604050904103_addthutubangthuvienanh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604051256557_themthuoctinh.resx">
+      <DependentUpon>202604051256557_themthuoctinh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604051404213_them2bangai.resx">
+      <DependentUpon>202604051404213_them2bangai.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

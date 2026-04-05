@@ -1,0 +1,352 @@
+﻿@using Maison.Models
+@model Maison.Models.Sanpham
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+    /* CSS cho ô chọn Cấu hình (Ô VUÔNG) */
+    .variant-box {
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 8px 15px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        margin-bottom: 10px;
+        background: #fff;
+        color: #333;
+        font-size: 14px;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+
+        .variant-box:hover {
+            border-color: #d70018;
+            color: #d70018;
+        }
+
+        /* Khi ô được chọn (Active) */
+        .variant-box.active {
+            border: 2px solid #d70018;
+            color: #d70018;
+            font-weight: bold;
+            background: #fff5f5;
+        }
+
+            .variant-box.active::before {
+                content: '\f00c';
+                font-family: 'Font Awesome 5 Free';
+                font-weight: 900;
+                position: absolute;
+                top: -8px;
+                right: -8px;
+                background: #d70018;
+                color: white;
+                border-radius: 50%;
+                width: 18px;
+                height: 18px;
+                font-size: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+    .tech-specs-table th {
+        background-color: #f3f4f6;
+        width: 35%;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .tech-specs-table td, .tech-specs-table th {
+        padding: 12px 15px;
+        border: 1px solid #e5e7eb;
+    }
+</style>
+
+<div class="breadcrumb-area mt-30">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul class="d-flex align-items-center">
+                <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                <li>@Html.ActionLink("Cửa hàng", "Shop", "Product")</li>
+                <li class="active">@Model.TenSP</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="main-product-thumbnail ptb-100 ptb-sm-60">
+    <div class="container">
+        <div class="thumb-bg">
+            <div class="row">
+                <div class="col-lg-5 mb-all-40">
+                    <div class="tab-content position-relative">
+                        <button id="btn-prev-img" class="btn-slide">‹</button>
+                        <div id="thumb1" class="tab-pane fade show active">
+                            <a id="modal-a-hinhanh" data-fancybox="images" href="@Model.HinhAnh">
+                                <img id="modal-hinhanh" src="@Model.HinhAnh" alt="@Model.TenSP" style="width:100%; object-fit:cover; border-radius:10px;">
+                            </a>
+                        </div>
+                        <button id="btn-next-img" class="btn-slide">›</button>
+                    </div>
+                    <div id="gallery-container" class="mt-3 d-flex" style="gap: 8px; flex-wrap: wrap;"></div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="thubnail-desc fix">
+                        <h3 class="product-header" style="font-weight:bold; font-size:24px;">@Model.TenSP</h3>
+                        <p style="opacity: .8; font-weight: bold; color: #007bff;">Danh mục: @Model.DanhMuc.TenDM</p>
+                    </div>
+
+                    <div class="pro-price mtb-20" id="price-container">
+                        <h3 id="hienThiGia" style="color:#d70018; font-weight:bold;">Đang tải giá...</h3>
+                        @if (ViewBag.KhuyenMai != null)
+                        {
+                            <span class="badge badge-danger" style="font-size:14px; padding: 5px 10px;">Giảm @ViewBag.PhanTramGiam%</span>
+                        }
+                    </div>
+
+                    <div id="attributes-container" class="mb-4 mt-4">
+
+                        @if (Model.MaDM == 20) // NẾU LÀ LAPTOP (Giả sử Mã Danh Mục Laptop là 20)
+                        {
+                            <p style="font-weight: 600; margin-bottom: 8px; color: #444;">Chọn cấu hình Laptop:</p>
+                            <div class="d-flex flex-wrap">
+                                @{ bool isFirst = true; }
+                                @foreach (var bt in Model.BienThes)
+                                {
+                                    string activeClass = isFirst ? "active" : "";
+                                    isFirst = false;
+
+                                    // Lấy tất cả thuộc tính CHÍNH của cấu hình này
+                                    // Lấy tất cả thuộc tính CHÍNH của cấu hình này
+                                    var ttChinh = bt.ChiTietBTs.Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true).Select(c => c.GiaTriTT).ToList();
+
+                                    // Bóc tách riêng CPU, GPU, RAM và MÀU SẮC để ghép chuỗi
+                                    var cpu = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("cpu"))?.GiaTri;
+                                    var gpu = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("gpu") || t.ThuocTinh.TenTT.ToLower().Contains("vga"))?.GiaTri;
+                                    var ram = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("ram"))?.GiaTri;
+
+                                    // BỔ SUNG: Lấy thêm Màu sắc
+                                    var mau = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("màu"))?.GiaTri;
+
+                                    var components = new List<string>();
+                                    if (!string.IsNullOrEmpty(cpu)) { components.Add(cpu); }
+                                    if (!string.IsNullOrEmpty(gpu)) { components.Add(gpu); }
+                                    if (!string.IsNullOrEmpty(ram)) { components.Add(ram); }
+
+                                    // BỔ SUNG: Nối thêm màu vào cuối chuỗi
+                                    if (!string.IsNullOrEmpty(mau)) { components.Add(mau); }
+
+                                    // Ghép thành chuỗi (VD: i5 - RTX3050 - 8GB - Đen)
+                                    string tenCauHinh = components.Count > 0 ? string.Join(" - ", components) : string.Join(" - ", ttChinh.Select(t => t.GiaTri));
+                                    if (string.IsNullOrEmpty(tenCauHinh)) { tenCauHinh = "Cấu hình tiêu chuẩn"; }
+
+                                    // VẼ Ô VUÔNG
+                                    <div class="variant-box @activeClass" data-mabt="@bt.MaBT">
+                                        @tenCauHinh
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else // NẾU LÀ SẢN PHẨM KHÁC (TAI NGHE, ĐIỆN THOẠI...)
+                        {
+                            <p style="font-weight: 600; margin-bottom: 8px; color: #444;">Tùy chọn phiên bản:</p>
+                            <div class="d-flex flex-wrap">
+                                @{ bool isFirst = true; }
+                                @foreach (var bt in Model.BienThes)
+                                {
+                                    string activeClass = isFirst ? "active" : "";
+                                    isFirst = false;
+
+                                    var ttChinh = bt.ChiTietBTs.Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true).Select(c => c.GiaTriTT).ToList();
+                                    string tenCauHinh = string.Join(" | ", ttChinh.Select(t => t.GiaTri));
+                                    if (string.IsNullOrEmpty(tenCauHinh)) { tenCauHinh = "Phiên bản tiêu chuẩn"; }
+
+                                    <div class="variant-box @activeClass" data-mabt="@bt.MaBT">
+                                        @tenCauHinh
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+
+                    <p id="hienThiTonKho" style="font-weight: bold; margin-bottom: 10px;"></p>
+
+                    <p style="font-size: 16px; font-weight: bold; margin-bottom:10px;">Số lượng:</p>
+                    <div class="box-quantity d-flex align-items-center">
+                        <form action="#" style="display:flex; height:40px; border: 1px solid #ccc; border-radius: 5px; overflow:hidden;">
+                            <button type="button" class="qty-btn minus" style="background:#f3f4f6; color:#333; border:none; width:40px; font-size:18px;">-</button>
+                            <input class="quantity" id="modal-soluong" min="1" value="1" style="border:none; text-align:center; width:50px; outline:none;">
+                            <button type="button" class="qty-btn plus" style="background:#f3f4f6; color:#333; border:none; width:40px; font-size:18px;">+</button>
+                        </form>
+
+                        <div class="pro-actions ml-3">
+                            <button id="btn-add-cart" type="button" class="btn" style="height:40px; width:250px; background:#d70018; color:white; font-weight:bold; font-size:16px; border-radius:5px;">
+                                THÊM VÀO GIỎ HÀNG
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="thumnail-desc pb-100 pb-sm-60 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-7 mb-all-40">
+                <h4 style="font-weight:bold; text-transform:uppercase; margin-bottom:20px; border-bottom: 2px solid #d70018; display:inline-block; padding-bottom:5px;">Đặc điểm nổi bật</h4>
+                <div style="background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); line-height: 1.8;">
+                    @Html.Raw(Model.MoTa != null ? Model.MoTa.Replace("\n", "<br/>") : "Đang cập nhật mô tả...")
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <h4 style="font-weight:bold; text-transform:uppercase; margin-bottom:20px; border-bottom: 2px solid #d70018; display:inline-block; padding-bottom:5px;">Thông số kỹ thuật</h4>
+                <div style="background: #fff; border-radius: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.1); overflow: hidden;">
+                    <table class="table mb-0 tech-specs-table">
+                        <tbody>
+                            @if (ViewBag.ThongSoKyThuat != null)
+                            {
+                                var dictThongSo = ViewBag.ThongSoKyThuat as Dictionary<Maison.Models.ThuocTinh, List<Maison.Models.GiaTriTT>>;
+                                if (dictThongSo != null && dictThongSo.Count > 0)
+                                {
+                                    foreach (var ts in dictThongSo)
+                                    {
+                                        <tr>
+                                            <th>@ts.Key.TenTT</th>
+                                            <td>
+                                                @foreach (var val in ts.Value)
+                                                {
+                                                    <span>@val.GiaTri<br /></span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="2" class="text-center text-muted">Đang cập nhật thông số kỹ thuật...</td></tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script {
+    <script>
+        const DSNguonBienThe = @Html.Raw(ViewBag.BienThes_Json);
+        const PhanTramGiam = @(ViewBag.PhanTramGiam ?? 0);
+        let selectedMaBT = null;
+        let currentImages = [];
+        let currentIndex = 0;
+
+        const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+
+        $(document).ready(function () {
+
+            // Xử lý sự kiện CLICK vào ô vuông cấu hình
+            $(document).on('click', '.variant-box', function () {
+                // Tắt active của các ô khác
+                $(this).siblings().removeClass('active');
+                // Bật ô được click
+                $(this).addClass('active');
+
+                checkVariant();
+            });
+
+            // Gọi lần đầu khi load trang
+            checkVariant();
+
+            // Tăng giảm số lượng
+            $(".qty-btn.minus").click(function () {
+                let v = parseInt($("#modal-soluong").val());
+                if (v > 1) $("#modal-soluong").val(v - 1);
+            });
+            $(".qty-btn.plus").click(function () {
+                let v = parseInt($("#modal-soluong").val());
+                $("#modal-soluong").val(v + 1);
+            });
+        });
+
+        function checkVariant() {
+            // Tìm ô vuông đang được active và lấy MaBT của nó
+            let activeBox = $(".variant-box.active");
+            if(activeBox.length === 0) return;
+
+            let maBTChon = parseInt(activeBox.data('mabt'));
+
+            // Tìm Biến thể trong mảng JSON dựa vào MaBT
+            let matchedBT = DSNguonBienThe.find(bt => bt.MaBT === maBTChon);
+
+            let btnCart = $("#btn-add-cart");
+
+            if (matchedBT) {
+                selectedMaBT = matchedBT.MaBT;
+
+                // --- HIỂN THỊ GIÁ ---
+                let giaBan = matchedBT.GiaBan;
+                if (PhanTramGiam > 0) {
+                    let giaGiam = giaBan * (1 - PhanTramGiam / 100);
+                    $("#hienThiGia").html(`
+                        <span style="font-size:28px;">${formatter.format(giaGiam)}</span>
+                        <del style="color:gray; font-size:16px; font-weight:normal; margin-left:10px;">${formatter.format(giaBan)}</del>
+                    `);
+                } else {
+                    $("#hienThiGia").html(`<span style="font-size:28px;">${formatter.format(giaBan)}</span>`);
+                }
+
+                // --- XỬ LÝ TỒN KHO ---
+                if (matchedBT.SoLuongTon > 0) {
+                    $("#hienThiTonKho").text("✓ Còn hàng (" + matchedBT.SoLuongTon + " sản phẩm)").css("color", "#28a745");
+                    btnCart.text("THÊM VÀO GIỎ HÀNG").removeAttr("disabled").css("background", "#d70018");
+                } else {
+                    $("#hienThiTonKho").text("✕ Tạm hết hàng").css("color", "#dc3545");
+                    btnCart.text("TẠM HẾT HÀNG").attr("disabled", "disabled").css("background", "#6c757d");
+                }
+
+                // --- CẬP NHẬT ẢNH ---
+                updateGallery(matchedBT.HinhAnh, matchedBT.ThuVienAnhs);
+            }
+        }
+
+        // --- HÀM XỬ LÝ ẢNH ---
+        function updateGallery(mainImg, arrGallery) {
+            $("#modal-hinhanh").attr("src", mainImg);
+            $("#modal-a-hinhanh").attr("href", mainImg);
+
+            currentImages = [mainImg, ...arrGallery];
+            currentIndex = 0;
+
+            let html = "";
+            currentImages.forEach((img, idx) => {
+                html += `<img src="${img}" style="width: 65px; height: 65px; border:1px solid #e5e7eb; cursor:pointer; border-radius:6px; object-fit:cover;" onclick="loadSlide(${idx})">`;
+            });
+            $("#gallery-container").html(html);
+        }
+
+        function loadSlide(index) {
+            if (index < 0) index = currentImages.length - 1;
+            if (index >= currentImages.length) index = 0;
+            currentIndex = index;
+            $("#modal-hinhanh").attr("src", currentImages[currentIndex]);
+            $("#modal-a-hinhanh").attr("href", currentImages[currentIndex]);
+        }
+
+        $("#btn-prev-img").click(() => loadSlide(currentIndex - 1));
+        $("#btn-next-img").click(() => loadSlide(currentIndex + 1));
+    </script>
+}

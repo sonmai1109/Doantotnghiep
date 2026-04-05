@@ -38,8 +38,8 @@ main {
     }
 .dropmenu {
     position: absolute;
-    top: 175%;
-    right: 94px;
+    top: 164%;
+    right: 30px;
     width: 160px;
     padding-right: 30px;
     list-style: none;
@@ -186,4 +186,97 @@ body {
     top: 34%;
     left: -2%;
     display: none;
+}
+/*css cua phan drop menu danh muc*/
+
+
+/* =========================================
+   MEGA MENU CELLPHONES STYLE
+========================================= */
+
+/* Đảm bảo khung menu cha có vị trí tương đối để làm gốc tọa độ */
+#dropmenu {
+    position: absolute;
+    width: 250px; /* Độ rộng của cột menu trái */
+    padding: 0;
+    list-style: none;
+    z-index: 999;
+}
+
+/* Thẻ li của mỗi danh mục */
+.cat-item {
+    position: static; /* Quan trọng: Đặt static để menu con canh theo cái bảng #dropmenu chứ không canh theo từng dòng li */
+    padding: 10px 15px;
+    border-bottom: 1px solid #f1f1f1;
+    text-align: left;
+    transition: background-color 0.2s;
+}
+
+    .cat-item:hover {
+        background-color: #f8f9fa; /* Màu nền khi hover vào danh mục */
+    }
+
+        .cat-item:hover > a span {
+            color: #e30019; /* Đổi chữ thành màu đỏ giống CellphoneS */
+        }
+
+/* ================= BẢNG LOGO HIỆN RA BÊN PHẢI ================= */
+.mega-menu-brands {
+    display: none; /* Mặc định ẩn đi */
+    position: absolute;
+    left: 100%; /* Đẩy sang sát mép bên phải của cột danh mục */
+    top: 0; /* Canh bằng mép trên cùng của cột danh mục */
+    width: 500px; /* Độ rộng của bảng chứa logo */
+    min-height: 100%; /* Cao ít nhất bằng cái cột menu trái */
+    background: #fff;
+    padding: 20px;
+    border-radius: 0 8px 8px 0; /* Bo tròn góc bên phải */
+    z-index: 1000;
+}
+
+/* KÍCH HOẠT HIỂN THỊ KHI HOVER VÀO THẺ LI */
+.cat-item:hover .mega-menu-brands {
+    display: block;
+    animation: fadeIn 0.3s ease-in-out; /* Thêm hiệu ứng mờ dần cho mượt */
+}
+
+/* ================= LƯỚI CHỨA LOGO (GRID) ================= */
+.brand-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Xếp 4 logo trên 1 hàng ngang */
+    gap: 15px; /* Khoảng cách giữa các ô logo */
+}
+
+.brand-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px; /* Chiều cao cố định của ô chứa logo */
+    padding: 5px;
+    background: #fff;
+    transition: all 0.2s;
+}
+
+    .brand-item:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Hiệu ứng nổi bọt khi hover vào logo */
+        transform: translateY(-2px);
+    }
+
+    .brand-item img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* Ép logo vừa vặn không bị méo */
+    }
+
+/* Hiệu ứng làm mượt */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }

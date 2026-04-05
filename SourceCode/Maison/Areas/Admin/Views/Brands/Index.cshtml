@@ -1,0 +1,128 @@
+﻿@model IEnumerable<Maison.Models.Brand>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .popupprivate {
+        display: none;
+        position: fixed;
+        left: 40%;
+        bottom: 21%;
+        border-radius: 15px;
+        z-index: 1050;
+    }
+</style>
+
+<div class="mt-3 d-flex justify-content-between" style="margin-top:10px">
+    <div class="ml-4 pt-10 h4" style="font-weight:bold">Danh sách thương hiệu</div>
+    <div class="buttons ml-4 pr-2 mt-3">
+        <button id="addpopup"><span class="fas fa-plus mr-2"></span>Thêm thương hiệu</button>
+    </div>
+</div>
+
+<table class="table table-hover mt-4 m-3">
+    <thead>
+        <tr>
+            <th>Logo</th>
+            <th>Tên thương hiệu</th>
+            <th>Mô tả</th>
+            <th>Tùy chọn</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <!-- Class đổi thành row-@a.MaBrand để giống logic xóa của bạn -->
+            <tr class="row-@a.MaBrand">
+                <td><img src="@a.Logo" alt="@a.TenBrand" style="height: 40px;" onerror="this.src='/Content/Images/no-image.png'" /></td>
+                <td>@a.TenBrand</td>
+                <td><span class="font-weight-normal">@a.MoTa</span></td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="icon icon-sm">
+                                <span class="fas fa-ellipsis-h icon-dark"></span>
+                            </span>
+                            <span class="sr-only">Lựa chọn</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <!-- Bắt buộc giữ class 'change' và 'delete' để ăn JS popup dùng chung -->
+                            <button class="dropdown-item change" onclick="loaddata(@a.MaBrand)"><span class="fas fa-edit mr-2"></span>Chỉnh sửa</button>
+                            <button class="dropdown-item text-danger delete" onclick="deleteData(@a.MaBrand)"><span class="fas fa-trash-alt mr-2"></span>Xóa</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section popup{
+    <div class="popup popupprivate border p-5 bg-white shadow-soft" id="popup">
+        <div>
+            <form id="add-form" onsubmit="return thembrand()">
+                <div>
+                    <p id="add-mess"></p>
+                    <br />
+                    <h1>Tạo thương hiệu</h1>
+                    <br />
+                    <input type="text" name="TenBrand" class="form-control mb-2" placeholder="Tên hãng" required />
+                    <label class="font-weight-bold">Chọn Logo:</label>
+                    <input type="file" name="ImageFile" class="form-control-file mb-2" accept="image/*" />
+                    <textarea name="MoTa" class="form-control mb-2" placeholder="Mô tả ngắn..."></textarea>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-block btn-primary">Thêm hãng</button>
+                <div class="btn btn-block border-primary cancelPopup" id="cancel">Hủy</div>
+            </form>
+        </div>
+    </div>
+}
+
+@section changepopup{
+    <div class="changepopup popupprivate border p-5 bg-white shadow-soft" id="changepopup">
+        <div>
+            <form id="update-form" onsubmit="return suabrand()">
+                <div>
+                    <p id="update-mess"></p>
+                    <br />
+                    <h1 class="text-danger">Sửa thương hiệu</h1>
+                    <br />
+                    <input class="hidden-text" type="hidden" id="mabrand" name="MaBrand" />
+                    <input type="text" name="TenBrand" class="form-control mb-2" id="tenbrand" required />
+                    <label class="font-weight-bold">Đổi Logo mới (Để trống nếu giữ ảnh cũ):</label>
+                    <input type="file" name="ImageFile" class="form-control-file mb-2" accept="image/*" id="logoUpload" />
+                    <textarea name="MoTa" class="form-control mb-2" id="mota"></textarea>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-block btn-primary">Lưu thay đổi</button>
+                <div class="btn btn-block border-primary cancelPopup" id="cancelPopupDel">Hủy</div>
+            </form>
+        </div>
+    </div>
+}
+
+@section deletepopup{
+    <div class="changepopup popupprivate border p-5 bg-white shadow-soft" id="deletepopup">
+        <div>
+            <div>
+                <h1 class="text-warning text-center">Xóa thương hiệu</h1>
+                <br />
+                <input class="hidden-text" type="hidden" id="delete-mabrand" name="MaBrand" />
+                <h5 class="text-center fw-bold">Bạn có chắc chắn muốn xóa không?</h5>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-block btn-primary" onclick="xoabrand()">Chắc chắn</button>
+            <div class="btn btn-block border-primary cancelPopup" id="cancelPopupDel">Hủy</div>
+        </div>
+    </div>
+}
+
+@section Script{
+    <!-- File dùng chung xử lý click bật/tắt modal -->
+    <script src="~/Content/admin/JS/addpopup.js"></script>
+    <!-- File Ajax riêng của Brand -->
+    <script src="~/Content/admin/JS/brand.js"></script>
+}

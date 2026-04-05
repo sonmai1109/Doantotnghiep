@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 using System.Web.Mvc;
 using Maison.Models;
 using Maison.Session;
@@ -13,6 +14,35 @@ namespace Maison.Controllers
         shopdb db = new shopdb();
         public ActionResult Index()
         {
+            // 1. Sản phẩm khuyến mãi (Kèm theo Biến thể để lấy giá)
+            var sanPhamKhuyenMai = db.SanPhamKhuyenMais
+                .Include(s => s.Sanpham)
+                .Include(s => s.Sanpham.BienThes) // Lấy thêm Biến thể để tính giá
+                .Include(s => s.KhuyenMai)
+                .Where(s => s.KhuyenMai.TrangThai == 1
+                            && s.KhuyenMai.NgayBatDau <= DateTime.Now
+                            && s.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                .ToList();
+
+            // 2. Sản phẩm mới (Lấy theo ngày tạo của sản phẩm)
+            var sanPhamMoi = db.Sanphams
+                .Include(s => s.BienThes) // Phải Include BienThes mới có giá hiển thị
+                .OrderByDescending(p => p.NgayTao)
+                .Take(10)
+                .ToList();
+
+            // 3. Giá tốt (Sắp xếp theo giá bán rẻ nhất trong các biến thể của sản phẩm đó)
+            var giaTot = db.Sanphams
+                .Include(s => s.BienThes)
+                .Where(p => p.BienThes.Any()) // Chỉ lấy những SP đã được nhập biến thể (có giá)
+                .OrderBy(p => p.BienThes.Min(b => b.GiaBan))
+                .Take(10)
+                .ToList();
+
+            ViewBag.SanPhamKhuyenMai = sanPhamKhuyenMai;
+            ViewBag.SanPhamMoi = sanPhamMoi;
+            ViewBag.GiaTot = giaTot;
+
             return View();
         }
         public ActionResult dropdanhmuc()

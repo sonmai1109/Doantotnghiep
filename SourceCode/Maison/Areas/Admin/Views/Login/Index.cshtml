@@ -1,0 +1,127 @@
+﻿@model Maison.Areas.Admin.Data.LoginAccount
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- Primary Meta Tags -->
+    <title>Đăng nhập - Quản trị viên</title>
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/admin/Content/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/admin/Content\/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Content\/admin/Content\/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="~/Content\/admin/Content\/img/favicon/site.webmanifest">
+    <link rel="mask-icon" href="~/Content\/admin/Content\/img/favicon/safari-pinned-tab.svg" color="#ffffff">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Fontawesome -->
+    <link type="text/css" href="~/Content\/admin/vendor/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+
+    <!-- Notyf -->
+    <link type="text/css" href="~/Content\/admin/vendor/notyf/notyf.min.css" rel="stylesheet">
+
+    <!-- Volt CSS -->
+    <link type="text/css" href="~/Content\/admin/css/volt.css" rel="stylesheet">
+
+    <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+
+</head>
+
+<body class="bg-soft">
+    <main>
+        <!-- Section -->
+        <section class="vh-lg-100 d-flex align-items-center">
+            <div class="container">
+                <div class="row justify-content-center form-bg-image" data-background-lg="~/Content\/admin/Content\/img/illustrations/signin.svg">
+                    <div class="col-12 d-flex align-items-center justify-content-center">
+                        <div class="signin-inner my-3 my-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
+                            <div class="text-center text-md-center mb-4 mt-md-0">
+                                <h1 class="mb-0 h3">Đăng nhập</h1>
+                            </div>
+                            @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "mt-4" }))
+                            {
+                                @Html.ValidationMessage("ErrorLogin", new { @class = "text-danger" })
+                                <br />
+                                <!-- Form -->
+                                <div class="form-group mb-4">
+                                    <label for="username">Tên đăng nhập</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text" id="basic-addon1"><span class="fas fa-envelope"></span></span>
+                                        @Html.TextBoxFor(model => model.username,
+                                            new { @class = "form-control", @name = "username", @autoforcus = "autofocus", @required = "required", @placeholder = "Nhập tên đăng nhập" })
+                                    </div>
+                                </div>
+                                <!-- End of Form -->
+                                <div class="form-group">
+                                    <!-- Form -->
+                                    <div class="form-group mb-4">
+                                        <label for="password">Mật khẩu</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon2"><span class="fas fa-unlock-alt"></span></span>
+                                            @Html.PasswordFor(model => model.password,
+                                            new { @class = "form-control", @name = "password", @required = "required", @placeholder = "Nhập mật khẩu" })
+                                        </div>
+                                    </div>
+                                    <!-- End of Form -->
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <div class="form-check">
+                                            @Html.CheckBoxFor(model => model.rememberme, new { @id = "defaultCheck5" })
+                                            <label class="form-check-label" for="defaultCheck5">
+                                                Nhớ mật khẩu
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-block btn-primary">Đăng nhập</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Core -->
+    <script src="~/Content/admin/vendor/popper.js/dist/umd/popper.min.js"></script>
+    <script src="~/Content/admin/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <!-- Vendor JS -->
+    <script src="~/Content/admin/vendor/onscreen/dist/on-screen.umd.min.js"></script>
+
+    <!-- Slider -->
+    <script src="~/Content/admin/vendor/nouislider/distribute/nouislider.min.js"></script>
+
+    <!-- Jarallax -->
+    <script src="~/Content/admin/vendor/jarallax/dist/jarallax.min.js"></script>
+
+    <!-- Smooth scroll -->
+    <script src="~/Content/admin/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+
+    <!-- Count up -->
+    <script src="~/Content/admin/vendor/countup.js/dist/countUp.umd.js"></script>
+
+    <!-- Notyf -->
+    <script src="~/Content/admin/vendor/notyf/notyf.min.js"></script>
+
+    <!-- Charts -->
+    <script src="~/Content/admin/vendor/chartist/dist/chartist.min.js"></script>
+    <script src="~/Content/admin/vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
+
+    <!-- Datepicker -->
+    <script src="~/Content\/admin/vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
+
+    <!-- Simplebar -->
+    <script src="~/Content\/admin/vendor/simplebar/dist/simplebar.min.js"></script>
+
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <!-- Volt JS -->
+    <script src="~/Content\/admin/assets/js/volt.js"></script>
+
+
+</body>
+
+</html>
+

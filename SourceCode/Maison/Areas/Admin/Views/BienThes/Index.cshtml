@@ -1,0 +1,210 @@
+﻿@model IEnumerable<Maison.Models.BienThe>
+@{
+    ViewBag.Title = "Cấu hình Sản phẩm";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<style>
+    .popupprivate {
+        display: none;
+        position: fixed;
+        left: 35%;
+        top: 5%;
+        bottom: 5%;
+        overflow-y: auto;
+        border-radius: 15px;
+        z-index: 1050;
+        width: 600px;
+    }
+</style>
+
+<div class="mt-3 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="ml-4 pt-10 h4" style="font-weight:bold">
+        Cấu hình chi tiết của: <span class="text-primary">@ViewBag.TenSP</span>
+    </div>
+    <div class="buttons ml-4 pr-2 mt-3">
+        <a href="/Admin/Sanphams" class="btn btn-sm btn-secondary mr-2"><span class="fas fa-arrow-left"></span> Quay lại SP gốc</a>
+        <button id="addpopup" class="btn btn-sm btn-outline-primary"><span class="fas fa-plus mr-2"></span>Thêm biến thể mới</button>
+    </div>
+</div>
+
+<table class="table table-hover mt-4 m-3">
+    <thead>
+        <tr>
+            <th>Hình ảnh</th>
+            <th>Gallery</th>
+            <th>Giá bán</th>
+            <th>Tồn kho</th>
+            <th>Thông số</th>
+            <th>Ngày Tạo</th>
+            <th>Người Tạo</th>
+            <th>Ngày Sửa</th>
+            <th>Người Sửa</th>
+            <th>Tùy chọn</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="row-@item.MaBT">
+                <td><img src="@item.HinhAnh" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;" onerror="this.src='/Content/Images/no-image.png'" /></td>
+                <td>
+                    <div style="display: grid; grid-template-columns: repeat(3, 35px); gap: 5px; width: fit-content;">
+                        @if (item.ThuVienAnhs != null && item.ThuVienAnhs.Any())
+                        {
+                            var sortedGallery = item.ThuVienAnhs.OrderBy(x => x.ThuTu).ToList();
+                            int totalImgs = sortedGallery.Count;
+
+                            // Trường hợp 1: Có từ 6 ảnh trở xuống -> Hiện tất cả
+                            if (totalImgs <= 6)
+                            {
+                                foreach (var img in sortedGallery)
+                                {
+                                    <img src="@img.DuongDanAnh" style="width: 35px; height: 35px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc;" onerror="this.src='/Content/Images/no-image.png'" title="Ảnh phụ" />
+                                }
+                            }
+                            // Trường hợp 2: Lớn hơn 6 ảnh -> Hiện 5 ảnh + 1 ô đếm số
+                            else
+                            {
+                                foreach (var img in sortedGallery.Take(5))
+                                {
+                                    <img src="@img.DuongDanAnh" style="width: 35px; height: 35px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc;" onerror="this.src='/Content/Images/no-image.png'" title="Ảnh phụ" />
+                                }
+                                <div class="d-flex align-items-center justify-content-center bg-light text-dark font-weight-bold" style="width: 35px; height: 35px; border-radius: 4px; border: 1px solid #ccc; font-size: 11px;" title="Còn @(totalImgs - 5) ảnh nữa">
+                                    +@(totalImgs - 5)
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <span class="badge badge-light text-muted border" style="grid-column: span 3;">Chưa có ảnh</span>
+                        }
+                    </div>
+                </td>
+                <td><span class="font-weight-bold text-danger">@item.GiaBan.ToString("N0") đ</span></td>
+                <td>@item.SoLuongTon</td>
+                <td>
+                    @if (item.ChiTietBTs != null)
+                    {
+                        foreach (var ct in item.ChiTietBTs)
+                        {
+                            <span class="badge badge-info">@ct.GiaTriTT.ThuocTinh.TenTT: @ct.GiaTriTT.GiaTri</span>
+                        }
+                    }
+                </td>
+                <td>@item.NgayTao</td>
+                <td><span class="font-weight-bold">@item.NguoiTao</span></td>
+                <td>@item.NgaySua</td>
+                <td><span class="font-weight-bold">@item.NguoiSua</span></td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="icon icon-sm"><span class="fas fa-ellipsis-h icon-dark"></span></span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item change" onclick="loaddata(@item.MaBT)"><span class="fas fa-edit mr-2 text-primary"></span>Sửa cơ bản</button>
+                            <button class="dropdown-item text-danger delete" onclick="deleteData(@item.MaBT)"><span class="fas fa-trash-alt mr-2"></span>Xóa</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section popup{
+    <div class="popup popupprivate border p-5 bg-white shadow-soft" id="popup">
+        <div>
+            <form id="add-form" onsubmit="return themBienThe()">
+                <p id="add-message"></p>
+                <h3 class="mb-4 text-center text-success">Tạo Biến Thể Mới</h3>
+
+                <input type="hidden" name="MaSP" id="current_MaSP" value="@ViewBag.MaSP" />
+                <input type="hidden" id="current_MaDM" value="@ViewBag.MaDM" />
+
+                <label>Giá bán (VNĐ):</label>
+                <input type="number" class="form-control mb-3" name="GiaBan" required autofocus>
+
+                <label>Số lượng kho:</label>
+                <input type="number" class="form-control mb-3" name="SoLuongTon" required>
+
+                <label>Ảnh đại diện:</label>
+                <input type="file" class="form-control-file mb-3" name="ImageFile" accept="image/*" required>
+
+                <label class="font-weight-bold text-info">Gallery:</label>
+                <input type="file" class="form-control-file mb-4 border p-2 rounded" name="GalleryFiles" accept="image/*" multiple>
+               
+
+                <div class="p-3 mb-4 bg-light rounded border">
+                    <h6 class="font-weight-bold text-primary mb-3">Nhập thông số kỹ thuật:</h6>
+                    <div id="dynamic-attributes-add">
+                        <span class="text-muted font-italic">Đang tải thông số...</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-block btn-primary">Lưu cấu hình</button>
+                <div class="btn btn-block border-primary cancelPopup">Hủy</div>
+            </form>
+        </div>
+    </div>
+}
+
+@section changepopup{
+    <div class="changepopup popupprivate border p-5 bg-white shadow-soft" id="changepopup">
+        <div>
+            <form id="update-form" onsubmit="return suaBienThe()">
+                <p id="update-message"></p>
+                <h3 class="mb-4 text-center text-primary">Sửa Biến Thể</h3>
+
+                <input type="hidden" id="mabt" name="MaBT" />
+
+                <label>Giá bán (VNĐ):</label>
+                <input type="number" class="form-control mb-3" name="GiaBan" id="giaban" required>
+
+                <label>Số lượng kho:</label>
+                <input type="number" class="form-control mb-3" name="SoLuongTon" id="soluongton" required>
+                <label>Đổi ảnh chính (Bỏ trống nếu giữ nguyên):</label>
+                <input type="file" class="form-control-file mb-3" name="ImageFile" accept="image/*">
+
+                <label class="font-weight-bold text-info">Tải thêm ảnh phụ (Gallery):</label>
+                <input type="file" id="GalleryInputAjax" class="form-control-file mb-4 border p-2 rounded"
+                       accept="image/*" multiple onchange="autoUploadGallery()">
+                @*<input type="file" class="form-control-file mb-4 border p-2 rounded" name="GalleryFiles" accept="image/*" multiple>*@
+                <div class="form-group mb-3">
+                    <label class="font-weight-bold">Quản lý Ảnh phụ hiện tại:</label>
+                    <div id="gallery-container" class="d-flex flex-wrap" style="gap: 10px; min-height: 80px; padding: 10px; border: 1px dashed #ccc; border-radius: 5px; background: #f9f9f9;">
+                    </div>
+                </div>
+
+                <div class="p-3 mb-4 bg-light rounded border">
+                    <h6 class="font-weight-bold text-primary mb-3">Cập nhật thông số:</h6>
+                    <div id="dynamic-attributes-edit">
+                        <span class="text-muted font-italic">Đang tải thông số...</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-block btn-primary">Cập nhật thay đổi</button>
+                <div class="btn btn-block border-primary cancelPopup">Hủy</div>
+            </form>
+        </div>
+    </div>
+}
+
+@section deletepopup{
+    <div class="deletepopup popupprivate border p-5 bg-white shadow-soft" id="deletepopup">
+        <div>
+            <h3 class="text-warning text-center mb-3">Xóa Biến Thể</h3>
+            <p id="delete-message"></p>
+            <input type="hidden" id="delete-mabt" name="MaBT" />
+            <h6 class="text-center fw-bold mb-4">Bạn chắc chắn muốn xóa cấu hình này chứ?</h6>
+
+            <button type="button" class="btn btn-block btn-primary" onclick="xoaBienThe()">Chắc chắn</button>
+            <div class="btn btn-block border-primary cancelPopup">Hủy</div>
+        </div>
+    </div>
+}
+
+@section Script{
+    <script src="~/Content/admin/JS/addpopup.js"></script>
+    <script src="~/Content/admin/JS/bienthe.js"></script>
+}

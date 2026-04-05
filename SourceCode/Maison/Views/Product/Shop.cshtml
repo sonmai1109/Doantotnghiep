@@ -1,0 +1,150 @@
+﻿@model PagedList.IPagedList<Maison.Models.Sanpham>
+@using PagedList.Mvc;
+@using Maison.Models
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
+
+@{
+    ViewBag.Title = "Cửa hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    // Khai báo biến info để format tiền tệ VNĐ (Khắc phục lỗi thiếu info)
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+
+<div class="breadcrumb-area mt-30">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul class="d-flex align-items-center">
+                <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                @if (ViewBag.DanhMuc == null)
+                {
+                    <li class="active">@Html.ActionLink("Cửa hàng", "Shop", "Product")</li>
+                }
+                else
+                {
+                    <li class="active">@Html.ActionLink((string)ViewBag.DanhMuc.TenDanhMuc, "Shop", "Product", new { madm = ViewBag.DanhMuc.MaDM }, new { })</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="main-shop-page pt-100 pb-100 ptb-sm-60">
+    <div class="container">
+        <div class="row" style="justify-content: center;">
+            <div class="col-lg-9 order-1 order-lg-2">
+                <div class="main-categorie mb-all-40">
+                    <div class="tab-content fix">
+                        <div id="grid-view" class="tab-pane fade show active">
+
+                            @if (Model == null || !Model.Any())
+                            {
+                                <div class="text-center" style="margin: 80px 0;">
+                                    @if (!string.IsNullOrEmpty(ViewBag.searchString as string))
+                                    {
+                                        <h4 style="color: gray;">
+                                            Không tìm thấy sản phẩm nào cho từ khóa:
+                                            <strong>@ViewBag.searchString</strong>
+                                        </h4>
+                                    }
+                                    else if (ViewBag.DanhMuc != null)
+                                    {
+                                        <h4 style="color: gray;">
+                                            Không có sản phẩm nào trong danh mục "<strong>@ViewBag.DanhMuc.TenDanhMuc</strong>".
+                                        </h4>
+                                    }
+                                    else
+                                    {
+                                        <h4 style="color: gray;">Không tìm thấy sản phẩm nào.</h4>
+                                    }
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row">
+                                    @{
+                                        // Lấy danh sách giá sau khuyến mãi từ Controller truyền sang
+                                        var giaSauKM = ViewBag.GiaSauKhuyenMai as Dictionary<int, decimal?>;
+                                    }
+
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-6">
+                                            <div class="single-product">
+                                                <div class="pro-img">
+                                                    <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })">
+                                                        <img class="primary-img" src="@item.HinhAnh" alt="single-product" onerror="this.src='/Content/Images/no-image.png'">
+                                                        <img class="secondary-img" src="@item.HinhAnh" alt="single-product" onerror="this.src='/Content/Images/no-image.png'">
+                                                    </a>
+                                                </div>
+
+                                                <div class="pro-content">
+                                                    <div class="pro-info">
+                                                        <h4>
+                                                            <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })">@item.TenSP</a>
+                                                        </h4>
+
+                                                        @{
+                                                            // Logic lấy giá thấp nhất từ bảng Biến Thể
+                                                            decimal giaGoc = item.BienThes != null && item.BienThes.Any() ? item.BienThes.Min(b => b.GiaBan) : 0;
+                                                            decimal? giamoi = giaSauKM != null && giaSauKM.ContainsKey(item.MaSP) ? giaSauKM[item.MaSP] : null;
+                                                        }
+
+                                                        @if (giaGoc > 0)
+                                                        {
+                                                            if (giamoi != null && giamoi < giaGoc)
+                                                            {
+                                                                <p>
+                                                                    <span class="price" style="color: red; font-weight:bold;">
+                                                                        @string.Format(info, "{0:c0}", giamoi)
+                                                                    </span>
+                                                                    <span class="old-price" style="text-decoration: line-through; color: gray; margin-left: 5px;">
+                                                                        @string.Format(info, "{0:c0}", giaGoc)
+                                                                    </span>
+                                                                </p>
+                                                            }
+                                                            else
+                                                            {
+                                                                <p>
+                                                                    <span class="price">@string.Format(info, "{0:c0}", giaGoc)</span>
+                                                                </p>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <p><span class="price text-muted" style="font-size: 14px;">Chưa có cấu hình</span></p>
+                                                        }
+                                                    </div>
+
+                                                    <div class="pro-actions">
+                                                        <div class="actions-primary" style="margin-top: 20px;">
+                                                            <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="btn btn-dark" style="width: 100%; border-radius: 5px; color: white;">
+                                                                Xem chi tiết
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                        <div class="pro-pagination mt-4">
+                            <ul class="blog-pagination">
+                                @{
+                                    string actionName = ViewBag.ActionName ?? "Shop";
+                                    string searchString = ViewBag.searchString ?? "";
+                                    int? madm = ViewBag.madm;
+                                }
+
+                                @Html.PagedListPager(Model, page => Url.Action(actionName, new { page, searchString, madm }))
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing.Drawing2D;
+
 namespace Maison.Models
 {
     [Table("SanPham")]
@@ -14,49 +14,41 @@ namespace Maison.Models
         public int MaSP { get; set; }
 
         public int MaDM { get; set; }
+        public int MaBrand { get; set; }
 
         [Required]
         [StringLength(150)]
         public string TenSP { get; set; }
 
-        [Column(TypeName = "money")]
-        public decimal Gia { get; set; }
-
         [Column(TypeName = "ntext")]
-        [Required]
         public string MoTa { get; set; }
 
-        [Required]
-        [StringLength(50)]
-        public string ChatLieu { get; set; }
-
-        [Column(TypeName = "ntext")]
-        [Required]
-        public string HuongDan { get; set; }
+        public int ThoiHanBaoHanh { get; set; }
 
         public DateTime NgayTao { get; set; }
-
-        [Required]
-        [StringLength(100)]
         public string NguoiTao { get; set; }
-
-        public DateTime? NgaySua { get; set; } // Cho phép null
-
-        [StringLength(100)]
+        public DateTime? NgaySua { get; set; }
         public string NguoiSua { get; set; }
 
-        [Required]
-        [StringLength(150)]
-        public string HinhAnh { get; set; }
+        [StringLength(255)]
+        public string HinhAnh { get; set; } // Ảnh chính đại diện cho dòng máy
 
-        [ForeignKey("MaDM")] // Xác định rõ MaDM là khóa ngoại
+        [ForeignKey("MaDM")]
         public virtual Danhmuc DanhMuc { get; set; }
-        // Trong file Sanpham.cs
-        public virtual ICollection<sanphamchitiet> ChiTietSanPhams { get; set; }
 
+        [ForeignKey("MaBrand")]
+        public virtual Brand Brand { get; set; }
+
+        // Kết nối với biến thể để lấy ảnh làm Gallery
+        public virtual ICollection<BienThe> BienThes { get; set; }
+        //public virtual ICollection<DanhGia> DanhGias { get; set; }
+        public virtual ICollection<SanPhamKhuyenMai> SanPhamKhuyenMais { get; set; }
         public Sanpham()
         {
-            ChiTietSanPhams = new HashSet<sanphamchitiet>();
+            NgayTao = DateTime.Now;
+            BienThes = new HashSet<BienThe>();
+            SanPhamKhuyenMais = new HashSet<SanPhamKhuyenMai>();
+            //DanhGias = new HashSet<DanhGia>();
         }
     }
 }

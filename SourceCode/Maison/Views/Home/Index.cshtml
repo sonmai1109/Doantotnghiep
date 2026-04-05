@@ -1,591 +1,221 @@
-﻿
-@{
-    ViewBag.Title = "Index";
+﻿@{
+    ViewBag.Title = "Trang chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
 }
 
+<style>
+    /* CSS Card Sản phẩm mang phong cách CellphoneS */
+    .block-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
 
+        .block-title h2 {
+            font-size: 22px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #333;
+            margin: 0;
+        }
 
+    .cps-card {
+        background: #fff;
+        border-radius: 10px;
+        padding: 15px;
+        border: 1px solid #f0f0f0;
+        transition: all 0.3s ease;
+        position: relative;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 
-VietnamWorks - Nền tảng tuyển dụng, việc làm, tra cứu lương & tư vấn nghề nghiệp hàng đầu Việt Nam
-it phan mem
-Tất cả địa điểm
+        .cps-card:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            border-color: #d70018;
+        }
 
-VietnamWorks inTECH - việc làm IT trên VietnamWorks.com
-Tất cả danh mục
-Nhà tuyển dụng
-Vi
+    .discount-badge {
+        position: absolute;
+        top: 10px;
+        left: -5px;
+        background: #d70018;
+        color: #fff;
+        font-weight: bold;
+        font-size: 12px;
+        padding: 4px 10px;
+        border-radius: 0 15px 15px 0;
+        z-index: 2;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    }
 
+    .cps-card-img {
+        text-align: center;
+        margin-bottom: 15px;
+    }
 
+        .cps-card-img img {
+            max-width: 100%;
+            height: 180px;
+            object-fit: contain;
+            transition: transform 0.3s;
+        }
 
+    .cps-card:hover .cps-card-img img {
+        transform: scale(1.05);
+    }
 
-Lương trên $1,000
+    .cps-card-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+        text-decoration: none;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 10px;
+        line-height: 1.4;
+    }
 
-Tuyển gấp
-Tất cả bộ lọc
-NAB Innovation Centre Vietnam tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-NAB Innovation Centre Vietnam tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-Senior Operational and Reporting Analyst
-NAB Innovation Centre Vietnam
-Hồ Chí Minh
-Thương lượng
-Hôm nay
-MISA Jointstock Company tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-MISA Jointstock Company tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-Chuyên viên phân tích nghiệp vụ phần mềm (Yêu cầu học Kế toán/Kiểm toán)
-MISA Jointstock Company
-Hà Nội, Hà Nội
-Thương lượng
-Hôm nay
-NAB Innovation Centre Vietnam tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-NAB Innovation Centre Vietnam tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-Wecamp Training Program (Open for Female Talents)
-NAB Innovation Centre Vietnam
-Hồ Chí Minh
-Thương lượng
-Cập nhật: 04/02/2026
-MISA Jointstock Company tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-MISA Jointstock Company tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-Chuyên Viên Tư Vấn Chuyển Đổi Số - Mảng Quản Trị Sản Xuất (Thu Nhập 25 - 30 Triệu VND/ Tháng)
-MISA Jointstock Company
-Hà Nội
-25tr-30tr ₫/tháng
-Cập nhật: 04/02/2026
-CÔNG TY TNHH PCB GRAPHTECH VIỆT NAM tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-CÔNG TY TNHH PCB GRAPHTECH VIỆT NAM tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-Senior Application Engineer
-CÔNG TY TNHH PCB GRAPHTECH VIỆT NAM
-Hồ Chí Minh
-Thương lượng
-Cập nhật: 03/02/2026
-462 việc làm "it phan mem" phù hợp
-Tạo thông báo việc làm
-Từ khóa liên quan
-Python
-C#
-Communication Skills
-Java
-Project Management
-Communication
-Data Analysis
-SQL
-Business Analysis
-JavaScript
-Business Development
-English Communication
-Product Management
-Công Nghệ Thông Tin
-Giao Tiếp
-Sắp xếp theo
-Ngày cập nhật
-Liên quan nhất
-Lương (cao - thấp)
-Ngày đăng (mới nhất)
-Ngày đăng (cũ nhất)
-Nhân Viên IT Phát Triển Phần Mềm
-Nhân Viên IT Phát Triển Phần Mềm
-Công Ty TNHH Thủ Công Mỹ Nghệ Và Nội Thất Ngọc Sơn
-Thương lượng
-Hà Nội
-Cập nhật: 30/01/2026
-Tin Học Văn Phòng
-.Net Core
-.NET Framework
-+4
-Chuyên Viên Phát Triển Phần Mềm IT
-Chuyên Viên Phát Triển Phần Mềm IT
-Urgent
-Ngân Hàng Thương Mại Cổ Phần Bảo Việt
-$ 500-1,000 /tháng
-Hà Nội
-Cập nhật: 04/02/2026
-C#
-Core Banking
-Data Warehouse
-+5
-Brse Or Kỹ Sư Phát Triển Phần Mềm IT (Python Hoặc VBA)
-Brse Or Kỹ Sư Phát Triển Phần Mềm IT (Python Hoặc VBA)
-Urgent
-Công Ty TNHH Studio55 Việt Nam
-35tr-65tr ₫/tháng
-Hồ Chí Minh
-Cập nhật: 31/01/2026
-Japanese N3
-BrSE
-IT Software
-+2
-Software Development Teacher
-Software Development Teacher
-RMIT University Vietnam
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 28/01/2026
-Teaching Experience
-Information Technology
-+3
-Nhân Viên IT (Software)
-Nhân Viên IT (Software)
-Doanh nghiệp chế xuất Nitori Việt Nam - CN Hồ Chí Minh
-Thương lượng
-Bà Rịa - Vũng Tàu
-Cập nhật: 12/01/2026
-.Net Core
-ReactJS
-HTML5
-+2
-Software Engineer
-Software Engineer
-Mateship Logistics Pty Ltd
-$ 500-1,100 /tháng
-Hà Nội
-Cập nhật: 04/02/2026
-JavaScript
-TypeScript
-React
-+2
-Software Engineer
-Software Engineer
-MEDICONCEN LIMITED
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 07/01/2026
-Node.js
-NestJS
-Typescript
-+3
-Software Engineer
-Software Engineer
-Urgent
-CÔNG TY TNHH TỰ ĐỘNG HÓA ECA VIỆT NAM
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 02/02/2026
-C#
-Communication Skills
-English
-+3
-Senior Software Engineer
-Senior Software Engineer
-Metizoft Asia Pte Ltd
-42tr-48tr ₫/tháng
-Hồ Chí Minh
-Cập nhật: 30/01/2026
-Azure
-C# (.NET Core)
-Typescript
-+3
-Senior Software Engineer
-Senior Software Engineer
-MEDICONCEN LIMITED
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 15/01/2026
-NestJS
-NodeJS
-RESTful API
-+2
-Software Engineer (C#, .NET, SQL)
-Mới Software Engineer (C#, .NET, SQL)
-MiTek Việt Nam
-Thương lượng
-Hồ Chí Minh
-Hôm nay
-C#
-.NET Framework
-SQL Server
-+2
-R&D Software Engineer (Refrigerator)
-R&D Software Engineer (Refrigerator)
-Panasonic Appliances Vietnam
-Thương lượng
-Hưng Yên
-Cập nhật: 03/02/2026
-C Programming Language
-Software Development
-+3
-Embedded Software Engineer (Chinese Speaking)
-Embedded Software Engineer (Chinese Speaking)
-Bosch Global Software Technologies Company Limited
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 04/02/2026
-C/C++ Programming
-Chinese Speaking
-+3
-Senior Software Engineer/ Technical PM
-Senior Software Engineer/ Technical PM
-Premium
-Sumitomo Mitsui Banking Corporation (SMBC)
-Thương lượng
-Hà Nội
-Cập nhật: 03/02/2026
-IT Solutions
-IT Solutions
-MS SQL
-+5
-Senior Embedded Software Engineer (C/C++)
-Mới Senior Embedded Software Engineer (C/C++)
-Bosch Global Software Technologies Company Limited
-Thương lượng
-Hồ Chí Minh
-Hôm nay
-C++
-UML
-Embedded System
-+1
-Senior Software Engineer (C++/C# Desktop Applications)
-Mới Senior Software Engineer (C++/C# Desktop Applications)
-MiTek Việt Nam
-Thương lượng
-Hồ Chí Minh
-Hôm nay
-C#
-C/C++ Programming
-Software Architecture Design
-+2
-Software Technical Engineer
-Software Technical Engineer
-Innorix Vietnam
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 03/02/2026
-English Communicate
-Technical Support
-+3
-Software Configuration Engineer
-Software Configuration Engineer
-Công Ty TNHH Trelleborg Việt Nam
-Thương lượng
-Bà Rịa - Vũng Tàu, Đồng Nai, Hồ Chí Minh
-Cập nhật: 29/01/2026
-Software Manual Testing
-Testing
-+3
-Senior Embedded Software Engineer (Parking System, ADAS) (Japanese Speaking)
-Senior Embedded Software Engineer (Parking System, ADAS) (Japanese Speaking)
-Urgent
-Bosch Global Software Technologies Company Limited
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 29/01/2026
-ADAS testing
-Automotive software development
-C/C++
-+2
-Hardware/software Testing Engineer
-Hardware/software Testing Engineer
-Fushan Technology Vietnam
-Thương lượng
-Bắc Ninh
-Cập nhật: 28/01/2026
-Điện Tử Viễn Thông
-Kỹ Thuật Điện
-Kỹ Thuật Điện Tử
-+2
-C/C++ Software Engineer - Salary Up to 2,500$ Hybrid Working
-Mới C/C++ Software Engineer - Salary Up to 2,500$ Hybrid Working
-LG Electronics Development Viet Nam Company Limited
-$ 700-2,500 /tháng
-Hà Nội
-Hôm nay
-C++
-C/C++ Programming
-Embedded C programming
-+2
-Project Manager (Scrum Master/ Agile/ Software Based), Fashion Product Development - Global Ecommerce Platform (Total Annual Compensation $60.000/year)
-Project Manager (Scrum Master/ Agile/ Software Based), Fashion Product Development - Global Ecommerce Platform (Total Annual Compensation $60.000/year)
-Urgent
-Crossian Việt Nam
-Tới $ 60,000 /năm
-Hà Nội
-Cập nhật: 30/01/2026
-Project Management
-Data-Driven
-Agile
-+2
-Senior Procurement Team Lead
-Senior Procurement Team Lead
-Galaxy Digital Holdings Co., Ltd (GH)
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 25/01/2026
-Procurement
-IT Phần Mềm
-Contract Negotiation
-QL Kinh Doanh Giải Pháp CNTT & Chuyển Đổi Số Y Tế
-QL Kinh Doanh Giải Pháp CNTT & Chuyển Đổi Số Y Tế
-FPT IS
-Thương lượng
-Hà Nội
-Cập nhật: 31/01/2026
-Sales
-IT Phần Mềm
-Healthcare Technology
-Giảng Viên Công Nghệ Thông Tin (Tiến Sĩ)
-Mới Giảng Viên Công Nghệ Thông Tin (Tiến Sĩ)
-Đại Học FPT TP.HCM
-Thương lượng
-Hồ Chí Minh
-Hôm nay
-IT Phần Mềm
-Teaching IT Subjects
-Research
-Chuyên Viên Phân Tích Nghiệp Vụ - BA
-Chuyên Viên Phân Tích Nghiệp Vụ - BA
-Công Ty Cổ Phần Phát Triển Và Tăng Trưởng Xanh - Edge
-Thương lượng
-Hà Nội
-Cập nhật: 28/01/2026
-Tư Vấn
-Business Analysis
-IT Phần Mềm
-Nhân Viên Kiểm Soát Barcode
-Nhân Viên Kiểm Soát Barcode
-Công Ty Cổ Phần Sữa Việt Nam (Vinamilk)
-Thương lượng
-Bình Dương
-Cập nhật: 22/01/2026
-IT Operations
-IT Phần Mềm
-Kỹ Thuật
-+1
-Nhân Viên Công Nghệ Thông Tin
-Mới Nhân Viên Công Nghệ Thông Tin
-Urgent
-Vietnamworks' Client
-$ 500-700 /tháng
-Đồng Nai
-Hôm nay
-SQL
-IT Phần Mềm
-IT Phần Cứng
-+2
-Chuyên viên phân tích nghiệp vụ phần mềm (Yêu cầu học Kế toán/Kiểm toán)
-Mới Chuyên viên phân tích nghiệp vụ phần mềm (Yêu cầu học Kế toán/Kiểm toán)
-MISA Jointstock Company
-Thương lượng
-Hà Nội
-Hôm nay
-Bussiness Analyst
-IT Phần Mềm
-Kế Toán
-+2
-Senior Software Analyst
-Senior Software Analyst
-Home Credit Vietnam - Explore Your Dream Team
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 03/02/2026
-Business Analysis
-Software Analysis
-+3
-Automation Engineer
-Mới Automation Engineer
-Urgent
-Profectus Vietnam Co. Ltd.
-Thương lượng
-Hồ Chí Minh
-Hôm nay
-Automation
-Software Development
-API
-+2
-Kỹ Sư Tư Vấn Giải Pháp CNTT Và Phát Triển Phần Mềm (Pre-Sales Engineer)
-Kỹ Sư Tư Vấn Giải Pháp CNTT Và Phát Triển Phần Mềm (Pre-Sales Engineer)
-Homitech JSC
-Thương lượng
-Hà Nội, Hồ Chí Minh
-Cập nhật: 30/01/2026
-Communication Skills
-IT Infrastructure
-+3
-Lập Trình Viên .Net
-Lập Trình Viên .Net
-Tập Đoàn Bưu Chính Viễn Thông Việt Nam (VNPT)
-200tr-500tr ₫/năm
-Hà Nội, Hồ Chí Minh
-Cập nhật: 27/01/2026
-Database Software
-Network Programming
-+3
-Senior Software Developer
-Senior Software Developer
-Head hunter
-Navigos Search's Client
-Thương lượng
-Hà Nội
-Cập nhật: 06/01/2026
-Project Management
-Software Development
-+3
-Chuyên Viên Phân Tích Nghiệp Vụ
-Chuyên Viên Phân Tích Nghiệp Vụ
-Urgent
-Công Ty Cổ Phần Tin Học – Viễn Thông Hàng Không ( Aits)
-$ 500-1,000 /tháng
-Hà Nội
-Cập nhật: 30/01/2026
-Business Analysis
-Software Development
-+3
-BrSE (Japanese Speaking)
-BrSE (Japanese Speaking)
-Head hunter
-Navigos Search
-Thương lượng
-Hà Nội
-Cập nhật: 08/01/2026
-Japanese Certificates
-Software Development
-+3
-Chuyên Viên Lập Trình Phần Mềm (Softwear Developer)
-Chuyên Viên Lập Trình Phần Mềm (Softwear Developer)
-Urgent
-Bitexco Joint Stock Company
-Thương lượng
-Hà Nội
-Cập nhật: 30/01/2026
-Software Development
-Project Management
-+5
-Kỹ Sư Giải Pháp Nghiệp Vụ
-Kỹ Sư Giải Pháp Nghiệp Vụ
-TẬP ĐOÀN CÔNG NGHIỆP - VIỄN THÔNG QUÂN ĐỘI
-Thương lượng
-Hà Nội
-Cập nhật: 30/01/2026
-Business Analysis
-Communication Skills
-+3
-Chuyên Viên Giải Pháp Nghiệp Vụ ( BA Lead)
-Mới Chuyên Viên Giải Pháp Nghiệp Vụ ( BA Lead)
-Tập Đoàn Công Nghiệp - Viễn Thông Quân Đội (Viettel Group)
-30tr-70tr ₫/tháng
-Hà Nội
-Hôm nay
-Business Analysis
-Communication Skills
-+3
-IT Communicator (Japanese N2+)
-IT Communicator (Japanese N2+)
-FPT Software
-Tới $ 2,000 /tháng
-Hà Nội, Hồ Chí Minh, Đà Nẵng
-Cập nhật: 04/02/2026
-Tiếng Nhật
-JLPT N2
-IT Communications
-+2
-IT Security Consultant
-IT Security Consultant
-Bosch Global Software Technologies Company Limited
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 31/01/2026
-Cloud Security
-Customer Service Mindset
-+3
-IT Business Analyst (Japanese/korean/english)
-IT Business Analyst (Japanese/korean/english)
-FPT Software
-Thương lượng
-Hà Nội
-Cập nhật: 28/01/2026
-Business Analysis
-IT industry development
-+3
-[Internship Program] AI Engineer Intern
-[Internship Program] AI Engineer Intern
-Bosch Global Software Technologies Company Limited
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 02/02/2026
-C/C++ Programming
-Deep Learning
-Deep Learning
-+4
-Senior Embedded Security Engineer (Cybersecurity)
-Mới Senior Embedded Security Engineer (Cybersecurity)
-Bosch Global Software Technologies Company Limited
-Thương lượng
-Hồ Chí Minh
-Hôm nay
-Cybersecurity
-Network Security
-ARM architecture
-+2
-Senior Embedded Verification Engineer Automotive Chiplet Platform
-Senior Embedded Verification Engineer Automotive Chiplet Platform
-Bosch Global Software Technologies Company Limited
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 02/02/2026
-Embedded Systems
-ARM Cortex-M
-Linux Kernel
-+2
-ADAS System Testing Engineer (1-Year Contractor)
-ADAS System Testing Engineer (1-Year Contractor)
-Bosch Global Software Technologies Company Limited
-Thương lượng
-Hà Nội
-Cập nhật: 31/01/2026
-ADAS testing
-Automotive
-Embedded Testing
-+1
-IT Account Manager/sales B2B (Banking Project)
-IT Account Manager/sales B2B (Banking Project)
-FPT Software
-$ 1,000-2,000 /tháng
-Hà Nội, Hồ Chí Minh, Đà Nẵng
-Cập nhật: 02/02/2026
-Account Management
-Banking
-+3
-Customer Quality Engineer (CQE) / Quality Engineer (Mandarin/chinese)
-Customer Quality Engineer (CQE) / Quality Engineer (Mandarin/chinese)
-Bosch Global Software Technologies Company Limited
-Thương lượng
-Hà Nội
-Cập nhật: 04/02/2026
-Quality Engineer
-Quality Process Improvement
-QA/ QC
-+2
-B2B Sales Manager (Korean Expat)
-B2B Sales Manager (Korean Expat)
-Head hunter
-Navigos Search's Client
-Thương lượng
-Cập nhật: 03/02/2026
-Kinh Doanh B2B
-Industrial Automation
-+3
-[Internship Program] Fullstack Engineer Intern (Java/ NodeJS/ Python/ Django/ React/ .NET)
-[Internship Program] Fullstack Engineer Intern (Java/ NodeJS/ Python/ Django/ React/ .NET)
-Bosch Global Software Technologies Company Limited
-Thương lượng
-Hồ Chí Minh
-Cập nhật: 02/02/2026
-Java
-NodeJS
-Python
-+2
-1
-2
-3
-4
-5
-6
-7
->
-Trang chủViệc làm
-Việc làm it phan mem
+        .cps-card-title:hover {
+            color: #d70018;
+        }
 
-Nhận thông báo việc làm qua email
-Nhận thông báo khi có việc làm mới
-Nhận thông báo
-AIA tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
-SMBC tuyển dụng - Tìm việc mới nhất, lương thưởng hấp dẫn.
+    .cps-price-box {
+        margin-top: auto;
+    }
 
+    .cps-price-new {
+        color: #d70018;
+        font-size: 16px;
+        font-weight: 700;
+        display: block;
+    }
+
+    .cps-price-old {
+        color: #707070;
+        font-size: 13px;
+        text-decoration: line-through;
+    }
+</style>
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <img src="https://cdn2.cellphones.com.vn/insecure/rs:fill:1200:300/q:90/plain/https://dashboard.cellphones.com.vn/storage/sliding-home-iphone-15.jpg" class="w-100 rounded shadow-sm" alt="Banner Khuyến Mãi">
+        </div>
+    </div>
+
+    <div class="block-title mt-5">
+        <h2>🔥 HOT SALE Cuối Tuần</h2>
+    </div>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+        @if (ViewBag.SanPhamKhuyenMai != null)
+        {
+            foreach (var item in ViewBag.SanPhamKhuyenMai as List<Maison.Models.SanPhamKhuyenMai>)
+            {
+                var sp = item.Sanpham;
+                // Kiểm tra xem SP có biến thể nào không để lấy giá gốc rẻ nhất làm mốc
+                decimal giaGocMin = sp.BienThes != null && sp.BienThes.Any() ? sp.BienThes.Min(b => b.GiaBan) : 0;
+                decimal giaGiam = giaGocMin * (1 - (decimal)item.PhanTramGiam / 100);
+
+                <div class="col">
+                    <div class="cps-card">
+                        <div class="discount-badge">Giảm @((int)item.PhanTramGiam)%</div>
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-img">
+                            <img src="@sp.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@sp.TenSP" />
+                        </a>
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-title">
+                            @sp.TenSP
+                        </a>
+                        <div class="cps-price-box">
+                            @if (giaGocMin > 0)
+                            {
+                                <span class="cps-price-new">@string.Format(info, "{0:c0}", giaGiam)</span>
+                                <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGocMin)</span>
+                            }
+                            else
+                            {
+                                <span class="cps-price-new text-muted" style="font-size:14px;">Đang cập nhật giá</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="block-title mt-5">
+        <h2>✨ Sản Phẩm Mới Ra Mắt</h2>
+    </div>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+        @if (ViewBag.SanPhamMoi != null)
+        {
+            foreach (var item in ViewBag.SanPhamMoi as List<Maison.Models.Sanpham>)
+            {
+                decimal giaMin = item.BienThes != null && item.BienThes.Any() ? item.BienThes.Min(b => b.GiaBan) : 0;
+
+                <div class="col">
+                    <div class="cps-card">
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-img">
+                            <img src="@item.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@item.TenSP" />
+                        </a>
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-title">
+                            @item.TenSP
+                        </a>
+                        <div class="cps-price-box">
+                            @if (giaMin > 0)
+                            {
+                                <span class="cps-price-new">@string.Format(info, "{0:c0}", giaMin)</span>
+                            }
+                            else
+                            {
+                                <span class="cps-price-new text-muted" style="font-size:14px;">Đang cập nhật giá</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <div class="block-title mt-5">
+        <h2>💰 Giá Tốt Chốt Ngay</h2>
+    </div>
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+        @if (ViewBag.GiaTot != null)
+        {
+            foreach (var item in ViewBag.GiaTot as List<Maison.Models.Sanpham>)
+            {
+                decimal giaMin = item.BienThes != null && item.BienThes.Any() ? item.BienThes.Min(b => b.GiaBan) : 0;
+
+                <div class="col">
+                    <div class="cps-card">
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-img">
+                            <img src="@item.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@item.TenSP" />
+                        </a>
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-title">
+                            @item.TenSP
+                        </a>
+                        <div class="cps-price-box">
+                            @if (giaMin > 0)
+                            {
+                                <span class="cps-price-new">@string.Format(info, "{0:c0}", giaMin)</span>
+                            }
+                            else
+                            {
+                                <span class="cps-price-new text-muted" style="font-size:14px;">Đang cập nhật giá</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

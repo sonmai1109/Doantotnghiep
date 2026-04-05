@@ -1,0 +1,162 @@
+﻿@model IEnumerable<Maison.Models.ThuocTinh>
+@{
+    ViewBag.Title = "Quản lý Thuộc tính";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .popupprivate {
+        display: none;
+        position: fixed;
+        left: 40%;
+        bottom: 30%;
+        border-radius: 15px;
+        z-index: 1050;
+        width: 450px;
+    }
+</style>
+
+<div class="mt-3 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="ml-4 pt-10 h4" style="font-weight:bold">Quản lý Thuộc tính</div>
+    <div class="buttons ml-4 pr-2 mt-3">
+        <button id="addpopup" class="btn btn-sm btn-outline-primary"><span class="fas fa-plus mr-2"></span>Thêm thuộc tính</button>
+    </div>
+</div>
+
+<table class="table table-hover mt-4 m-3">
+    <thead>
+        <tr>
+            <th>Tên Thuộc Tính</th>
+            <th>Phân loại</th>
+            <th>Danh mục áp dụng</th>
+            <th>Tùy chọn</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="row-@item.MaTT">
+                <td><span class="font-weight-bold text-primary">@item.TenTT</span></td>
+
+                <td>
+                    @if (item.LaThuocTinhChinh == true)
+                    {
+                        <span class="badge badge-danger">🌟 Cấu hình (Chính)</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-info">📝 Thông số (Phụ)</span>
+                    }
+                </td>
+
+                <td>
+                    <span class="font-weight-normal badge @(item.MaDM == null ? "badge-secondary" : "badge-info")">
+                        @(item.MaDM == null ? "Dùng chung" : item.DanhMuc.TenDM)
+                    </span>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="icon icon-sm"><span class="fas fa-ellipsis-h icon-dark"></span></span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item change" onclick="loaddata(@item.MaTT)"><span class="fas fa-edit mr-2 text-primary"></span>Chỉnh sửa</button>
+                            <button class="dropdown-item text-danger delete" onclick="deleteData(@item.MaTT)"><span class="fas fa-trash-alt mr-2"></span>Xóa</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section popup{
+    <div class="popup popupprivate border p-5 bg-white shadow-soft" id="popup">
+        <div>
+            <form id="add-form" onsubmit="return themThuocTinh()">
+                <p id="add-message"></p>
+                <h3 class="mb-4 text-center">Tạo Thuộc Tính Mới</h3>
+
+                <label class="font-weight-bold">Tên Thuộc Tính:</label>
+                <input type="text" class="form-control mb-3" name="TenTT" required autofocus>
+
+                <label class="font-weight-bold">Loại thuộc tính:</label>
+                <select name="LaThuocTinhChinh" class="form-control mb-3">
+                    <option value="true">🌟 Cấu hình (RAM, CPU, VGA, Màu...)</option>
+                    <option value="false">📝 Thông số kỹ thuật (Pin, Màn hình...)</option>
+                </select>
+
+                <label class="font-weight-bold">Thuộc Danh Mục:</label>
+                <select name="MaDM" class="form-control mb-4">
+                    <option value="">--- Dùng chung cho mọi danh mục ---</option>
+                    @if (ViewBag.MaDM != null)
+                    {
+                        foreach (var dm in ViewBag.MaDM as SelectList)
+                        {
+                            <option value="@dm.Value">@dm.Text</option>
+                        }
+                    }
+                </select>
+
+                <button type="submit" class="btn btn-block btn-primary">Lưu thuộc tính</button>
+                <div class="btn btn-block border-primary cancelPopup">Hủy</div>
+            </form>
+        </div>
+    </div>
+}
+
+@section changepopup{
+    <div class="changepopup popupprivate border p-5 bg-white shadow-soft" id="changepopup">
+        <div>
+            <form id="update-form" onsubmit="return suaThuocTinh()">
+                <p id="update-message"></p>
+                <h3 class="mb-4 text-center text-primary">Sửa Thuộc Tính</h3>
+
+                <input class="hidden-text" type="hidden" id="matt" name="MaTT" />
+
+                <label class="font-weight-bold">Tên Thuộc Tính:</label>
+                <input type="text" class="form-control mb-3" name="TenTT" id="tentt" required>
+
+                <label class="font-weight-bold">Loại thuộc tính:</label>
+                <select name="LaThuocTinhChinh" id="edit_LaThuocTinhChinh" class="form-control mb-3">
+                    <option value="true">🌟 Cấu hình (RAM, CPU, VGA, Màu...)</option>
+                    <option value="false">📝 Thông số kỹ thuật (Pin, Màn hình...)</option>
+                </select>
+
+                <label class="font-weight-bold">Thuộc Danh Mục:</label>
+                <select name="MaDM" id="madm" class="form-control mb-4">
+                    <option value="">--- Dùng chung cho mọi danh mục ---</option>
+                    @if (ViewBag.MaDM != null)
+                    {
+                        foreach (var dm in ViewBag.MaDM as SelectList)
+                        {
+                            <option value="@dm.Value">@dm.Text</option>
+                        }
+                    }
+                </select>
+
+                <button type="submit" class="btn btn-block btn-primary">Lưu thay đổi</button>
+                <div class="btn btn-block border-primary cancelPopup">Hủy</div>
+            </form>
+        </div>
+    </div>
+}
+
+@section deletepopup{
+    <div class="deletepopup popupprivate border p-5 bg-white shadow-soft" id="deletepopup">
+        <div>
+            <h3 class="text-warning text-center mb-3">Xóa Thuộc Tính</h3>
+            <p id="delete-message"></p>
+            <input type="hidden" id="delete-matt" name="MaTT" />
+            <h6 class="text-center fw-bold mb-4">Dữ liệu này sẽ mất vĩnh viễn. Bạn đã chắc chắn chưa?</h6>
+
+            <button type="button" class="btn btn-block btn-primary" onclick="xoaThuocTinh()">Chắc chắn</button>
+            <div class="btn btn-block border-primary cancelPopup">Hủy</div>
+        </div>
+    </div>
+}
+
+@section Script{
+    <script src="~/Content/admin/JS/addpopup.js"></script>
+    <script src="~/Content/admin/JS/thuoctinh.js"></script>
+}

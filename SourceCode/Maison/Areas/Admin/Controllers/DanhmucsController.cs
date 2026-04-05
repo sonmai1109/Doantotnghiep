@@ -12,7 +12,7 @@ using PagedList;
 using static System.Data.Entity.Infrastructure.Design.Executor;
 namespace Maison.Areas.Admin.Controllers
 {
-    public class DanhmucsController : Controller
+    public class DanhmucsController : BaseController
     {
         shopdb db = new shopdb();
         public ActionResult Index(string timkiem, int page = 1, int pagesize = 7)
@@ -31,10 +31,14 @@ namespace Maison.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Create(Danhmuc dm)
         {
+
             try
             {
+                TaiKhoanQuanTri tk = (TaiKhoanQuanTri)Session[Maison.Session.ConstaintUser.ADMIN_SESSION];
                 dm.NgayTao = DateTime.Now;
-                dm.NgaySua = DateTime.Now;
+                dm.NguoiTao = tk.HoTen;
+                dm.NguoiSua = tk.HoTen;
+                dm.NgaySua=DateTime.Now;
                 db.Danhmucs.Add(dm);
                 db.SaveChanges();
                 return Json(new { status = true, message = "Thêm thành công!" });
@@ -60,9 +64,12 @@ namespace Maison.Areas.Admin.Controllers
         {
             try
             {
+                TaiKhoanQuanTri tk = (TaiKhoanQuanTri)Session[Maison.Session.ConstaintUser.ADMIN_SESSION];
                 Danhmuc doi = db.Danhmucs.Where(a => a.MaDM.Equals(dm.MaDM)).FirstOrDefault();
                 doi.TenDM = dm.TenDM;
                 doi.NgaySua = DateTime.Now;
+                doi.NguoiSua = tk.HoTen;
+
                 db.Entry(doi).State = EntityState.Modified;
                 db.SaveChanges();
                 return Json(new { status = true, message = "Sửa thành công!" });

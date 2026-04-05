@@ -1,0 +1,170 @@
+﻿@model PagedList.IPagedList<Maison.Models.KhuyenMai>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Quản lý Khuyến mãi";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <h2 class="h4 font-weight-bold text-primary"><i class="fas fa-tags mr-2"></i>Chương trình Khuyến mãi</h2>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <button type="button" class="btn btn-sm btn-primary shadow-sm" id="addPopup">
+            <span class="fas fa-plus mr-2"></span>Tạo chương trình mới
+        </button>
+    </div>
+</div>
+
+<div class="table-settings mb-4">
+    <div class="row align-items-center justify-content-between">
+        <div class="col col-md-6 col-lg-4 col-xl-4">
+            <form>
+                <div class="input-group border-primary">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-white border-primary text-primary"><i class="fas fa-search"></i></span>
+                    </div>
+                    <input type="text" class="form-control border-primary" name="q" value="@ViewBag.q" placeholder="Tìm tên chương trình..." />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body border-0 shadow-sm table-wrapper table-responsive pt-0">
+    <table class="table table-hover align-middle">
+        <thead class="thead-light">
+            <tr>
+                <th>Mã</th>
+                <th>Tên chương trình</th>
+                <th>Thời gian áp dụng</th>
+                <th>Trạng thái</th>
+                <th>Người tạo</th>
+                <th>Người Sửa</th>
+                <th class="text-center">Tùy chọn</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr id="row-@item.MaKM">
+                        <td class="font-weight-bold text-muted">#@item.MaKM</td>
+                        <td class="font-weight-bold text-dark">@item.TenKM</td>
+                        <td>
+                            <i class="far fa-calendar-alt text-info mr-1"></i>
+                            @(item.NgayBatDau?.ToString("dd/MM/yyyy") ?? "Không giới hạn")
+                            <i class="fas fa-arrow-right mx-1 text-muted" style="font-size:10px;"></i>
+                            @(item.NgayKetThuc?.ToString("dd/MM/yyyy") ?? "Không giới hạn")
+                        </td>
+                        <td>
+                            @if (item.TrangThai == 1)
+                            {
+                                <span class="badge badge-success px-2 py-1"><i class="fas fa-check-circle mr-1"></i> Đang chạy</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-secondary px-2 py-1"><i class="fas fa-pause-circle mr-1"></i> Tạm dừng</span>
+                            }
+                        </td>
+                        <td><small class="text-muted">@item.NguoiTao</small></td>
+                        <td><small class="text-muted">@item.NguoiSua</small></td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-toggle="dropdown">
+                                    <span class="icon icon-sm"><i class="fas fa-ellipsis-h"></i></span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right shadow">
+                                    <a class="dropdown-item text-primary font-weight-bold" href="@Url.Action("ManageProducts","KhuyenMais", new { area = "Admin", id = item.MaKM })">
+                                        <i class="fas fa-box-open mr-2"></i>Gán Sản phẩm
+                                    </a>
+                                    <div class="dropdown-divider"></div>
+                                    <button class="dropdown-item" onclick="loadData(@item.MaKM)"><i class="fas fa-edit mr-2 text-info"></i>Chỉnh sửa thông tin</button>
+                                    <button class="dropdown-item" onclick="toggleStatus(@item.MaKM)"><i class="fas fa-power-off mr-2 text-warning"></i>Bật / Tắt</button>
+                                    <button class="dropdown-item text-danger" onclick="deleteData(@item.MaKM)"><i class="fas fa-trash-alt mr-2"></i>Xóa chương trình</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr><td colspan="6" class="text-center py-4 text-muted">Chưa có chương trình khuyến mãi nào.</td></tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="mt-3 d-flex justify-content-center">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, q = ViewBag.q }))
+    </div>
+</div>
+
+@section Popup {
+    <div class="popup" id="popUp" style="display:none; position: fixed; left: 35%; top: 5%; z-index: 1050; width: 500px; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+        <h4 class="mb-4 text-primary border-bottom pb-2">Tạo Khuyến Mãi Mới</h4>
+        <form id="add-form" onsubmit="return themKhuyenMai()">
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Tên chương trình (VD: Flash Sale 4/4)</label>
+                <input type="text" class="form-control" name="TenKM" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Mô tả ngắn</label>
+                <textarea class="form-control" name="MoTa" rows="2"></textarea>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label class="font-weight-bold">Ngày bắt đầu</label>
+                    <input class="form-control" type="date" name="NgayBatDau" />
+                </div>
+                <div class="col-6">
+                    <label class="font-weight-bold">Ngày kết thúc</label>
+                    <input class="form-control" type="date" name="NgayKetThuc" />
+                </div>
+            </div>
+            <p id="add-message" class="text-danger small font-weight-bold"></p>
+            <div class="d-flex justify-content-end mt-4">
+                <button type="button" class="btn btn-light mr-2 cancelPopup">Hủy</button>
+                <button type="submit" class="btn btn-primary">Lưu chương trình</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="popup" id="changePopUp" style="display:none; position: fixed; left: 35%; top: 5%; z-index: 1050; width: 500px; background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
+        <h4 class="mb-4 text-info border-bottom pb-2">Cập nhật Khuyến Mãi</h4>
+        <form id="update-form" onsubmit="return suaKhuyenMai()">
+            <input type="hidden" id="makm" name="MaKM" />
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Tên chương trình</label>
+                <input type="text" class="form-control" id="tenkm" name="TenKM" required />
+            </div>
+            <div class="form-group mb-3">
+                <label class="font-weight-bold">Mô tả</label>
+                <textarea class="form-control" id="mota" name="MoTa" rows="2"></textarea>
+            </div>
+            <div class="row mb-3">
+                <div class="col-6">
+                    <label class="font-weight-bold">Ngày bắt đầu</label>
+                    <input class="form-control" id="ngaybatdau" name="NgayBatDau" type="date" />
+                </div>
+                <div class="col-6">
+                    <label class="font-weight-bold">Ngày kết thúc</label>
+                    <input class="form-control" id="ngayketthuc" name="NgayKetThuc" type="date" />
+                </div>
+            </div>
+            <p id="update-message" class="text-danger small font-weight-bold"></p>
+            <div class="d-flex justify-content-end mt-4">
+                <button type="button" class="btn btn-light mr-2 cancelPopup">Hủy</button>
+                <button type="submit" class="btn btn-info">Cập nhật</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="overlay" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1040;"></div>
+}
+
+@section Script {
+    <script src="~/Content/admin/JS/KhuyenMai.js"></script>
+}

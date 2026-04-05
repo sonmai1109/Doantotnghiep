@@ -1,0 +1,164 @@
+﻿@model IEnumerable<Maison.Models.SanPhamKhuyenMai>
+@{
+    var km = ViewBag.KhuyenMai as Maison.Models.KhuyenMai;
+    ViewBag.Title = "Gán sản phẩm cho khuyến mãi";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="d-flex justify-content-between py-4">
+    <a class="btn btn-secondary" href="@Url.Action("Index","KhuyenMais", new { area = "Admin" })">Quay lại</a>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <input type="text" id="searchSP" class="form-control" placeholder="Tìm sản phẩm theo tên (tối thiểu 2 ký tự)">
+        <div id="searchResult" class="mt-2"></div>
+    </div>
+</div>
+
+<h5>Danh sách đã gán</h5>
+<table class="table table-hover">
+    <thead><tr><th>STT</th><th>Sản phẩm</th> <th>% giảm</th><th>Hành động</th></tr></thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var a in Model)
+            {
+                <tr id="link-@a.ID">
+                    <td>@a.ID</td>
+                    <td>
+                        <span class="font-weight-bold">@(a.Sanpham != null ? a.Sanpham.TenSP : a.MaSP.ToString())</span>
+                        <br />
+                        @if (a.MaBT == null)
+                        {
+                            <span class="badge badge-success mt-1">🌟 Toàn bộ cấu hình</span>
+                        }
+                        else
+                        {
+                            var bt = a.Sanpham.BienThes.FirstOrDefault(b => b.MaBT == a.MaBT);
+                            var ts = (bt != null && bt.ChiTietBTs.Any()) ? string.Join(" - ", bt.ChiTietBTs.Select(c => c.GiaTriTT.GiaTri)) : "Bản mặc định";
+                            <span class="badge badge-warning text-dark mt-1">👉 Chỉ bản: @ts</span>
+                        }
+                    </td>
+                    <td>
+                        <span class="badge bg-info" style="font-size: 14px;">@a.PhanTramGiam %</span>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-warning me-1" onclick="openEdit(@a.ID, @a.PhanTramGiam)">Sửa</button>
+                        <button class="btn btn-sm btn-danger" onclick="removeLink(@a.ID)">Thu hồi</button>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr><td colspan="4">Chưa có sản phẩm nào được gán.</td></tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Sửa % giảm</h5></div>
+            <div class="modal-body">
+                <input type="hidden" id="editID">
+                <label>% giảm</label>
+                <input type="number" id="editPercent" class="form-control" min="1" max="99">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="saveEdit()">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script {
+    <script>
+        $(function(){
+            var timer = null;
+            $('#searchSP').on('input', function(){
+                var q = $(this).val().trim();
+                if (q.length < 2) { $('#searchResult').empty(); return; }
+                clearTimeout(timer);
+
+                timer = setTimeout(function(){
+                    // 1. Sửa URL gọi đến KhuyenMaisController -> SearchSanPham
+                    $.get('@Url.Action("SearchSanPham", "KhuyenMais", new { area = "Admin" })', { q: q }, function(data){
+                        var html = '';
+                        if(!data || data.length === 0) html = '<div class="alert alert-light border">Không tìm thấy</div>';
+                        else {
+                            data.forEach(function(p){
+                                // 2. VẼ DROPDOWN CHỌN CẤU HÌNH
+                                let opt = `<option value="ALL" class="text-danger font-weight-bold">🌟 Áp dụng TOÀN BỘ cấu hình</option>`;
+                                if (p.BienThes && p.BienThes.length > 0) {
+                                    p.BienThes.forEach(function(bt) {
+                                        let tenCauHinh = bt.ThuocTinhs.length > 0 ? bt.ThuocTinhs.join(' - ') : "Bản mặc định";
+                                        opt += `<option value="${bt.MaBT}">👉 Chỉ giảm riêng bản: ${tenCauHinh}</option>`;
+                                    });
+                                }
+
+                                html += `
+                                <div class="p-3 border mb-2 bg-white rounded shadow-sm">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <img src="${p.HinhAnh}" width="35" height="35" class="rounded mr-2" onerror="this.src='/Content/Images/no-image.png'">
+                                        <div class="fw-bold text-primary">${p.TenSP}</div>
+                                    </div>
+                                    <select id="select_bt_${p.MaSP}" class="form-control mb-2 border-info">
+                                        ${opt}
+                                    </select>
+                                    <div class="input-group" style="max-width: 250px;">
+                                        <input type="number" id="discount_${p.MaSP}" class="form-control text-danger font-weight-bold" placeholder="% giảm" min="1" max="99">
+                                        <button class="btn btn-primary px-3" onclick="assignProduct(${'@km.MaKM'}, ${p.MaSP})">Gán</button>
+                                    </div>
+                                </div>`;
+                            });
+                        }
+                        $('#searchResult').html(html);
+                    }).fail(function(){ alert('Lỗi khi tìm sản phẩm'); });
+                }, 300);
+            });
+        });
+
+        function assignProduct(maKM, maSP){
+            let discount = $("#discount_" + maSP).val();
+            let maBT = $("#select_bt_" + maSP).val();
+            let sendMaBT = (maBT === "ALL") ? null : parseInt(maBT); // Lấy MaBT
+
+            if (!discount || discount <= 0 || discount > 99) {
+                alert("Nhập % giảm hợp lệ (1 - 99)"); return;
+            }
+
+            $.post('@Url.Action("AssignProduct", "KhuyenMais", new { area = "Admin" })',
+                { maKM: maKM, maSP: maSP, maBT: sendMaBT, phanTramGiam: discount },
+                function(res){
+                    // Check res.status thay vì res.ok
+                    if(res.status) window.location.reload();
+                    else alert('Gán thất bại');
+                });
+        }
+
+        function removeLink(id){
+            if(!confirm('Bạn có chắc muốn thu hồi sản phẩm khỏi chương trình?')) return;
+            $.post('@Url.Action("RemoveProduct", "KhuyenMais", new { area = "Admin" })', { id: id }, function(res){
+                if(res.status) $('#link-' + id).remove();
+                else alert('Thu hồi thất bại');
+            }).fail(function(){ alert('Lỗi server');});
+        }
+
+        function openEdit(id, percent){
+            $("#editID").val(id);
+            $("#editPercent").val(percent);
+            $("#editModal").modal("show");
+        }
+
+        function saveEdit(){
+            $.post('@Url.Action("UpdateDiscount", "KhuyenMais", new { area = "Admin" })',
+                { id: $("#editID").val(), phanTramGiam: $("#editPercent").val() },
+                function(res){
+                    if(res.status) location.reload();
+                    else alert("Cập nhật thất bại");
+                }
+            ).fail(function(){ alert("Lỗi server"); });
+        }
+    </script>
+}

@@ -43,8 +43,19 @@ namespace Maison.Models
         public int? GioiTinh { get; set; }
 
         public bool TrangThai { get; set; }
-
-
-
+        public virtual ICollection<TinTuc> TinTucs { get; set; }
+        public virtual ICollection<DanhGia> DanhGias { get; set; }
+        public virtual ICollection<HoaDon> HoaDons { get; set; }
+        public virtual ICollection<Baohanh> Baohanhs { get; set; }
+        public virtual ICollection<ChatbotLog> ChatbotLogs { get; set; }
+        public TaiKhoanNguoiDung()
+        {
+            TinTucs = new HashSet<TinTuc>();
+            HoaDons = new HashSet<HoaDon>();
+            DanhGias = new HashSet<DanhGia>();
+            Baohanhs = new HashSet<Baohanh>();
+            ChatbotLogs = new HashSet<ChatbotLog>();
+            // ... các HashSet khác như DanhGias, HoaDons ...
+        }
     }
 }

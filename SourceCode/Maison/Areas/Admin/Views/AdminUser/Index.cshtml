@@ -1,0 +1,185 @@
+﻿@model PagedList.IPagedList<Maison.Models.TaiKhoanQuanTri>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Tài khoản quản trị";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
+<style>
+    .popupprivate {
+        display: none;
+        position: fixed;
+        left: 40%;
+        bottom: 25%; /* Căn lại một chút cho form dài */
+        border-radius: 15px;
+        z-index: 1050;
+        width: 450px;
+    }
+</style>
+
+<div class="mt-3 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="ml-4 pt-10 h4" style="font-weight:bold">Danh sách tài khoản quản trị</div>
+    <div class="buttons ml-4 pr-2 mt-3">
+        <!-- Đổi id thành addpopup để ăn script dùng chung -->
+        <button id="addpopup" class="btn btn-sm btn-outline-primary"><span class="fas fa-plus mr-2"></span>Thêm tài khoản quản trị</button>
+    </div>
+</div>
+
+<div class="table-settings mb-4 ml-4">
+    <div class="row align-items-center justify-content-between">
+        <div class="col col-md-6 col-lg-3 col-xl-4">
+            <form>
+                <div class="input-group">
+                    <button class="input-group-text" id="basic-addon2"><span class="fas fa-search"></span></button>
+                    <input type="text" class="form-control" name="searchString" value="@ViewBag.searchString" placeholder="Tên đăng nhập" aria-label="Search">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table class="table table-hover mt-4 m-3">
+    <thead>
+        <tr>
+            <th>Họ và tên</th>
+            <th>Tên đăng nhập</th>
+            <th>Loại tài khoản</th>
+            <th>Trạng thái</th>
+            <th>Tùy chọn</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="row-@item.ID">
+                <td><span class="font-weight-normal">@item.HoTen</span></td>
+                <td><span class="font-weight-normal">@item.TenDangNhap</span></td>
+                <td><span class="font-weight-normal">@(item.LoaiTaiKhoan ? "Người quản trị" : "Quản lý")</span></td>
+                <td><span class="font-weight-bold @(item.TrangThai ? "text-success" : "text-danger")">@(item.TrangThai ? "Đã kích hoạt" : "Đã vô hiệu hóa")</span></td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="icon icon-sm">
+                                <span class="fas fa-ellipsis-h icon-dark"></span>
+                            </span>
+                            <span class="sr-only">Lựa chọn</span>
+                        </button>
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item change" onclick="loadData(@item.ID)"><span class="fas fa-edit mr-2 text-primary"></span>Chỉnh sửa</button>
+                            <button class="dropdown-item text-danger delete" onclick="deleteData(@item.ID)"><span class="fas fa-trash-alt mr-2"></span>Xóa</button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="card-footer px-3 border-0 d-flex align-items-center justify-content-between">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination mb-0">
+            @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, pageSize = Model.PageSize, searchString = ViewBag.searchString }))
+        </ul>
+    </nav>
+</div>
+
+<!-- ================= POPUP THÊM ================= -->
+@section popup{
+    <div class="popup popupprivate border p-5 bg-white shadow-soft" id="popup">
+        <div>
+            <form id="add-form" onsubmit="return themTaiKhoanAdmin()">
+                <div>
+                    <p id="add-message"></p>
+                    <br />
+                    <h1>Tạo tài khoản</h1>
+                    <br />
+                    <input type="text" class="form-control mb-2" name="tendangnhap" placeholder="Tên đăng nhập" autofocus required>
+                    <input type="text" class="form-control mb-2" name="hoten" placeholder="Họ và tên" required>
+
+                    <div class="d-flex align-items-center mb-2">
+                        <label class="mr-2 mb-0 font-weight-bold">Loại tài khoản:</label>
+                        <input type="radio" name="loaitaikhoan" id="statusAdmin" value="true" class="mr-1" />
+                        <label for="statusAdmin" class="mr-3 mb-0">Quản trị</label>
+
+                        <input type="radio" name="loaitaikhoan" id="statusManage" value="false" checked class="mr-1" />
+                        <label for="statusManage" class="mb-0">Quản lý</label>
+                    </div>
+
+                    <input type="password" name="matkhau" placeholder="Mật khẩu" class="form-control mb-2" required>
+                    <input type="password" name="nhaplaimatkhau" placeholder="Xác nhận mật khẩu" class="form-control mb-2" required>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-block btn-primary">Đăng ký</button>
+                <div class="btn btn-block border-primary cancelPopup">Hủy</div>
+            </form>
+        </div>
+    </div>
+}
+
+<!-- ================= POPUP SỬA ================= -->
+@section changepopup{
+    <div class="changepopup popupprivate border p-5 bg-white shadow-soft" id="changepopup">
+        <div>
+            <form id="update-form" onsubmit="return suaTaiKhoanQuanTri()">
+                <div>
+                    <p id="update-message"></p>
+                    <br />
+                    <h1 class="text-danger">Sửa tài khoản</h1>
+                    <br />
+                    <input class="hidden-text" type="hidden" id="matk" name="id" value="" />
+                    <input type="text" class="form-control mb-2" placeholder="Tên đăng nhập" id="tendangnhap" required>
+                    <input type="text" class="form-control mb-2" placeholder="Họ và tên" disabled id="hoten" required>
+
+                    <div class="d-flex align-items-center mb-2">
+                        <label class="mr-2 mb-0 font-weight-bold">Loại tài khoản:</label>
+                        <input type="radio" name="loaitaikhoan" value="true" id="admin-role" class="mr-1" />
+                        <label for="admin-role" class="mr-3 mb-0">Quản trị</label>
+
+                        <input type="radio" name="loaitaikhoan" value="false" id="manager-role" class="mr-1" />
+                        <label for="manager-role" class="mb-0">Quản lý</label>
+                    </div>
+
+                    <div class="d-flex align-items-center mb-2">
+                        <label class="mr-2 mb-0 font-weight-bold">Trạng thái:</label>
+                        <input type="radio" name="trangthai" value="true" id="actived" class="mr-1" />
+                        <label for="actived" class="text-success mr-3 mb-0">Kích hoạt</label>
+
+                        <input type="radio" name="trangthai" value="false" id="blocked" class="mr-1" />
+                        <label for="blocked" class="text-danger mb-0">Vô hiệu hóa</label>
+                    </div>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-block btn-primary">Lưu thay đổi</button>
+                <div class="btn btn-block border-primary cancelPopup">Hủy</div>
+            </form>
+        </div>
+    </div>
+}
+
+<!-- ================= POPUP XÓA ================= -->
+@section deletepopup{
+    <div class="deletepopup popupprivate border p-5 bg-white shadow-soft" id="deletepopup">
+        <div>
+            <div>
+                <h1 class="text-warning text-center">Xóa tài khoản</h1>
+                <br />
+                <p id="delete-message"></p>
+                <input class="hidden-text" type="hidden" value="" id="delete-adminuser-id" name="id" />
+                <h5 class="text-center fw-bold">Bạn có thể vô hiệu hóa thay vì xóa. Đã chắc chắn chưa?</h5>
+            </div>
+            <br />
+            <button type="button" class="btn btn-block btn-primary" onclick="xoaTaiKhoan()">Chắc chắn</button>
+            <div class="btn btn-block border-primary cancelPopup">Hủy</div>
+        </div>
+    </div>
+}
+
+@section Script{
+    <!-- Script dùng chung để mở/đóng Modal -->
+    <script src="~/Content/admin/JS/addpopup.js"></script>
+    <!-- Script xử lý Ajax riêng -->
+    <script src="~/Content/admin/JS/AdminAccount.js"></script>
+}
