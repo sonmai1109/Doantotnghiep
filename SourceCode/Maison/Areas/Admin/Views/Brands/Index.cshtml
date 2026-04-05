@@ -1,9 +1,10 @@
-﻿@model IEnumerable<Maison.Models.Brand>
+﻿@model  PagedList.IPagedList<Maison.Models.Brand>
+@using PagedList.Mvc;
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
-
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <style>
     .popupprivate {
         display: none;
@@ -58,7 +59,16 @@
         }
     </tbody>
 </table>
+<div class="card-footer px-3 border-0 d-flex align-items-center justify-content-between">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination mb-0">
+            @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
 
+            @Html.PagedListPager(Model, page => Url.Action("Index",
+                new { page, pageSize = Model.PageSize, searchString = ViewBag.searchString }))
+        </ul>
+    </nav>
+</div>
 @section popup{
     <div class="popup popupprivate border p-5 bg-white shadow-soft" id="popup">
         <div>

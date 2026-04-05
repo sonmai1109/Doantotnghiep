@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Maison.Models;
 using System.Data.Entity;
 using System.IO;
+using System.Web.UI;
+using PagedList;
 
 namespace Maison.Areas.Admin.Controllers // Nhớ sửa namespace
 {
@@ -13,9 +15,9 @@ namespace Maison.Areas.Admin.Controllers // Nhớ sửa namespace
     {
         shopdb db = new shopdb();
 
-        public ActionResult Index(string timkiem)
+        public ActionResult Index(string timkiem,int page = 1, int pagesize = 4)
         {
-            ViewBag.timkiem = timkiem;
+            ViewBag.timkiem = timkiem; 
             // Dùng Include để lấy tên Danh mục và tên Hãng
             var sanphams = db.Sanphams.Include(s => s.DanhMuc).Include(s => s.Brand).AsQueryable();
 
@@ -28,7 +30,7 @@ namespace Maison.Areas.Admin.Controllers // Nhớ sửa namespace
             ViewBag.MaDM = new SelectList(db.Danhmucs, "MaDM", "TenDM");
             ViewBag.MaBrand = new SelectList(db.Brands, "MaBrand", "TenBrand");
 
-            return View(sanphams.OrderByDescending(s => s.MaSP).ToList());
+            return View(sanphams.OrderByDescending(s => s.MaSP).ToPagedList(page, pagesize));
         }
 
         [HttpPost]

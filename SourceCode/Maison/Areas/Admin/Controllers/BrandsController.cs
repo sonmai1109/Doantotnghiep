@@ -19,7 +19,7 @@ namespace Maison.Areas.Admin.Controllers // Nhớ sửa lại namespace theo đ�
         shopdb db = new shopdb();
 
         // HIỂN THỊ DANH SÁCH
-        public ActionResult Index(string timkiem)
+        public ActionResult Index(string timkiem, int page = 1, int pagesize = 7)
         {
             ViewBag.timkiem = timkiem;
             var brands = db.Brands.Select(b => b);
@@ -29,7 +29,7 @@ namespace Maison.Areas.Admin.Controllers // Nhớ sửa lại namespace theo đ�
                 brands = brands.Where(b => b.TenBrand.Contains(timkiem));
             }
 
-            return View(brands.OrderByDescending(b => b.MaBrand).ToList()); // Có thể dùng PagedList như danh mục
+            return View(brands.OrderByDescending(b => b.MaBrand).ToPagedList(page, pagesize)); // Có thể dùng PagedList như danh mục
         }
 
         // THÊM MỚI

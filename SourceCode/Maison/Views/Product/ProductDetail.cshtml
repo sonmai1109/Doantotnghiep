@@ -8,7 +8,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style>
-    /* CSS cho ô chọn Cấu hình (Ô VUÔNG) */
+    /* =======================================
+       CSS Ô CHỌN CẤU HÌNH
+       ======================================= */
     .variant-box {
         border: 1px solid #d1d5db;
         border-radius: 8px;
@@ -31,7 +33,6 @@
             color: #d70018;
         }
 
-        /* Khi ô được chọn (Active) */
         .variant-box.active {
             border: 2px solid #d70018;
             color: #d70018;
@@ -57,6 +58,9 @@
                 justify-content: center;
             }
 
+    /* =======================================
+       CSS BẢNG THÔNG SỐ
+       ======================================= */
     .tech-specs-table th {
         background-color: #f3f4f6;
         width: 35%;
@@ -68,9 +72,69 @@
         padding: 12px 15px;
         border: 1px solid #e5e7eb;
     }
+
+    /* =======================================
+       CSS NÚT MŨI TÊN (SLIDE ẢNH) VÀ THUMBNAIL
+       ======================================= */
+    .btn-slide {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 10;
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 50%;
+        background: rgba(0,0,0,0.15); /* Nền mờ nhẹ */
+        color: white;
+        font-size: 24px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: 0.3s;
+        /* ẨN MẶC ĐỊNH BẰNG CSS */
+        opacity: 0;
+        visibility: hidden;
+    }
+
+        .btn-slide:hover {
+            background: rgba(0,0,0,0.6);
+        }
+
+    #btn-prev-img {
+        left: 10px;
+    }
+
+    #btn-next-img {
+        right: 10px;
+    }
+
+    /* HIỆN NÚT LÊN KHI RÊ CHUỘT (HOVER) VÀO KHUNG ẢNH */
+    .image-slider-wrapper:hover .btn-slide {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* CSS cho ảnh phụ ở dưới */
+    .thumb-img {
+        width: 70px;
+        height: 70px;
+        border: 1px solid #e5e7eb;
+        cursor: pointer;
+        border-radius: 8px;
+        object-fit: contain;
+        padding: 5px;
+        background: #fff;
+        transition: 0.2s;
+    }
+
+        .thumb-img:hover, .thumb-img.active {
+            border: 2px solid #d70018;
+        }
 </style>
 
-<div class="breadcrumb-area mt-30">
+<div class="breadcrumb-area mt-10">
     <div class="container">
         <div class="breadcrumb">
             <ul class="d-flex align-items-center">
@@ -82,21 +146,26 @@
     </div>
 </div>
 
-<div class="main-product-thumbnail ptb-100 ptb-sm-60">
+<div class="main-product-thumbnail pb-100 pb-sm-60" style="padding-top: 30px;">
     <div class="container">
         <div class="thumb-bg">
             <div class="row">
                 <div class="col-lg-5 mb-all-40">
-                    <div class="tab-content position-relative">
+
+                    <div class="tab-content position-relative image-slider-wrapper" style="border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; overflow: hidden;">
+
                         <button id="btn-prev-img" class="btn-slide">‹</button>
-                        <div id="thumb1" class="tab-pane fade show active">
+
+                        <div id="thumb1" class="tab-pane fade show active text-center">
                             <a id="modal-a-hinhanh" data-fancybox="images" href="@Model.HinhAnh">
-                                <img id="modal-hinhanh" src="@Model.HinhAnh" alt="@Model.TenSP" style="width:100%; object-fit:cover; border-radius:10px;">
+                                <img id="modal-hinhanh" src="@Model.HinhAnh" alt="@Model.TenSP" style="width:100%; height: 300px; object-fit:contain; padding: 20px;">
                             </a>
                         </div>
+
                         <button id="btn-next-img" class="btn-slide">›</button>
                     </div>
-                    <div id="gallery-container" class="mt-3 d-flex" style="gap: 8px; flex-wrap: wrap;"></div>
+
+                    <div id="gallery-container" class="mt-3 d-flex" style="gap: 10px; flex-wrap: wrap;"></div>
                 </div>
 
                 <div class="col-lg-7">
@@ -114,8 +183,7 @@
                     </div>
 
                     <div id="attributes-container" class="mb-4 mt-4">
-
-                        @if (Model.MaDM == 20) // NẾU LÀ LAPTOP (Giả sử Mã Danh Mục Laptop là 20)
+                        @if (Model.MaDM == 20)
                         {
                             <p style="font-weight: 600; margin-bottom: 8px; color: #444;">Chọn cấu hình Laptop:</p>
                             <div class="d-flex flex-wrap">
@@ -125,38 +193,28 @@
                                     string activeClass = isFirst ? "active" : "";
                                     isFirst = false;
 
-                                    // Lấy tất cả thuộc tính CHÍNH của cấu hình này
-                                    // Lấy tất cả thuộc tính CHÍNH của cấu hình này
                                     var ttChinh = bt.ChiTietBTs.Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true).Select(c => c.GiaTriTT).ToList();
-
-                                    // Bóc tách riêng CPU, GPU, RAM và MÀU SẮC để ghép chuỗi
                                     var cpu = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("cpu"))?.GiaTri;
                                     var gpu = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("gpu") || t.ThuocTinh.TenTT.ToLower().Contains("vga"))?.GiaTri;
                                     var ram = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("ram"))?.GiaTri;
-
-                                    // BỔ SUNG: Lấy thêm Màu sắc
                                     var mau = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("màu"))?.GiaTri;
 
                                     var components = new List<string>();
                                     if (!string.IsNullOrEmpty(cpu)) { components.Add(cpu); }
                                     if (!string.IsNullOrEmpty(gpu)) { components.Add(gpu); }
                                     if (!string.IsNullOrEmpty(ram)) { components.Add(ram); }
-
-                                    // BỔ SUNG: Nối thêm màu vào cuối chuỗi
                                     if (!string.IsNullOrEmpty(mau)) { components.Add(mau); }
 
-                                    // Ghép thành chuỗi (VD: i5 - RTX3050 - 8GB - Đen)
                                     string tenCauHinh = components.Count > 0 ? string.Join(" - ", components) : string.Join(" - ", ttChinh.Select(t => t.GiaTri));
                                     if (string.IsNullOrEmpty(tenCauHinh)) { tenCauHinh = "Cấu hình tiêu chuẩn"; }
 
-                                    // VẼ Ô VUÔNG
                                     <div class="variant-box @activeClass" data-mabt="@bt.MaBT">
                                         @tenCauHinh
                                     </div>
                                 }
                             </div>
                         }
-                        else // NẾU LÀ SẢN PHẨM KHÁC (TAI NGHE, ĐIỆN THOẠI...)
+                        else
                         {
                             <p style="font-weight: 600; margin-bottom: 8px; color: #444;">Tùy chọn phiên bản:</p>
                             <div class="d-flex flex-wrap">
@@ -258,20 +316,14 @@
 
         $(document).ready(function () {
 
-            // Xử lý sự kiện CLICK vào ô vuông cấu hình
             $(document).on('click', '.variant-box', function () {
-                // Tắt active của các ô khác
                 $(this).siblings().removeClass('active');
-                // Bật ô được click
                 $(this).addClass('active');
-
                 checkVariant();
             });
 
-            // Gọi lần đầu khi load trang
             checkVariant();
 
-            // Tăng giảm số lượng
             $(".qty-btn.minus").click(function () {
                 let v = parseInt($("#modal-soluong").val());
                 if (v > 1) $("#modal-soluong").val(v - 1);
@@ -283,21 +335,17 @@
         });
 
         function checkVariant() {
-            // Tìm ô vuông đang được active và lấy MaBT của nó
             let activeBox = $(".variant-box.active");
             if(activeBox.length === 0) return;
 
             let maBTChon = parseInt(activeBox.data('mabt'));
-
-            // Tìm Biến thể trong mảng JSON dựa vào MaBT
             let matchedBT = DSNguonBienThe.find(bt => bt.MaBT === maBTChon);
-
             let btnCart = $("#btn-add-cart");
 
             if (matchedBT) {
                 selectedMaBT = matchedBT.MaBT;
 
-                // --- HIỂN THỊ GIÁ ---
+                // GIÁ
                 let giaBan = matchedBT.GiaBan;
                 if (PhanTramGiam > 0) {
                     let giaGiam = giaBan * (1 - PhanTramGiam / 100);
@@ -309,7 +357,7 @@
                     $("#hienThiGia").html(`<span style="font-size:28px;">${formatter.format(giaBan)}</span>`);
                 }
 
-                // --- XỬ LÝ TỒN KHO ---
+                // TỒN KHO
                 if (matchedBT.SoLuongTon > 0) {
                     $("#hienThiTonKho").text("✓ Còn hàng (" + matchedBT.SoLuongTon + " sản phẩm)").css("color", "#28a745");
                     btnCart.text("THÊM VÀO GIỎ HÀNG").removeAttr("disabled").css("background", "#d70018");
@@ -318,12 +366,11 @@
                     btnCart.text("TẠM HẾT HÀNG").attr("disabled", "disabled").css("background", "#6c757d");
                 }
 
-                // --- CẬP NHẬT ẢNH ---
+                // CẬP NHẬT ẢNH
                 updateGallery(matchedBT.HinhAnh, matchedBT.ThuVienAnhs);
             }
         }
 
-        // --- HÀM XỬ LÝ ẢNH ---
         function updateGallery(mainImg, arrGallery) {
             $("#modal-hinhanh").attr("src", mainImg);
             $("#modal-a-hinhanh").attr("href", mainImg);
@@ -333,7 +380,8 @@
 
             let html = "";
             currentImages.forEach((img, idx) => {
-                html += `<img src="${img}" style="width: 65px; height: 65px; border:1px solid #e5e7eb; cursor:pointer; border-radius:6px; object-fit:cover;" onclick="loadSlide(${idx})">`;
+                let activeClass = (idx === 0) ? "active" : "";
+                html += `<img src="${img}" class="thumb-img ${activeClass}" onclick="loadSlide(${idx})">`;
             });
             $("#gallery-container").html(html);
         }
@@ -342,8 +390,14 @@
             if (index < 0) index = currentImages.length - 1;
             if (index >= currentImages.length) index = 0;
             currentIndex = index;
+
+            // Đổi ảnh lớn
             $("#modal-hinhanh").attr("src", currentImages[currentIndex]);
             $("#modal-a-hinhanh").attr("href", currentImages[currentIndex]);
+
+            // Đổi trạng thái viền đỏ cho ảnh nhỏ
+            $(".thumb-img").removeClass("active");
+            $(".thumb-img").eq(currentIndex).addClass("active");
         }
 
         $("#btn-prev-img").click(() => loadSlide(currentIndex - 1));

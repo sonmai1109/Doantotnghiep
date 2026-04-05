@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Maison.Models;
 using System.Data.Entity;
+using PagedList;
 
 namespace Maison.Areas.Admin.Controllers // Đổi thành namespace của bạn
 {
@@ -12,7 +13,7 @@ namespace Maison.Areas.Admin.Controllers // Đổi thành namespace của bạn
     {
         shopdb db = new shopdb();
 
-        public ActionResult Index(string timkiem)
+        public ActionResult Index(string timkiem, int page = 1, int pagesize = 7)
         {
             ViewBag.timkiem = timkiem;
             // Dùng Include để lấy được Tên Danh Mục thay vì chỉ lấy cái ID
@@ -26,7 +27,7 @@ namespace Maison.Areas.Admin.Controllers // Đổi thành namespace của bạn
             // Lấy danh sách Danh mục gửi sang View để làm thẻ <select>
             ViewBag.MaDM = new SelectList(db.Danhmucs, "MaDM", "TenDM");
 
-            return View(thuoctinhs.OrderByDescending(t => t.MaTT).ToList());
+            return View(thuoctinhs.OrderByDescending(t => t.MaTT).ToPagedList(page, pagesize));
         }
 
         [HttpPost]

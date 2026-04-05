@@ -296,6 +296,7 @@
                                     </p>
                                 </a>
                             </li>
+                            @if(tk.LoaiTaiKhoan == true) { 
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-user"></i>
@@ -314,6 +315,7 @@
                                     </p>
                                 </a>
                             </li>
+                            }
                             <li class="nav-item">
                                 <a href="@Url.Action("Index","Brands")" class="nav-link">
                                     <i class="nav-icon fas fa-copyright"></i>
