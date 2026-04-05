@@ -13,7 +13,7 @@ namespace Maison.Areas.Admin.Controllers
         private shopdb db = new shopdb(); // Đổi lại đúng tên DbContext của bạn
 
         // 1. LIỆT KÊ (Có phân trang)
-        public ActionResult Index(string q, int page = 1, int pageSize = 10)
+        public ActionResult Index(string q, int page = 1, int pageSize = 7)
         {
             ViewBag.q = q;
             var list = db.KhuyenMais.AsQueryable();
@@ -130,7 +130,13 @@ namespace Maison.Areas.Admin.Controllers
             var km = db.KhuyenMais.Find(id);
             if (km == null) return HttpNotFound();
 
-            var assigned = db.SanPhamKhuyenMais.Where(s => s.MaKM == id).Include(s => s.Sanpham).ToList();
+            // SỬA LỖI 1: Include sâu vào Biến Thể và Chi Tiết để View hiển thị được tên cấu hình (Ram, CPU...)
+            var assigned = db.SanPhamKhuyenMais
+                .Include(s => s.Sanpham)
+                .Include(s => s.Sanpham.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT)))
+                .Where(s => s.MaKM == id)
+                .ToList();
+
             ViewBag.KhuyenMai = km;
             return View(assigned);
         }
@@ -160,23 +166,59 @@ namespace Maison.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult AssignProduct(int maKM, int maSP, int? maBT, int phanTramGiam)
         {
-            // Tìm xem đã tồn tại bản ghi KM này chưa (Check cả MaSP và MaBT)
-            var exist = db.SanPhamKhuyenMais.FirstOrDefault(x => x.MaKM == maKM && x.MaSP == maSP && x.MaBT == maBT);
+            // SỬA LỖI 2 & 3: Xử lý triệt để logic Xung đột giữa "Toàn bộ" và "Từng cấu hình"
 
-            if (exist == null)
+            if (maBT == null)
             {
+                // Kịch bản A: Chọn giảm giá "TOÀN BỘ CẤU HÌNH"
+                // -> Xóa sạch mọi cấu hình lẻ đang được giảm của sản phẩm này đi (để tránh đè/trùng lặp)
+                var oldLinks = db.SanPhamKhuyenMais.Where(x => x.MaKM == maKM && x.MaSP == maSP).ToList();
+                if (oldLinks.Any())
+                {
+                    db.SanPhamKhuyenMais.RemoveRange(oldLinks);
+                }
+
+                // Thêm 1 dòng duy nhất đại diện cho TOÀN BỘ
                 db.SanPhamKhuyenMais.Add(new SanPhamKhuyenMai
                 {
                     MaKM = maKM,
                     MaSP = maSP,
-                    MaBT = maBT,
+                    MaBT = null,
                     PhanTramGiam = phanTramGiam
                 });
             }
             else
             {
-                exist.PhanTramGiam = phanTramGiam;
+                // Kịch bản B: Chọn giảm giá "1 CẤU HÌNH CỤ THỂ"
+
+                // Bước 1: Nếu trước đó sản phẩm đang được gán "Toàn bộ cấu hình" (MaBT = null)
+                // -> Phải xóa cái "Toàn bộ" đó đi, vì giờ Admin muốn set giá giảm riêng cho từng thằng.
+                var allLink = db.SanPhamKhuyenMais.FirstOrDefault(x => x.MaKM == maKM && x.MaSP == maSP && x.MaBT == null);
+                if (allLink != null)
+                {
+                    db.SanPhamKhuyenMais.Remove(allLink);
+                }
+
+                // Bước 2: Kiểm tra xem cấu hình cụ thể này đã được gán chưa?
+                var exist = db.SanPhamKhuyenMais.FirstOrDefault(x => x.MaKM == maKM && x.MaSP == maSP && x.MaBT == maBT);
+                if (exist != null)
+                {
+                    // Nếu gán rồi thì chỉ cập nhật %
+                    exist.PhanTramGiam = phanTramGiam;
+                }
+                else
+                {
+                    // Nếu chưa thì thêm mới 1 dòng cho cấu hình này
+                    db.SanPhamKhuyenMais.Add(new SanPhamKhuyenMai
+                    {
+                        MaKM = maKM,
+                        MaSP = maSP,
+                        MaBT = maBT,
+                        PhanTramGiam = phanTramGiam
+                    });
+                }
             }
+
             db.SaveChanges();
             return Json(new { status = true });
         }

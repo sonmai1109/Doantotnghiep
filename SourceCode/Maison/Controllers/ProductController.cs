@@ -220,19 +220,14 @@ namespace Maison.Controllers
 
             if (sp == null) return HttpNotFound();
 
-            // 1. Tìm Khuyến mãi chung
-            KhuyenMai kmDangApDung = null;
-            int phanTramGiam = 0;
-            var kmsp = sp.SanPhamKhuyenMais?.FirstOrDefault(x => DateTime.Now >= x.KhuyenMai.NgayBatDau && DateTime.Now <= x.KhuyenMai.NgayKetThuc && x.KhuyenMai.TrangThai == 1);
-            if (kmsp != null)
-            {
-                kmDangApDung = kmsp.KhuyenMai;
-                phanTramGiam = kmsp.PhanTramGiam;
-            }
-            ViewBag.KhuyenMai = kmDangApDung;
-            ViewBag.PhanTramGiam = phanTramGiam;
+            // 1. Lọc lấy các khuyến mãi ĐANG CHẠY của sản phẩm này
+            var activeKMs = sp.SanPhamKhuyenMais
+                .Where(x => x.KhuyenMai.TrangThai == 1 &&
+                            x.KhuyenMai.NgayBatDau <= DateTime.Now &&
+                            x.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                .ToList();
 
-            // 2. Lấy BẢNG THÔNG SỐ KỸ THUẬT (Các thuộc tính có LaThuocTinhChinh == false)
+            // 2. Lấy BẢNG THÔNG SỐ KỸ THUẬT
             var thongSoKyThuat = sp.BienThes
                 .SelectMany(b => b.ChiTietBTs)
                 .Select(c => c.GiaTriTT)
@@ -244,16 +239,31 @@ namespace Maison.Controllers
                 );
             ViewBag.ThongSoKyThuat = thongSoKyThuat;
 
-            // 3. Đóng gói JSON danh sách Biến thể để JS xử lý đổi giá, kho, ảnh khi Click
-            var listBT = sp.BienThes.Select(b => new {
-                MaBT = b.MaBT,
-                GiaBan = b.GiaBan,
-                SoLuongTon = b.SoLuongTon,
-                HinhAnh = b.HinhAnh,
-                ThuVienAnhs = b.ThuVienAnhs.OrderBy(a => a.ThuTu).Select(a => a.DuongDanAnh).ToList()
-            });
-            ViewBag.BienThes_Json = JsonConvert.SerializeObject(listBT);
+            // 3. ĐÓNG GÓI JSON BIẾN THỂ (Gắn % Khuyến mãi vào TỪNG cấu hình)
+            var listBT = sp.BienThes.Select(b => {
 
+                // Thuật toán lấy % giảm: Ưu tiên KM gán riêng cho cấu hình này (MaBT). 
+                // Nếu không có thì kiểm tra xem có KM gán chung cho cả Sản phẩm (MaBT == null) không.
+                var kmRieng = activeKMs.FirstOrDefault(k => k.MaBT == b.MaBT);
+                var kmChung = activeKMs.FirstOrDefault(k => k.MaBT == null);
+
+                int phanTram = 0;
+                if (kmRieng != null) phanTram = kmRieng.PhanTramGiam;
+                else if (kmChung != null) phanTram = kmChung.PhanTramGiam;
+
+                return new
+                {
+                    MaBT = b.MaBT,
+                    GiaBan = b.GiaBan,
+                    SoLuongTon = b.SoLuongTon,
+                    HinhAnh = b.HinhAnh,
+                    PhanTramGiam = phanTram, // <--- THÊM CHÌA KHÓA NÀY VÀO JSON
+                    ThuVienAnhs = b.ThuVienAnhs.OrderBy(a => a.ThuTu).Select(a => a.DuongDanAnh).ToList(),
+                    ChiTiets = b.ChiTietBTs.Select(c => c.MaGT).ToList()
+                };
+            });
+
+            ViewBag.BienThes_Json = JsonConvert.SerializeObject(listBT);
             return View(sp);
         }
     }
