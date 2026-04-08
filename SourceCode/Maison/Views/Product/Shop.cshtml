@@ -8,13 +8,9 @@
     ViewBag.Title = "Cửa hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
-    var giaSauKM = ViewBag.GiaSauKhuyenMai as Dictionary<int, decimal?>;
 }
 
 <style>
-    /* ========================================================
-       CSS CARD SẢN PHẨM (ĐỒNG BỘ VỚI TRANG CHỦ CELLPHONES)
-       ======================================================== */
     .cps-card {
         background: #fff;
         border-radius: 10px;
@@ -99,7 +95,6 @@
         text-decoration: line-through;
     }
 
-    /* Canh giữa thanh phân trang */
     .pagination-container {
         margin-top: 40px;
         display: flex;
@@ -119,7 +114,7 @@
                 }
                 else
                 {
-                    <li class="active">@Html.ActionLink((string)ViewBag.DanhMuc.TenDanhMuc, "Shop", "Product", new { madm = ViewBag.DanhMuc.MaDM }, new { })</li>
+                    <li class="active">@Html.ActionLink((string)ViewBag.DanhMuc.TenDM, "Shop", "Product", new { madm = ViewBag.DanhMuc.MaDM }, new { })</li>
                 }
             </ul>
         </div>
@@ -127,12 +122,17 @@
 </div>
 
 <div class="container pb-100">
+    // Thay thế đoạn trống sản phẩm của bạn
     @if (Model == null || !Model.Any())
     {
         <div class="text-center" style="margin: 80px 0; border: 1px dashed #ccc; padding: 50px; border-radius: 10px; background: #f9f9f9;">
             @if (!string.IsNullOrEmpty(ViewBag.searchString as string))
             {
                 <h4 style="color: gray;"><i class="fas fa-search mb-3" style="font-size:30px;"></i><br />Không tìm thấy sản phẩm nào cho từ khóa: <strong>@ViewBag.searchString</strong></h4>
+            }
+            else if (ViewBag.Brand != null && ViewBag.DanhMuc != null)
+            {
+                <h4 style="color: gray;"><i class="fas fa-box-open mb-3" style="font-size:30px;"></i><br />Chưa có sản phẩm "<strong>@ViewBag.Brand.TenBrand</strong>" trong danh mục "<strong>@ViewBag.DanhMuc.TenDanhMuc</strong>".</h4>
             }
             else if (ViewBag.DanhMuc != null)
             {
@@ -152,19 +152,46 @@
             {
                 <div class="col">
                     <div class="cps-card">
-
                         @{
-                            // 1. Logic lấy giá
-                            decimal giaGoc = item.BienThes != null && item.BienThes.Any() ? item.BienThes.Min(b => b.GiaBan) : 0;
-                            decimal? giamoi = giaSauKM != null && giaSauKM.ContainsKey(item.MaSP) ? giaSauKM[item.MaSP] : null;
+                            // 1. Tên hiển thị luôn giữ nguyên chuẩn (Không nối cấu hình)
+                            string tenHienThi = item.TenSP;
 
-                            // 2. Tính % giảm giá để hiện Badge
-                            int phanTram = 0;
-                            if (giaGoc > 0 && giamoi != null && giamoi < giaGoc)
+                            // 2. Giá gốc mặc định (Lấy cấu hình rẻ nhất)
+                            decimal giaGoc = item.BienThes != null && item.BienThes.Any() ? item.BienThes.Min(b => b.GiaBan) : 0;
+                            decimal? giamoi = null;
+                            int phanTramMax = 0;
+
+                            // 3. Lấy TẤT CẢ Khuyến mãi đang chạy của sản phẩm này
+                            var activeKMs = item.SanPhamKhuyenMais?.Where(k => k.KhuyenMai.TrangThai == 1
+                                                && k.KhuyenMai.NgayBatDau <= DateTime.Now
+                                                && k.KhuyenMai.NgayKetThuc >= DateTime.Now).ToList();
+
+                            if (activeKMs != null && activeKMs.Any())
                             {
-                                phanTram = (int)Math.Round((giaGoc - giamoi.Value) / giaGoc * 100);
-                                <div class="discount-badge">Giảm @phanTram%</div>
+                                // THUẬT TOÁN: Tìm % Giảm giá lớn nhất
+                                phanTramMax = activeKMs.Max(k => k.PhanTramGiam);
+
+                                // Tìm ngược lại xem cái % to nhất này thuộc về biến thể nào
+                                var bestKM = activeKMs.FirstOrDefault(k => k.PhanTramGiam == phanTramMax);
+
+                                // Nếu thuộc về 1 biến thể cụ thể -> Phải lấy giá gốc của biến thể đó để tính
+                                if (bestKM != null && bestKM.MaBT != null)
+                                {
+                                    var bt = item.BienThes?.FirstOrDefault(b => b.MaBT == bestKM.MaBT);
+                                    if (bt != null)
+                                    {
+                                        giaGoc = bt.GiaBan;
+                                    }
+                                }
+
+                                // Tính giá mới hiển thị
+                                giamoi = giaGoc * (1 - (decimal)phanTramMax / 100);
                             }
+                        }
+
+                        @if (phanTramMax > 0)
+                        {
+                            <div class="discount-badge">Giảm tới @phanTramMax%</div>
                         }
 
                         <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-img">
@@ -172,13 +199,13 @@
                         </a>
 
                         <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-title">
-                            @item.TenSP
+                            @tenHienThi
                         </a>
 
                         <div class="cps-price-box">
                             @if (giaGoc > 0)
                             {
-                                if (phanTram > 0)
+                                if (phanTramMax > 0)
                                 {
                                     <span class="cps-price-new">@string.Format(info, "{0:c0}", giamoi)</span>
                                     <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGoc)</span>
@@ -193,7 +220,6 @@
                                 <span class="cps-price-new text-muted" style="font-size:14px;">Chưa có cấu hình</span>
                             }
                         </div>
-
                     </div>
                 </div>
             }
@@ -206,10 +232,12 @@
                     string actionName = ViewBag.ActionName ?? "Shop";
                     string searchString = ViewBag.searchString ?? "";
                     int? madm = ViewBag.madm;
+                    int? maBrand = ViewBag.maBrand; // Lấy maBrand từ Controller
                 }
-
-                @Html.PagedListPager(Model, page => Url.Action(actionName, new { page, searchString, madm }))
+                @* Nhét thêm maBrand vào Url.Action để phân trang không bị mất lọc *@
+                @Html.PagedListPager(Model, page => Url.Action(actionName, new { page, searchString, madm, maBrand }))
             </ul>
         </div>
+
     }
 </div>

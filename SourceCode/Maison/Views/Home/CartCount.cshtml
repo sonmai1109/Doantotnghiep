@@ -1,0 +1,8 @@
+﻿@model int?
+
+<a href="@Url.Action("Orders", "Cart")" class="btn btn-light position-relative" style="text-decoration: none;">
+    <i class="nav-icon fas fa-shopping-cart"></i> Giỏ hàng
+    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id="product-count">
+        @Model
+    </span>
+</a>

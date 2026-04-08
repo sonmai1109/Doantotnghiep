@@ -48,6 +48,7 @@ namespace Maison.Models
         public virtual ICollection<HoaDon> HoaDons { get; set; }
         public virtual ICollection<Baohanh> Baohanhs { get; set; }
         public virtual ICollection<ChatbotLog> ChatbotLogs { get; set; }
+        public virtual ICollection<GioHang> GioHangs { get; set; }
         public TaiKhoanNguoiDung()
         {
             TinTucs = new HashSet<TinTuc>();
@@ -55,7 +56,7 @@ namespace Maison.Models
             DanhGias = new HashSet<DanhGia>();
             Baohanhs = new HashSet<Baohanh>();
             ChatbotLogs = new HashSet<ChatbotLog>();
-            // ... các HashSet khác như DanhGias, HoaDons ...
+            GioHangs = new HashSet<GioHang>();
         }
     }
 }

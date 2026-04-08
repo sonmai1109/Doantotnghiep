@@ -1,0 +1,202 @@
+﻿@using Maison.Models
+@model List<Maison.Models.GioHang>
+@{
+    ViewBag.Title = "Giỏ hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    Decimal tongtien = 0;
+
+    // Lấy danh sách giá đã tính khuyến mãi từ Controller
+    var dicGia = ViewBag.DicGia as Dictionary<int, decimal>;
+}
+
+<div class="breadcrumb-area mt-30">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul class="d-flex align-items-center">
+                <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                <li class="active">@Html.ActionLink("Giỏ hàng", "Orders", "Cart")</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="cart-main-area ptb-100 ptb-sm-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <form action="#">
+                    <div class="table-content table-responsive mb-45">
+                        @if (Model == null || Model.Count == 0)
+                        {
+                            <h3 class="text-center py-5 text-muted">Giỏ hàng của bạn đang trống.</h3>
+                        }
+                        else
+                        {
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail">Ảnh</th>
+                                        <th class="product-name">Sản phẩm & Cấu hình</th>
+                                        <th class="product-price">Đơn Giá</th>
+                                        <th class="product-quantity">Số lượng</th>
+                                        <th class="product-subtotal">Thành tiền</th>
+                                        <th class="product-remove">Xóa</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var gh in Model)
+                                    {
+                                        var bt = gh.BienThe;
+
+                                        // Lấy giá trị thực tế từ ViewBag. Nếu ko có thì dự phòng lấy giá gốc
+                                        var donGia = dicGia != null && dicGia.ContainsKey(gh.MaGH) ? dicGia[gh.MaGH] : bt.GiaBan;
+                                        var soLuong = gh.SoLuong;
+
+                                        tongtien += donGia * soLuong;
+
+                                        <tr class="cart_item" id="row-order-@bt.MaBT">
+                                            <td class="product-thumbnail">
+                                                <a href="@Url.Action("ProductDetail","Product", new { id = bt.MaSP})">
+                                                    <img src="@bt.HinhAnh" alt="cart-image" width="80" onerror="this.src='/Content/Images/no-image.png'" style="border-radius: 8px;">
+                                                </a>
+                                            </td>
+                                            <td class="product-name text-left pl-3">
+                                                <a href="@Url.Action("ProductDetail", "Product", new { id = bt.MaSP })" style="font-weight: bold; font-size:16px;">@bt.Sanpham.TenSP</a>
+                                                <p style="font-size:13px; color:#555; margin-top:5px;">
+                                                    <i class="fas fa-microchip mr-1"></i>
+                                                    @(bt.ChiTietBTs.Any() ? string.Join(" | ", bt.ChiTietBTs.Select(c => c.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn")
+                                                </p>
+                                            </td>
+                                            <td class="product-price">
+                                                <span class="amount font-weight-bold text-danger">@(string.Format(info, "{0:c0}", donGia))</span>
+                                            </td>
+                                            <td class="product-quantity">
+                                                <div class="quantity d-flex justify-content-center align-items-center">
+                                                    <input type="button" class="btn btn-sm btn-light border" value="-" onclick="changeQty(this, -1)">
+                                                    <input type="number" class="form-control text-center mx-1" style="width: 60px; height: 32px;" name="qtybutton" value="@soLuong" id="qty-@bt.MaBT" data-mabt="@bt.MaBT" data-max="@bt.SoLuongTon" data-price="@donGia" onchange="updateGioHang(@bt.MaBT, this.value)" readonly>
+                                                    <input type="button" class="btn btn-sm btn-light border" value="+" onclick="changeQty(this, 1)">
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal product-total">
+                                                <span class="amount font-weight-bold">@(string.Format(info, "{0:c0}", donGia * soLuong))</span>
+                                            </td>
+                                            <td class="product-remove">
+                                                <a style="cursor: pointer; color: red;" onclick="xoaGioHang(@bt.MaBT)"><i class="fa fa-trash" aria-hidden="true" style="font-size:18px;"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                    </div>
+
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <div class="row">
+                            <div class="col-md-7 col-sm-12">
+                                <div class="buttons-cart mt-2">
+                                    <a href="@Url.Action("Index", "Home")" class="btn btn-outline-dark">Tiếp tục mua sắm</a>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-12">
+                                <div class="cart_totals float-md-right text-md-right p-4 border rounded bg-light">
+                                    <h4 class="font-weight-bold mb-3">TỔNG ĐƠN HÀNG</h4>
+                                    <table class="w-100 mb-3">
+                                        <tbody>
+                                            <tr class="order-total" style="font-size: 20px;">
+                                                <th class="text-left">Cần thanh toán:</th>
+                                                <td class="text-right">
+                                                    <strong><span class="amount text-danger" id="order-total">@(string.Format(info, "{0:c0}", tongtien))</span></strong>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="wc-proceed-to-checkout">
+                                        <a href="@Url.Action("CheckOut", "Cart")" class="btn btn-danger btn-block font-weight-bold py-2">TIẾN HÀNH ĐẶT HÀNG</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script>
+        function changeQty(button, delta) {
+            let row = button.closest("tr");
+            let input = row.querySelector('input[type="number"]');
+            let mabt = row.id.replace("row-order-", "");
+            let currentValue = parseInt(input.value) || 0;
+            let maxQty = parseInt(input.getAttribute("data-max")) || 9999;
+            let newValue = currentValue + delta;
+
+            if (delta < 0 && currentValue <= 1) {
+                xoaGioHang(mabt); // Đảm bảo bạn đã viết hàm xoaGioHang gọi AJAX đến /Cart/DeleteFromCart
+                return;
+            }
+
+            if (delta > 0 && newValue > maxQty) {
+                swal("Hết hàng!", `Sản phẩm này chỉ còn tối đa ${maxQty} chiếc trong kho.`, "warning");
+                return;
+            }
+
+            let buttons = row.querySelectorAll('input[type="button"]');
+            buttons.forEach(btn => btn.disabled = true);
+            row.style.opacity = '0.5';
+
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ "MaBT": parseInt(mabt), "SoLuongMua": parseInt(newValue) }),
+                url: '/Cart/UpdateFromCart',
+                success: function (response) {
+                    if (!response.status) {
+                        swal("Lỗi!", response.message ? response.message : "Cập nhật thất bại", "error");
+                    } else {
+                        input.value = newValue;
+                        updateCartUI();
+                        // Controller UpdateFromCart của bạn không trả về cartCount,
+                        // và việc tăng/giảm SL không làm thay đổi số đầu mục sp, nên không cần update số đỏ ở Header chỗ này.
+                    }
+                },
+                error: function () {
+                    alert("Mất kết nối với máy chủ!");
+                },
+                complete: function () {
+                    buttons.forEach(btn => btn.disabled = false);
+                    row.style.opacity = '1';
+                }
+            });
+        }
+
+        function updateCartUI() {
+            let rows = document.querySelectorAll("tbody tr.cart_item");
+            let total = 0;
+
+            rows.forEach(row => {
+                let input = row.querySelector('input[type="number"]');
+                if (!input) return;
+
+                let price = parseInt(input.getAttribute("data-price"));
+                let qty = parseInt(input.value);
+                let subtotal = price * qty;
+
+                let subtotalCell = row.querySelector(".product-total .amount");
+                if (subtotalCell) {
+                    subtotalCell.textContent = subtotal.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                }
+                total += subtotal;
+            });
+
+            let orderTotalElem = document.getElementById("order-total");
+            if (orderTotalElem) {
+                orderTotalElem.textContent = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            }
+        }
+    </script>
+}

@@ -33,6 +33,8 @@ namespace Maison.Models
         public virtual DbSet<ThuVienAnh> ThuVienAnhs { get; set; }
         public virtual DbSet<ChatbotKnowledge> ChatbotKnowledges { get; set; }
         public virtual DbSet<ChatbotLog> ChatbotLogs { get; set; }
+        public virtual DbSet<GioHang> GioHangs { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // ❌ Tắt cascade: TaiKhoan → HoaDon

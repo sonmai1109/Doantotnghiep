@@ -145,6 +145,7 @@
     <Compile Include="Areas\Admin\Controllers\SanphamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThuocTinhsController.cs" />
     <Compile Include="Areas\Admin\Data\LoginAccount.cs" />
+    <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -219,6 +220,14 @@
     <Compile Include="Migrations\202604051404213_them2bangai.Designer.cs">
       <DependentUpon>202604051404213_them2bangai.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202604081827561_themketnoigiuathuoctinhdanhmuc.cs" />
+    <Compile Include="Migrations\202604081827561_themketnoigiuathuoctinhdanhmuc.Designer.cs">
+      <DependentUpon>202604081827561_themketnoigiuathuoctinhdanhmuc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604081956399_themgiohang.cs" />
+    <Compile Include="Migrations\202604081956399_themgiohang.Designer.cs">
+      <DependentUpon>202604081956399_themgiohang.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Baohanh.cs" />
     <Compile Include="Models\BienThe.cs" />
@@ -230,6 +239,7 @@
     <Compile Include="Models\DanhGia.cs" />
     <Compile Include="Models\Danhmuc.cs" />
     <Compile Include="Models\GiaTriTT.cs" />
+    <Compile Include="Models\GioHang.cs" />
     <Compile Include="Models\HoaDon.cs" />
     <Compile Include="Models\KhuyenMai.cs" />
     <Compile Include="Models\Sanpham.cs" />
@@ -2345,6 +2355,9 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Product\Shop.cshtml" />
     <Content Include="Views\Product\ProductDetail.cshtml" />
+    <Content Include="Views\Cart\Orders.cshtml" />
+    <Content Include="Views\Cart\CheckOut.cshtml" />
+    <Content Include="Views\Home\CartCount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2430,6 +2443,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202604051404213_them2bangai.resx">
       <DependentUpon>202604051404213_them2bangai.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604081827561_themketnoigiuathuoctinhdanhmuc.resx">
+      <DependentUpon>202604081827561_themketnoigiuathuoctinhdanhmuc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604081956399_themgiohang.resx">
+      <DependentUpon>202604081956399_themgiohang.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

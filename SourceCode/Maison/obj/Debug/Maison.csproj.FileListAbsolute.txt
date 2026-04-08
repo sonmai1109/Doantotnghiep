@@ -289,3 +289,5 @@ D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.b
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.addthutubangthuvienanh.resources
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.themthuoctinh.resources
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.them2bangai.resources
+D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.themketnoigiuathuoctinhdanhmuc.resources
+D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.themgiohang.resources

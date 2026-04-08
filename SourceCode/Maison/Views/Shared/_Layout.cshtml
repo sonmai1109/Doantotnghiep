@@ -87,25 +87,36 @@
                                    placeholder="Bạn muốn tìm gì?">
                         </div>
                     </div>
-                    <div class="btn btn-light"><i class="nav-icon fas fa-shopping-cart"></i> Giỏ hàng</div>
-                    @if (tk == null)
-                    {
-                        <div class="btn btn-light" id="clicktk">
-                            <i class="nav-icon fas fa-user"></i>
+                    @{ Html.RenderAction("CartCount", "Home"); }
+                    @{ if (tk == null)
+                        {
+                            <div class="btn btn-light" id="clicktk">
+                                <i class="nav-icon fas fa-user"></i>
 
-                            Tài khoản
-                        </div>
-                        <div class="container text-center   pt-5  checktk border" id="checktk">
-                            <h3>Bạn đã có tài khoản chưa?</h3>
-                            <br />
-                            <div class="btn btn-primary">@Html.ActionLink("Đăng nhập", "Login", "Home", null, new { @class = "text-dark text-decoration-none" })</div>
-                            <div class="btn btn-danger">@Html.ActionLink("Đăng ký", "Signup", "Home", null, new { @class = "text-dark text-decoration-none" })</div>
-                        </div>
-
-
+                                Tài khoản
+                            </div>
+                            <div class="container text-center   pt-5  checktk border" id="checktk">
+                                <h3>Bạn đã có tài khoản chưa?</h3>
+                                <br />
+                                <div class="btn btn-primary">@Html.ActionLink("Đăng nhập", "Login", "Home", null, new { @class = "text-dark text-decoration-none" })</div>
+                                <div class="btn btn-danger">@Html.ActionLink("Đăng ký", "Signup", "Home", null, new { @class = "text-dark text-decoration-none" })</div>
+                            </div>
 
 
+
+
+                        }
+                        else
+                        {
+
+
+                
+                    @Html.ActionLink("Đăng Xuất", "Logout", "Home", null, new { @class = "text-dark text-decoration-none btn btn-light" })
+              
+
+                        }
                     }
+
 
                     <a href="#" class="btn btn-light">
                         <i class="fas fa-phone text-danger"></i>  Liên hệ

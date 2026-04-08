@@ -1,0 +1,100 @@
+﻿@using Maison.Models
+@model List<Maison.Models.GioHang>
+@{
+    ViewBag.Title = "Đặt hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    Decimal tongtien = 0;
+
+    // Tương tự, lấy giá đã giảm từ Controller
+    var dicGia = ViewBag.DicGia as Dictionary<int, decimal>;
+}
+
+<div class="breadcrumb-area mt-30">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul class="d-flex align-items-center">
+                <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                <li class="active">@Html.ActionLink("Đặt hàng", "CheckOut", "Cart")</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="checkout-area pb-100 pt-15 pb-sm-60">
+    <div class="container">
+        <div class="row">
+            <form class="col-lg-6 col-md-6" id="add-bill-form" onsubmit="return datHang()">
+                <div class="checkbox-form mb-sm-40 border p-4 bg-light rounded">
+                    <h3 class="font-weight-bold mb-4">Thông tin nhận hàng</h3>
+                    <input type="hidden" name="matk" value="@ViewBag.TaiKhoan.MaTk" />
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label class="font-weight-bold">Họ tên <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" required name="hotennguoinhan" value="@ViewBag.TaiKhoan.HoTen" />
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="font-weight-bold">Số điện thoại <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" required name="sodienthoainhan" value="@ViewBag.TaiKhoan.SoDienThoai" />
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="font-weight-bold">Địa chỉ nhận hàng <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="diachinhan" required value="@ViewBag.TaiKhoan.DiaChi" />
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label class="font-weight-bold">Ghi chú đơn hàng (Tùy chọn)</label>
+                            <textarea class="form-control" name="ghichu" rows="4" placeholder="Vd: Giao giờ hành chính"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div class="col-lg-6 col-md-6">
+                <div class="your-order border p-4 rounded bg-white shadow-sm">
+                    <h3 class="font-weight-bold mb-4">Tóm tắt đơn hàng</h3>
+                    <div class="your-order-table table-responsive">
+                        <table class="table">
+                            <thead class="bg-light">
+                                <tr>
+                                    <th class="product-name">Sản phẩm</th>
+                                    <th class="product-total text-right">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var gh in Model)
+                                {
+                                    var bt = gh.BienThe;
+                                    var donGia = dicGia != null && dicGia.ContainsKey(gh.MaGH) ? dicGia[gh.MaGH] : bt.GiaBan;
+                                    var soLuong = gh.SoLuong;
+
+                                    <tr class="cart_item">
+                                        <td class="product-name">
+                                            <strong>@bt.Sanpham.TenSP</strong>
+                                            <br /><small class="text-muted">(@(bt.ChiTietBTs.Any() ? string.Join(" - ", bt.ChiTietBTs.Select(c => c.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn"))</small>
+                                            <strong class="product-quantity text-danger ml-2">x @soLuong</strong>
+                                        </td>
+                                        <td class="product-total text-right align-middle">
+                                            <span class="amount font-weight-bold">@(string.Format(info,"{0:c0}", donGia * soLuong))</span>
+                                        </td>
+                                    </tr>
+                                    tongtien += donGia * soLuong;
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr class="order-total" style="font-size: 18px; border-top: 2px solid #ddd;">
+                                    <th class="py-3">Cần thanh toán</th>
+                                    <td class="text-right py-3">
+                                        <strong><span class="amount text-danger" id="order-total">@(string.Format(info, "{0:c0}", tongtien))</span></strong>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+                    <button type="submit" form="add-bill-form" class="btn btn-danger btn-block font-weight-bold py-3 mt-3" style="font-size: 16px;">XÁC NHẬN ĐẶT HÀNG</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

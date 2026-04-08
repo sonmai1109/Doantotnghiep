@@ -14,27 +14,28 @@ namespace Maison.Controllers
         shopdb db = new shopdb();
         public ActionResult Index()
         {
-            // 1. Sản phẩm khuyến mãi (Kèm theo Biến thể để lấy giá)
+            // 1. Sản phẩm khuyến mãi
             var sanPhamKhuyenMai = db.SanPhamKhuyenMais
                 .Include(s => s.Sanpham)
-                .Include(s => s.Sanpham.BienThes) // Lấy thêm Biến thể để tính giá
+                // Lệnh Include cực kỳ quan trọng để View móc được tên RAM, CPU ra nối chuỗi:
+                .Include(s => s.Sanpham.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .Include(s => s.KhuyenMai)
                 .Where(s => s.KhuyenMai.TrangThai == 1
                             && s.KhuyenMai.NgayBatDau <= DateTime.Now
                             && s.KhuyenMai.NgayKetThuc >= DateTime.Now)
                 .ToList();
 
-            // 2. Sản phẩm mới (Lấy theo ngày tạo của sản phẩm)
+            // 2. Sản phẩm mới
             var sanPhamMoi = db.Sanphams
-                .Include(s => s.BienThes) // Phải Include BienThes mới có giá hiển thị
+                .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .OrderByDescending(p => p.NgayTao)
                 .Take(10)
                 .ToList();
 
-            // 3. Giá tốt (Sắp xếp theo giá bán rẻ nhất trong các biến thể của sản phẩm đó)
+            // 3. Giá tốt
             var giaTot = db.Sanphams
-                .Include(s => s.BienThes)
-                .Where(p => p.BienThes.Any()) // Chỉ lấy những SP đã được nhập biến thể (có giá)
+                .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
+                .Where(p => p.BienThes.Any())
                 .OrderBy(p => p.BienThes.Min(b => b.GiaBan))
                 .Take(10)
                 .ToList();
@@ -149,6 +150,20 @@ namespace Maison.Controllers
 
 
         }
-      
+        [ChildActionOnly]
+        public ActionResult CartCount()
+        {
+            TaiKhoanNguoiDung tk = (TaiKhoanNguoiDung)Session[Maison.Session.ConstaintUser.USER_SESSION];
+            int count = 0;
+
+            if (tk != null)
+            {
+                // Nếu đã đăng nhập, đếm số lượng các cấu hình khác nhau nằm trong giỏ
+                count = db.GioHangs.Where(g => g.MaTK == tk.MaTk).Count();
+            }
+
+            return PartialView(count);
+        }
+
     }
 }

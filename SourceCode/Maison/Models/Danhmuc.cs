@@ -26,12 +26,13 @@ namespace Maison.Models
 
         public virtual ICollection<Sanpham> Sanphams { get; set; }
         public virtual ICollection<ChatbotKnowledge> ChatbotKnowledges { get; set; }
-
+        public virtual ICollection<ThuocTinh> ThuocTinhs { get; set; }
 
         public Danhmuc()
         {
             Sanphams = new HashSet<Sanpham>();
             ChatbotKnowledges = new HashSet<ChatbotKnowledge>();
+            ThuocTinhs = new HashSet<ThuocTinh>();
         }
     }
 }

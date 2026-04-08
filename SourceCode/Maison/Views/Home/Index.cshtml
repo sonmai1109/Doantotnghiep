@@ -121,9 +121,29 @@
             foreach (var item in ViewBag.SanPhamKhuyenMai as List<Maison.Models.SanPhamKhuyenMai>)
             {
                 var sp = item.Sanpham;
-                // Kiểm tra xem SP có biến thể nào không để lấy giá gốc rẻ nhất làm mốc
-                decimal giaGocMin = sp.BienThes != null && sp.BienThes.Any() ? sp.BienThes.Min(b => b.GiaBan) : 0;
-                decimal giaGiam = giaGocMin * (1 - (decimal)item.PhanTramGiam / 100);
+
+                // Mặc định tên và giá gốc là lấy giá rẻ nhất
+                string tenHienThi = sp.TenSP;
+                decimal giaGoc = sp.BienThes != null && sp.BienThes.Any() ? sp.BienThes.Min(b => b.GiaBan) : 0;
+
+                // NẾU GIẢM GIÁ RIÊNG CHO 1 CẤU HÌNH (MaBT != null)
+                if (item.MaBT != null)
+                {
+                    var bt = sp.BienThes.FirstOrDefault(b => b.MaBT == item.MaBT);
+                    if (bt != null)
+                    {
+                        giaGoc = bt.GiaBan; // Lấy đúng giá gốc của bản đó
+
+                        // Lấy các thuộc tính chính (RAM, CPU...) ghép lại
+                        var ttChinh = bt.ChiTietBTs.Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh).Select(c => c.GiaTriTT.GiaTri);
+                        if (ttChinh != null && ttChinh.Any())
+                        {
+                            tenHienThi = sp.TenSP + " (" + string.Join(" - ", ttChinh) + ")";
+                        }
+                    }
+                }
+
+                decimal giaGiam = giaGoc * (1 - (decimal)item.PhanTramGiam / 100);
 
                 <div class="col">
                     <div class="cps-card">
@@ -132,13 +152,13 @@
                             <img src="@sp.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@sp.TenSP" />
                         </a>
                         <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-title">
-                            @sp.TenSP
+                            @tenHienThi
                         </a>
                         <div class="cps-price-box">
-                            @if (giaGocMin > 0)
+                            @if (giaGoc > 0)
                             {
                                 <span class="cps-price-new">@string.Format(info, "{0:c0}", giaGiam)</span>
-                                <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGocMin)</span>
+                                <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGoc)</span>
                             }
                             else
                             {

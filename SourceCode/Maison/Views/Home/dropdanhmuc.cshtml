@@ -1,10 +1,4 @@
-﻿@*@model IEnumerable<Maison.Models.Danhmuc>
-    @foreach(var item in Model)
-            {
-
-       <li><a href="https://www.google.com" >@item.TenDM <i class="fas fa-chevron-right "></i> </a></li>
-
-            }*@
+﻿
 @model IEnumerable<Maison.Models.Danhmuc>
 @using Maison.Models
 @{
@@ -33,13 +27,11 @@
                 {
                     foreach (var br in brands)
                     {
-                        <a href="/Home/Brand/@br.MaBrand" class="brand-item border rounded" title="@br.TenBrand">
-                            <img src="@br.Logo" alt="@br.TenBrand" onerror="this.src='/Content/Images/no-image.png'" />
-                        </a>
+                        @* Gọi đến hàm Shop trong HomeController, truyền theo mã Brand và mã Danh mục *@
+                <a href="@Url.Action("Shop", "Product", new { maBrand = br.MaBrand, madm = item.MaDM })" class="brand-item border rounded" title="@br.TenBrand">
+                    <img src="@br.Logo" alt="@br.TenBrand" onerror="this.src='/Content/Images/no-image.png'" />
+                </a>
                     }
-
-
-                    
                 }
                 else
                 {

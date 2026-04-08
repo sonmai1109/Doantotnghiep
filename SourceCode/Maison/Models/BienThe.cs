@@ -44,6 +44,7 @@ namespace Maison.Models
         public virtual ICollection<DanhGia> DanhGias { get; set; }
         public virtual ICollection<SanPhamKhuyenMai> SanPhamKhuyenMais { get; set; }
         public virtual ICollection<ThuVienAnh> ThuVienAnhs { get; set; }
+        public virtual ICollection<GioHang> GioHangs { get; set; }
         public BienThe()
         {
             DanhGias = new HashSet<DanhGia>();
@@ -52,6 +53,7 @@ namespace Maison.Models
             SanPhamKhuyenMais = new HashSet<SanPhamKhuyenMai>();
             ChiTietHoaDons = new HashSet<ChiTietHoaDon>();
             ThuVienAnhs = new HashSet<ThuVienAnh>();
+            GioHangs = new HashSet<GioHang>();
         }
     }
 }
