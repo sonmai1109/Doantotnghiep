@@ -96,10 +96,14 @@
                                 Tài khoản
                             </div>
                             <div class="container text-center   pt-5  checktk border" id="checktk">
+
                                 <h3>Bạn đã có tài khoản chưa?</h3>
-                                <br />
-                                <div class="btn btn-primary">@Html.ActionLink("Đăng nhập", "Login", "Home", null, new { @class = "text-dark text-decoration-none" })</div>
-                                <div class="btn btn-danger">@Html.ActionLink("Đăng ký", "Signup", "Home", null, new { @class = "text-dark text-decoration-none" })</div>
+                                <img src="~/Content/client/img/lg.png" width="120" height="100" class="d-block mx-auto mb-3" />
+                                <p class="text-uppercase fw-bold mb-2">Vui lòng đăng nhập tài khoản để xem ưu đãi và thanh toán dễ dàng hơn.</p>
+
+
+                                <div class="btn btn-primary fw-bold">@Html.ActionLink("Đăng nhập", "Login", "Home", null, new { @class = "text-light    text-decoration-none" })</div>
+                                <div class="btn btn-danger fw-bold">@Html.ActionLink("Đăng ký", "Signup", "Home", null, new { @class = "text-light text-decoration-none" })</div>
                             </div>
 
 
@@ -110,11 +114,21 @@
                         {
 
 
-                
-                    @Html.ActionLink("Đăng Xuất", "Logout", "Home", null, new { @class = "text-dark text-decoration-none btn btn-light" })
-              
+
+                <div class="user-box">
+                    <div class="btn btn-danger p-2 clicktk2" id="clicktk2">
+                        <i class="nav-icon fas fa-user"></i>
+                        @tk.TenDangNhap
+                    </div>
+
+                    <div class="card text-center rounded-4 shadow checktk2" id="checktk2">
+                        @Html.ActionLink("Đơn Hàng Của Bạn", "ListBills", "Bill", null, new { @class = "text-dark text-decoration-none d-block p-2" })
+                        @Html.ActionLink("Đăng Xuất", "Logout", "Home", null, new { @class = "text-dark text-decoration-none d-block p-2" })
+                    </div>
+                </div>
 
                         }
+
                     }
 
 

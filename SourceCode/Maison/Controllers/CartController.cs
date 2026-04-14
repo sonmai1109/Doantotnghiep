@@ -27,7 +27,7 @@ namespace Maison.Controllers
                 .Include(g => g.BienThe.Sanpham)
                 .Include(g => g.BienThe.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh))
                 .Include(g => g.BienThe.Sanpham.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
-                .Where(g => g.MaTK == tk.MaTk)
+                .Where(g => g.MaTK == tk.MaTK)
                 .OrderByDescending(g => g.NgayThem)
                 .ToList();
 
@@ -61,7 +61,7 @@ namespace Maison.Controllers
             if (bt == null) return Json(new { status = false, message = "Không tìm thấy sản phẩm." });
 
             // Kiểm tra trong DB xem khách đã từng thêm cấu hình này vào giỏ chưa?
-            var existItem = db.GioHangs.FirstOrDefault(g => g.MaTK == tk.MaTk && g.MaBT == mabt);
+            var existItem = db.GioHangs.FirstOrDefault(g => g.MaTK == tk.MaTK && g.MaBT == mabt);
             int soLuongDaCo = existItem != null ? existItem.SoLuong : 0;
             int tongYeuCau = soLuongDaCo + soluongmua;
 
@@ -75,11 +75,11 @@ namespace Maison.Controllers
             else
             {
                 // Chưa có thì tạo mới
-                db.GioHangs.Add(new GioHang { MaTK = tk.MaTk, MaBT = mabt, SoLuong = soluongmua });
+                db.GioHangs.Add(new GioHang { MaTK = tk.MaTK, MaBT = mabt, SoLuong = soluongmua });
             }
 
             db.SaveChanges();
-            int cartCount = db.GioHangs.Where(g => g.MaTK == tk.MaTk).Count();
+            int cartCount = db.GioHangs.Where(g => g.MaTK == tk.MaTK).Count();
 
             return Json(new { status = true, cartCount = cartCount }, JsonRequestBehavior.AllowGet);
         }
@@ -91,7 +91,7 @@ namespace Maison.Controllers
             TaiKhoanNguoiDung tk = (TaiKhoanNguoiDung)Session[ConstaintUser.USER_SESSION];
             if (tk == null) return Json(new { status = false, message = "Vui lòng đăng nhập." });
 
-            var item = db.GioHangs.Include(g => g.BienThe).FirstOrDefault(g => g.MaTK == tk.MaTk && g.MaBT == MaBT);
+            var item = db.GioHangs.Include(g => g.BienThe).FirstOrDefault(g => g.MaTK == tk.MaTK && g.MaBT == MaBT);
             if (item == null) return Json(new { status = false, message = "Sản phẩm không có trong giỏ." });
 
             if (SoLuongMua > item.BienThe.SoLuongTon)
@@ -110,13 +110,13 @@ namespace Maison.Controllers
             TaiKhoanNguoiDung tk = (TaiKhoanNguoiDung)Session[ConstaintUser.USER_SESSION];
             if (tk != null)
             {
-                var item = db.GioHangs.FirstOrDefault(g => g.MaTK == tk.MaTk && g.MaBT == mabt);
+                var item = db.GioHangs.FirstOrDefault(g => g.MaTK == tk.MaTK && g.MaBT == mabt);
                 if (item != null)
                 {
                     db.GioHangs.Remove(item);
                     db.SaveChanges();
                 }
-                int cartCount = db.GioHangs.Where(g => g.MaTK == tk.MaTk).Count();
+                int cartCount = db.GioHangs.Where(g => g.MaTK == tk.MaTK).Count();
                 return Json(new { count = cartCount }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { count = 0 });
@@ -132,7 +132,7 @@ namespace Maison.Controllers
 
             ViewBag.TaiKhoan = tk;
             // Dùng nguyên logic gọi dữ liệu như trang Orders
-            var cartItems = db.GioHangs.Include(g => g.BienThe).Include(g => g.BienThe.Sanpham).Include(g => g.BienThe.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)).Include(g => g.BienThe.Sanpham.SanPhamKhuyenMais.Select(k => k.KhuyenMai)).Where(g => g.MaTK == tk.MaTk).ToList();
+            var cartItems = db.GioHangs.Include(g => g.BienThe).Include(g => g.BienThe.Sanpham).Include(g => g.BienThe.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)).Include(g => g.BienThe.Sanpham.SanPhamKhuyenMais.Select(k => k.KhuyenMai)).Where(g => g.MaTK == tk.MaTK).ToList();
 
             Dictionary<int, decimal> dicGia = new Dictionary<int, decimal>();
             foreach (var item in cartItems)

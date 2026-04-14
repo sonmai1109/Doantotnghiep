@@ -137,6 +137,7 @@
     <Compile Include="Areas\Admin\Controllers\AdminUserController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\BienThesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BillController.cs" />
     <Compile Include="Areas\Admin\Controllers\BrandsController.cs" />
     <Compile Include="Areas\Admin\Controllers\DanhmucsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Areas\Admin\Controllers\SanphamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThuocTinhsController.cs" />
     <Compile Include="Areas\Admin\Data\LoginAccount.cs" />
+    <Compile Include="Controllers\BillController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -228,6 +230,22 @@
     <Compile Include="Migrations\202604081956399_themgiohang.Designer.cs">
       <DependentUpon>202604081956399_themgiohang.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202604131957533_FixKhoaNgoaiMaTK.cs" />
+    <Compile Include="Migrations\202604131957533_FixKhoaNgoaiMaTK.Designer.cs">
+      <DependentUpon>202604131957533_FixKhoaNgoaiMaTK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604132012223_RenameColumnInSQL.cs" />
+    <Compile Include="Migrations\202604132012223_RenameColumnInSQL.Designer.cs">
+      <DependentUpon>202604132012223_RenameColumnInSQL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604132041260_DongBoCodeVaDB.cs" />
+    <Compile Include="Migrations\202604132041260_DongBoCodeVaDB.Designer.cs">
+      <DependentUpon>202604132041260_DongBoCodeVaDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604132117108_ChotFluentAPI.cs" />
+    <Compile Include="Migrations\202604132117108_ChotFluentAPI.Designer.cs">
+      <DependentUpon>202604132117108_ChotFluentAPI.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Baohanh.cs" />
     <Compile Include="Models\BienThe.cs" />
@@ -259,6 +277,7 @@
     <Content Include="Content\admin\JS\addpopup.js" />
     <Content Include="Content\admin\JS\AdminAccount.js" />
     <Content Include="Content\admin\JS\bienthe.js" />
+    <Content Include="Content\admin\JS\BillAdmin.js" />
     <Content Include="Content\admin\JS\brand.js" />
     <Content Include="Content\admin\JS\danhmuc.js" />
     <Content Include="Content\admin\JS\KhuyenMai.js" />
@@ -2192,7 +2211,18 @@
     <Content Include="Content\client\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\client\fonts\ionicons.svg" />
     <Content Include="Content\client\fonts\Linearicons-Free.svg" />
+    <Content Include="Content\client\img\1.png" />
+    <Content Include="Content\client\img\10.png" />
+    <Content Include="Content\client\img\11.png" />
+    <Content Include="Content\client\img\12.png" />
+    <Content Include="Content\client\img\2.png" />
+    <Content Include="Content\client\img\3.png" />
+    <Content Include="Content\client\img\4.png" />
+    <Content Include="Content\client\img\5.png" />
+    <Content Include="Content\client\img\6.png" />
+    <Content Include="Content\client\img\7.png" />
     <Content Include="Content\client\img\lg.png" />
+    <Content Include="Content\client\img\logotk.png" />
     <Content Include="Content\client\JS\ajax-mail.js" />
     <Content Include="Content\client\JS\bootstrap.min.js" />
     <Content Include="Content\client\JS\common.js" />
@@ -2325,6 +2355,7 @@
     <Content Include="Areas\Admin\Views\Sanphams\Index.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMais\ManageProducts.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMais\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Bill\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -2358,6 +2389,8 @@
     <Content Include="Views\Cart\Orders.cshtml" />
     <Content Include="Views\Cart\CheckOut.cshtml" />
     <Content Include="Views\Home\CartCount.cshtml" />
+    <Content Include="Views\Bill\Details.cshtml" />
+    <Content Include="Views\Bill\ListBills.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2449,6 +2482,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202604081956399_themgiohang.resx">
       <DependentUpon>202604081956399_themgiohang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604131957533_FixKhoaNgoaiMaTK.resx">
+      <DependentUpon>202604131957533_FixKhoaNgoaiMaTK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604132012223_RenameColumnInSQL.resx">
+      <DependentUpon>202604132012223_RenameColumnInSQL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604132041260_DongBoCodeVaDB.resx">
+      <DependentUpon>202604132041260_DongBoCodeVaDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604132117108_ChotFluentAPI.resx">
+      <DependentUpon>202604132117108_ChotFluentAPI.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

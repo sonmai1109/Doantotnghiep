@@ -33,61 +33,61 @@
                         }
                         else
                         {
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th class="product-thumbnail">Ảnh</th>
-                                        <th class="product-name">Sản phẩm & Cấu hình</th>
-                                        <th class="product-price">Đơn Giá</th>
-                                        <th class="product-quantity">Số lượng</th>
-                                        <th class="product-subtotal">Thành tiền</th>
-                                        <th class="product-remove">Xóa</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var gh in Model)
-                                    {
-                                        var bt = gh.BienThe;
+                    <table class="table table-bordered table-hover text-center align-middle" style="background-color: white; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="product-thumbnail">Ảnh</th>
+                                <th class="product-name">Sản phẩm & Cấu hình</th>
+                                <th class="product-price">Đơn Giá</th>
+                                <th class="product-quantity">Số lượng</th>
+                                <th class="product-subtotal">Thành tiền</th>
+                                <th class="product-remove">Xóa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var gh in Model)
+                            {
+                                var bt = gh.BienThe;
 
-                                        // Lấy giá trị thực tế từ ViewBag. Nếu ko có thì dự phòng lấy giá gốc
-                                        var donGia = dicGia != null && dicGia.ContainsKey(gh.MaGH) ? dicGia[gh.MaGH] : bt.GiaBan;
-                                        var soLuong = gh.SoLuong;
+                                // Lấy giá trị thực tế từ ViewBag. Nếu ko có thì dự phòng lấy giá gốc
+                                var donGia = dicGia != null && dicGia.ContainsKey(gh.MaGH) ? dicGia[gh.MaGH] : bt.GiaBan;
+                                var soLuong = gh.SoLuong;
 
-                                        tongtien += donGia * soLuong;
+                                tongtien += donGia * soLuong;
 
-                                        <tr class="cart_item" id="row-order-@bt.MaBT">
-                                            <td class="product-thumbnail">
-                                                <a href="@Url.Action("ProductDetail","Product", new { id = bt.MaSP})">
-                                                    <img src="@bt.HinhAnh" alt="cart-image" width="80" onerror="this.src='/Content/Images/no-image.png'" style="border-radius: 8px;">
-                                                </a>
-                                            </td>
-                                            <td class="product-name text-left pl-3">
-                                                <a href="@Url.Action("ProductDetail", "Product", new { id = bt.MaSP })" style="font-weight: bold; font-size:16px;">@bt.Sanpham.TenSP</a>
-                                                <p style="font-size:13px; color:#555; margin-top:5px;">
-                                                    <i class="fas fa-microchip mr-1"></i>
-                                                    @(bt.ChiTietBTs.Any() ? string.Join(" | ", bt.ChiTietBTs.Select(c => c.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn")
-                                                </p>
-                                            </td>
-                                            <td class="product-price">
-                                                <span class="amount font-weight-bold text-danger">@(string.Format(info, "{0:c0}", donGia))</span>
-                                            </td>
-                                            <td class="product-quantity">
-                                                <div class="quantity d-flex justify-content-center align-items-center">
-                                                    <input type="button" class="btn btn-sm btn-light border" value="-" onclick="changeQty(this, -1)">
-                                                    <input type="number" class="form-control text-center mx-1" style="width: 60px; height: 32px;" name="qtybutton" value="@soLuong" id="qty-@bt.MaBT" data-mabt="@bt.MaBT" data-max="@bt.SoLuongTon" data-price="@donGia" onchange="updateGioHang(@bt.MaBT, this.value)" readonly>
-                                                    <input type="button" class="btn btn-sm btn-light border" value="+" onclick="changeQty(this, 1)">
-                                                </div>
-                                            </td>
-                                            <td class="product-subtotal product-total">
-                                                <span class="amount font-weight-bold">@(string.Format(info, "{0:c0}", donGia * soLuong))</span>
-                                            </td>
-                                            <td class="product-remove">
-                                                <a style="cursor: pointer; color: red;" onclick="xoaGioHang(@bt.MaBT)"><i class="fa fa-trash" aria-hidden="true" style="font-size:18px;"></i></a>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
+                                <tr class="cart_item" id="row-order-@bt.MaBT">
+                                    <td class="product-thumbnail">
+                                        <a href="@Url.Action("ProductDetail","Product", new { id = bt.MaSP})">
+                                            <img src="@bt.HinhAnh" alt="cart-image" width="80" onerror="this.src='/Content/Images/no-image.png'" style="border-radius: 8px;">
+                                        </a>
+                                    </td>
+                                    <td class="product-name text-left pl-3">
+                                        <a href="@Url.Action("ProductDetail", "Product", new { id = bt.MaSP })" style="font-weight: bold; font-size:16px;">@bt.Sanpham.TenSP</a>
+                                        <p style="font-size:13px; color:#555; margin-top:5px;">
+                                            <i class="fas fa-microchip mr-1"></i>
+                                            @(bt.ChiTietBTs.Any() ? string.Join(" | ", bt.ChiTietBTs.Select(c => c.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn")
+                                        </p>
+                                    </td>
+                                    <td class="product-price">
+                                        <span class="amount font-weight-bold text-danger">@(string.Format(info, "{0:c0}", donGia))</span>
+                                    </td>
+                                    <td class="product-quantity">
+                                        <div class="quantity d-flex justify-content-center align-items-center">
+                                            <input type="button" class="btn btn-sm btn-light border" value="-" onclick="changeQty(this, -1)">
+                                            <input type="number" class="form-control text-center mx-1" style="width: 60px; height: 32px;" name="qtybutton" value="@soLuong" id="qty-@bt.MaBT" data-mabt="@bt.MaBT" data-max="@bt.SoLuongTon" data-price="@donGia" onchange="updateGioHang(@bt.MaBT, this.value)" readonly>
+                                            <input type="button" class="btn btn-sm btn-light border" value="+" onclick="changeQty(this, 1)">
+                                        </div>
+                                    </td>
+                                    <td class="product-subtotal product-total">
+                                        <span class="amount font-weight-bold">@(string.Format(info, "{0:c0}", donGia * soLuong))</span>
+                                    </td>
+                                    <td class="product-remove">
+                                        <a style="cursor: pointer; color: red;" onclick="xoaGioHang(@bt.MaBT)"><i class="fa fa-trash" aria-hidden="true" style="font-size:18px;"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                         }
                     </div>
 

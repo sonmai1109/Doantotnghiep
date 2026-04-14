@@ -82,8 +82,8 @@
             AddColumn("dbo.HoaDon", "TaiKhoanNguoiDung_MaTk", c => c.Int());
             CreateIndex("dbo.Baohanh", "TaiKhoanNguoiDung_MaTk");
             CreateIndex("dbo.HoaDon", "TaiKhoanNguoiDung_MaTk");
-            AddForeignKey("dbo.Baohanh", "TaiKhoanNguoiDung_MaTk", "dbo.TaiKhoanNguoiDung", "MaTk");
-            AddForeignKey("dbo.HoaDon", "TaiKhoanNguoiDung_MaTk", "dbo.TaiKhoanNguoiDung", "MaTk");
+            AddForeignKey("dbo.Baohanh", "TaiKhoanNguoiDung_MaTk", "dbo.TaiKhoanNguoiDung", "MaTK");
+            AddForeignKey("dbo.HoaDon", "TaiKhoanNguoiDung_MaTk", "dbo.TaiKhoanNguoiDung", "MaTK");
         }
         
         public override void Down()

@@ -11,7 +11,7 @@ namespace Maison.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int MaTk { get; set; }
+        public int MaTK { get; set; }
         [Required(ErrorMessage = "Tên đăng nhập không được để trống")]
         [StringLength(100)]
         public string TenDangNhap { get; set; }

@@ -7,72 +7,144 @@
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\product\\shop.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\danhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\danhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\views\\home\\dropdanhmuc.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\dropdanhmuc.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\views\\cart\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\cart\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\areas\\admin\\views\\bill\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\views\\bill\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\views\\bill\\listbills.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\bill\\listbills.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\content\\admin\\js\\billadmin.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\admin\\js\\billadmin.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\areas\\admin\\controllers\\billcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\controllers\\billcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\controllers\\billcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\controllers\\billcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\views\\home\\cartcount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\cartcount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\migrations\\202604081956399_themgiohang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\migrations\\202604081956399_themgiohang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\views\\product\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\product\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\areas\\admin\\views\\sanphams\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\views\\sanphams\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\views\\cart\\orders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\cart\\orders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\content\\client\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\client\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\content\\client\\js\\common.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\content\\client\\js\\common.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\client\\js\\common.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\views\\bill\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\bill\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\shopdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\shopdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\bienthe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\bienthe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\content\\client\\js\\layout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\client\\js\\layout.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\views\\cart\\orders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\cart\\orders.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\migrations\\202604132117108_chotfluentapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\migrations\\202604132117108_chotfluentapi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\views\\cart\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\cart\\checkout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\taikhoannguoidung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\taikhoannguoidung.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\baohanh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\baohanh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\hoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\hoadon.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\migrations\\202604131957533_fixkhoangoaimatk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\migrations\\202604131957533_fixkhoangoaimatk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\migrations\\202604132012223_renamecolumninsql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\migrations\\202604132012223_renamecolumninsql.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\migrations\\202604132041260_dongbocodevadb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\migrations\\202604132041260_dongbocodevadb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\migrations\\202604081956399_themgiohang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\migrations\\202604081956399_themgiohang.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\bienthe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\bienthe.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\controllers\\cartcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\brand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\brand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\sanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\sanpham.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\chatbotlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\chatbotlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\controllers\\productcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\danhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\danhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\views\\home\\cartcount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\home\\cartcount.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\views\\product\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\views\\product\\productdetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\areas\\admin\\views\\khuyenmais\\manageproducts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -91,7 +163,7 @@
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\thuoctinh.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|d:\\download\\du_an_ca_nhan\\maison\\sourcecode\\maison\\migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -119,20 +191,12 @@
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\views\\thuoctinhs\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\areas\\admin\\views\\sanphams\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\views\\sanphams\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\areas\\admin\\controllers\\thuoctinhscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\controllers\\thuoctinhscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\areas\\admin\\controllers\\sanphamscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\controllers\\sanphamscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\areas\\admin\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\areas\\admin\\controllers\\danhmucscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -163,16 +227,8 @@
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\danhgia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\chatbotlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\chatbotlog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\chatbotknowledge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\chatbotknowledge.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\models\\brand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\models\\brand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\migrations\\202604051404213_them2bangai.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -213,10 +269,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\migrations\\202604041746061_addthuoctinhdanhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\migrations\\202604041746061_addthuoctinhdanhmuc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\maison\\content\\client\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{2A658B88-BC3C-4ABA-A8DC-3BF00E1BE4BC}|Maison\\Maison.csproj|solutionrelative:maison\\content\\client\\css\\layout.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -226,36 +278,76 @@
       "DocumentGroups": [
         {
           "DockedHeight": 303,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 11,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "layout.js",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\client\\JS\\layout.js",
+              "RelativeDocumentMoniker": "Maison\\Content\\client\\JS\\layout.js",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\client\\JS\\layout.js",
+              "RelativeToolTip": "Maison\\Content\\client\\JS\\layout.js",
+              "ViewState": "AgIAACYAAAAAAAAAAAAuwDoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-13T18:41:25.206Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "Maison\\Controllers\\HomeController.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "Maison\\Controllers\\HomeController.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAArwDAAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T17:18:14.194Z",
+              "DocumentIndex": 4,
+              "Title": "BillAdmin.js",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\BillAdmin.js",
+              "RelativeDocumentMoniker": "Maison\\Content\\admin\\JS\\BillAdmin.js",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\BillAdmin.js",
+              "RelativeToolTip": "Maison\\Content\\admin\\JS\\BillAdmin.js",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHUAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-14T12:35:40.076Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CheckOut.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Cart\\CheckOut.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Views\\Cart\\CheckOut.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Cart\\CheckOut.cshtml",
-              "RelativeToolTip": "Maison\\Views\\Cart\\CheckOut.cshtml",
-              "ViewState": "AgIAACIAAAAAAAAAAAAAAGMAAAAGAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Bill\\Index.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\Bill\\Index.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Bill\\Index.cshtml",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\Bill\\Index.cshtml",
+              "ViewState": "AgIAADUAAAAAAAAAAAAUwEwAAABHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-08T18:58:08.012Z",
+              "WhenOpened": "2026-04-14T12:23:35.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "BillController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\BillController.cs",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\BillController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\BillController.cs",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\BillController.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAmwHoAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-14T12:23:14.056Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ListBills.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Bill\\ListBills.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Views\\Bill\\ListBills.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Bill\\ListBills.cshtml",
+              "RelativeToolTip": "Maison\\Views\\Bill\\ListBills.cshtml",
+              "ViewState": "AgIAAEoAAAAAAAAAAAAQwG0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-13T19:25:24.16Z",
               "EditorCaption": ""
             },
             {
@@ -266,48 +358,61 @@
               "RelativeDocumentMoniker": "Maison\\Views\\Shared\\_Layout.cshtml",
               "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Shared\\_Layout.cshtml",
               "RelativeToolTip": "Maison\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAADoAAAAAAAAAAAAAAEwAAABxAAAAAAAAAA==",
+              "ViewState": "AgIAAIcAAAAAAAAAAAAAAJwAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-04-04T17:10:17.839Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "CartCount.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Home\\CartCount.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Views\\Home\\CartCount.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Home\\CartCount.cshtml",
-              "RelativeToolTip": "Maison\\Views\\Home\\CartCount.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-08T19:17:14.484Z",
+              "DocumentIndex": 12,
+              "Title": "common.js",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\client\\JS\\common.js",
+              "RelativeDocumentMoniker": "Maison\\Content\\client\\JS\\common.js",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\client\\JS\\common.js",
+              "RelativeToolTip": "Maison\\Content\\client\\JS\\common.js",
+              "ViewState": "AgIAAEYBAAAAAAAAAAAuwDUBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-08T19:00:09.83Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAANcBAAAAAAAAAAAAAPUBAAByAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-04T20:30:11.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "BillController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\BillController.cs",
+              "RelativeDocumentMoniker": "Maison\\Controllers\\BillController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\BillController.cs",
+              "RelativeToolTip": "Maison\\Controllers\\BillController.cs",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAmwJoAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T19:23:33.429Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "dropdanhmuc.cshtml",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Home\\dropdanhmuc.cshtml",
               "RelativeDocumentMoniker": "Maison\\Views\\Home\\dropdanhmuc.cshtml",
               "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Home\\dropdanhmuc.cshtml",
               "RelativeToolTip": "Maison\\Views\\Home\\dropdanhmuc.cshtml",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAkwCMAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAkwA4AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-04-04T17:05:03.14Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ProductController.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\ProductController.cs",
-              "RelativeDocumentMoniker": "Maison\\Controllers\\ProductController.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\ProductController.cs",
-              "RelativeToolTip": "Maison\\Controllers\\ProductController.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAuwBAAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T12:29:53.814Z",
               "EditorCaption": ""
             },
             {
@@ -318,152 +423,9 @@
               "RelativeDocumentMoniker": "Maison\\Views\\Product\\Shop.cshtml",
               "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Product\\Shop.cshtml",
               "RelativeToolTip": "Maison\\Views\\Product\\Shop.cshtml",
-              "ViewState": "AgIAAHEAAAAAAAAAAAArwJEAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAGgAAAAAAAAAAAArwHwAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-04-05T12:30:57.579Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Danhmuc.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Danhmuc.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\Danhmuc.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Danhmuc.cs",
-              "RelativeToolTip": "Maison\\Models\\Danhmuc.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T17:40:30.47Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Views\\Home\\Index.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Maison\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAF0AAAAAAAAAAAAAAG0AAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T12:20:13.199Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "202604081956399_themgiohang.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604081956399_themgiohang.cs",
-              "RelativeDocumentMoniker": "Maison\\Migrations\\202604081956399_themgiohang.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604081956399_themgiohang.cs",
-              "RelativeToolTip": "Maison\\Migrations\\202604081956399_themgiohang.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-08T19:56:42.908Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ProductDetail.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Product\\ProductDetail.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Views\\Product\\ProductDetail.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Product\\ProductDetail.cshtml",
-              "RelativeToolTip": "Maison\\Views\\Product\\ProductDetail.cshtml",
-              "ViewState": "AgIAAIQBAAAAAAAAAAAAAPoAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T12:34:29.135Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "common.js",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\client\\JS\\common.js",
-              "RelativeDocumentMoniker": "Maison\\Content\\client\\JS\\common.js",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\client\\JS\\common.js",
-              "RelativeToolTip": "Maison\\Content\\client\\JS\\common.js",
-              "ViewState": "AgIAAIQBAAAAAAAAAAAmwK4BAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-04-08T19:00:09.83Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "TaiKhoanNguoiDung.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanNguoiDung.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\TaiKhoanNguoiDung.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanNguoiDung.cs",
-              "RelativeToolTip": "Maison\\Models\\TaiKhoanNguoiDung.cs",
-              "ViewState": "AgIAACMAAAAAAAAAAAAswDIAAAAHAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T19:36:11.759Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "CartController.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\CartController.cs",
-              "RelativeDocumentMoniker": "Maison\\Controllers\\CartController.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\CartController.cs",
-              "RelativeToolTip": "Maison\\Controllers\\CartController.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAcwHcAAABVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-08T18:57:06.87Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "Orders.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Cart\\Orders.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Views\\Cart\\Orders.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Cart\\Orders.cshtml",
-              "RelativeToolTip": "Maison\\Views\\Cart\\Orders.cshtml",
-              "ViewState": "AgIAAKMAAAAAAAAAAAAAAMkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-08T18:57:40.377Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "Sanpham.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Sanpham.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\Sanpham.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Sanpham.cs",
-              "RelativeToolTip": "Maison\\Models\\Sanpham.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAQwDEAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T19:40:12.321Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\KhuyenMais\\Index.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\KhuyenMais\\Index.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\KhuyenMais\\Index.cshtml",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\KhuyenMais\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-04T20:21:40.898Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "BienThe.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\BienThe.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\BienThe.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\BienThe.cs",
-              "RelativeToolTip": "Maison\\Models\\BienThe.cs",
-              "ViewState": "AgIAACIAAAAAAAAAAADwvy4AAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T20:34:50.522Z",
               "EditorCaption": ""
             },
             {
@@ -474,307 +436,222 @@
               "RelativeDocumentMoniker": "Maison\\Models\\shopdb.cs",
               "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\shopdb.cs",
               "RelativeToolTip": "Maison\\Models\\shopdb.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAwwCIAAABCAAAAAAAAAA==",
+              "ViewState": "AgIAACIAAAAAAAAAAAA5wEsAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-04T19:50:20.063Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "KhuyenMaisController.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\KhuyenMaisController.cs",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\KhuyenMaisController.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\KhuyenMaisController.cs",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\KhuyenMaisController.cs",
-              "ViewState": "AgIAAHcAAAAAAAAAAAAswH8AAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T19:23:09.809Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "ThuocTinh.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ThuocTinh.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\ThuocTinh.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ThuocTinh.cs",
-              "RelativeToolTip": "Maison\\Models\\ThuocTinh.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAYwBkAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T12:36:56.437Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "ManageProducts.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\KhuyenMais\\ManageProducts.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\KhuyenMais\\ManageProducts.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\KhuyenMais\\ManageProducts.cshtml",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\KhuyenMais\\ManageProducts.cshtml",
-              "ViewState": "AgIAABQAAAAAAAAAAAAqwBgAAAANAAAAAAAAAA==",
+              "DocumentIndex": 16,
+              "Title": "Orders.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Cart\\Orders.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Views\\Cart\\Orders.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Cart\\Orders.cshtml",
+              "RelativeToolTip": "Maison\\Views\\Cart\\Orders.cshtml",
+              "ViewState": "AgIAABEAAAAAAAAAAAAowCMAAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-04T20:20:16.999Z",
+              "WhenOpened": "2026-04-08T18:57:40.377Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "layout.css",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\client\\css\\layout.css",
+              "RelativeDocumentMoniker": "Maison\\Content\\client\\css\\layout.css",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\client\\css\\layout.css",
+              "RelativeToolTip": "Maison\\Content\\client\\css\\layout.css",
+              "ViewState": "AgIAAK4AAAAAAAAAAAAAAMUAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2026-04-04T17:04:23.128Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "202604081827561_themketnoigiuathuoctinhdanhmuc.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs",
-              "RelativeDocumentMoniker": "Maison\\Migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs",
-              "RelativeToolTip": "Maison\\Migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-08T18:28:00.778Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 9,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\BienThes\\Index.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\BienThes\\Index.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\BienThes\\Index.cshtml",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\BienThes\\Index.cshtml",
-              "ViewState": "AgIAACcAAAAAAAAAAAAiwFIAAAAVAAAAAAAAAA==",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Maison\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAANUAAAAAAAAAAAAQwJAAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-03T20:56:29.942Z",
+              "WhenOpened": "2026-04-05T12:20:13.199Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "KhuyenMai.js",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\KhuyenMai.js",
-              "RelativeDocumentMoniker": "Maison\\Content\\admin\\JS\\KhuyenMai.js",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\KhuyenMai.js",
-              "RelativeToolTip": "Maison\\Content\\admin\\JS\\KhuyenMai.js",
-              "ViewState": "AgIAAEcAAAAAAAAAAADwv1gAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-04-04T20:22:13.507Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAAAE0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-04T17:53:04.932Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "DanhmucsController.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAAAQwBsAAAA4AAAAAAAAAA==",
+              "DocumentIndex": 17,
+              "Title": "202604132117108_ChotFluentAPI.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604132117108_ChotFluentAPI.cs",
+              "RelativeDocumentMoniker": "Maison\\Migrations\\202604132117108_ChotFluentAPI.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604132117108_ChotFluentAPI.cs",
+              "RelativeToolTip": "Maison\\Migrations\\202604132117108_ChotFluentAPI.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAALAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T17:38:05.874Z"
+              "WhenOpened": "2026-04-13T21:17:13.937Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "ThuocTinhsController.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\ThuocTinhsController.cs",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\ThuocTinhsController.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\ThuocTinhsController.cs",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\ThuocTinhsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T13:07:35.962Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "SanphamsController.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\SanphamsController.cs",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\SanphamsController.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\SanphamsController.cs",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\SanphamsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T20:42:24.248Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 10,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Sanphams\\Index.cshtml",
               "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\Sanphams\\Index.cshtml",
               "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Sanphams\\Index.cshtml",
               "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\Sanphams\\Index.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAHAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-03T20:48:48.991Z"
+              "WhenOpened": "2026-04-03T20:48:48.991Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-04T20:30:11.527Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "BrandsController.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\BrandsController.cs",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\BrandsController.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\BrandsController.cs",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\BrandsController.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAB8AAABPAAAAAAAAAA==",
+              "DocumentIndex": 19,
+              "Title": "TaiKhoanNguoiDung.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanNguoiDung.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\TaiKhoanNguoiDung.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\TaiKhoanNguoiDung.cs",
+              "RelativeToolTip": "Maison\\Models\\TaiKhoanNguoiDung.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAUwD0AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T18:48:17.579Z"
+              "WhenOpened": "2026-04-04T19:36:11.759Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Details.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Bill\\Details.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Views\\Bill\\Details.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Bill\\Details.cshtml",
+              "RelativeToolTip": "Maison\\Views\\Bill\\Details.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAClAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-13T19:25:06.791Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "CheckOut.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Cart\\CheckOut.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Views\\Cart\\CheckOut.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Cart\\CheckOut.cshtml",
+              "RelativeToolTip": "Maison\\Views\\Cart\\CheckOut.cshtml",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAQwGMAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-08T18:58:08.012Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "Baohanh.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Baohanh.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\Baohanh.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Baohanh.cs",
+              "RelativeToolTip": "Maison\\Models\\Baohanh.cs",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAUwCkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T19:56:31.259Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "HoaDon.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\HoaDon.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\HoaDon.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\HoaDon.cs",
+              "RelativeToolTip": "Maison\\Models\\HoaDon.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAA4wDUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T19:57:15.772Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "202604131957533_FixKhoaNgoaiMaTK.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604131957533_FixKhoaNgoaiMaTK.cs",
+              "RelativeDocumentMoniker": "Maison\\Migrations\\202604131957533_FixKhoaNgoaiMaTK.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604131957533_FixKhoaNgoaiMaTK.cs",
+              "RelativeToolTip": "Maison\\Migrations\\202604131957533_FixKhoaNgoaiMaTK.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T19:57:56.21Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "202604132012223_RenameColumnInSQL.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604132012223_RenameColumnInSQL.cs",
+              "RelativeDocumentMoniker": "Maison\\Migrations\\202604132012223_RenameColumnInSQL.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604132012223_RenameColumnInSQL.cs",
+              "RelativeToolTip": "Maison\\Migrations\\202604132012223_RenameColumnInSQL.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T20:12:26.817Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "202604132041260_DongBoCodeVaDB.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604132041260_DongBoCodeVaDB.cs",
+              "RelativeDocumentMoniker": "Maison\\Migrations\\202604132041260_DongBoCodeVaDB.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604132041260_DongBoCodeVaDB.cs",
+              "RelativeToolTip": "Maison\\Migrations\\202604132041260_DongBoCodeVaDB.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-13T20:41:30.956Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "202604081956399_themgiohang.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604081956399_themgiohang.cs",
+              "RelativeDocumentMoniker": "Maison\\Migrations\\202604081956399_themgiohang.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604081956399_themgiohang.cs",
+              "RelativeToolTip": "Maison\\Migrations\\202604081956399_themgiohang.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-08T19:56:42.908Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 26,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Brands\\Index.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\Brands\\Index.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Brands\\Index.cshtml",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\Brands\\Index.cshtml",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAADsAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-05T18:54:50.954Z"
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Maison\\Controllers\\HomeController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Maison\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAArwHcAAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T17:18:14.194Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "BienThesController.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\BienThesController.cs",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\BienThesController.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\BienThesController.cs",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\BienThesController.cs",
-              "ViewState": "AgIAAMAAAAAAAAAAAAAAANsAAABhAAAAAAAAAA==",
+              "DocumentIndex": 27,
+              "Title": "BienThe.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\BienThe.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\BienThe.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\BienThe.cs",
+              "RelativeToolTip": "Maison\\Models\\BienThe.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAgwCQAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-03T20:42:51.204Z"
+              "WhenOpened": "2026-04-03T20:34:50.522Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 28,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\ThuocTinhs\\Index.cshtml",
-              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\ThuocTinhs\\Index.cshtml",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\ThuocTinhs\\Index.cshtml",
-              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\ThuocTinhs\\Index.cshtml",
-              "ViewState": "AgIAADYAAAAAAAAAAAAAAE4AAABeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-04T18:51:48.264Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "ThuVienAnh.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ThuVienAnh.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\ThuVienAnh.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ThuVienAnh.cs",
-              "RelativeToolTip": "Maison\\Models\\ThuVienAnh.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAuwBIAAAAcAAAAAAAAAA==",
+              "Title": "CartController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\CartController.cs",
+              "RelativeDocumentMoniker": "Maison\\Controllers\\CartController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\CartController.cs",
+              "RelativeToolTip": "Maison\\Controllers\\CartController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T08:11:08.602Z"
+              "WhenOpened": "2026-04-08T18:57:06.87Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 36,
-              "Title": "TinTuc.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\TinTuc.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\TinTuc.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\TinTuc.cs",
-              "RelativeToolTip": "Maison\\Models\\TinTuc.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAkwAoAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T19:35:55.963Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 37,
-              "Title": "SanPhamKhuyenMai.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\SanPhamKhuyenMai.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\SanPhamKhuyenMai.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\SanPhamKhuyenMai.cs",
-              "RelativeToolTip": "Maison\\Models\\SanPhamKhuyenMai.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAkwBYAAAAVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T19:33:32.9Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 38,
-              "Title": "KhuyenMai.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\KhuyenMai.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\KhuyenMai.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\KhuyenMai.cs",
-              "RelativeToolTip": "Maison\\Models\\KhuyenMai.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAAzwBkAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T19:33:06.681Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 39,
-              "Title": "DanhGia.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\DanhGia.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\DanhGia.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\DanhGia.cs",
-              "RelativeToolTip": "Maison\\Models\\DanhGia.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAA7wBkAAAAZAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-04T19:35:07.406Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 40,
-              "Title": "ChatbotLog.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ChatbotLog.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\ChatbotLog.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ChatbotLog.cs",
-              "RelativeToolTip": "Maison\\Models\\ChatbotLog.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAzwBEAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T14:02:35.848Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 41,
-              "Title": "ChatbotKnowledge.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ChatbotKnowledge.cs",
-              "RelativeDocumentMoniker": "Maison\\Models\\ChatbotKnowledge.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ChatbotKnowledge.cs",
-              "RelativeToolTip": "Maison\\Models\\ChatbotKnowledge.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T14:00:14.2Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 43,
-              "Title": "202604051404213_them2bangai.cs",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604051404213_them2bangai.cs",
-              "RelativeDocumentMoniker": "Maison\\Migrations\\202604051404213_them2bangai.cs",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604051404213_them2bangai.cs",
-              "RelativeToolTip": "Maison\\Migrations\\202604051404213_them2bangai.cs",
-              "ViewState": "AgIAACUAAAAAAAAAAAAQwDIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-05T14:04:26.004Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 29,
               "Title": "Brand.cs",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Brand.cs",
               "RelativeDocumentMoniker": "Maison\\Models\\Brand.cs",
@@ -786,7 +663,343 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Sanpham.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Sanpham.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\Sanpham.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Sanpham.cs",
+              "RelativeToolTip": "Maison\\Models\\Sanpham.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T19:40:12.321Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "ChatbotLog.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ChatbotLog.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\ChatbotLog.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ChatbotLog.cs",
+              "RelativeToolTip": "Maison\\Models\\ChatbotLog.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T14:02:35.848Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "ProductController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\ProductController.cs",
+              "RelativeDocumentMoniker": "Maison\\Controllers\\ProductController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Controllers\\ProductController.cs",
+              "RelativeToolTip": "Maison\\Controllers\\ProductController.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAuwBAAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T12:29:53.814Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "CartCount.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Home\\CartCount.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Views\\Home\\CartCount.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Home\\CartCount.cshtml",
+              "RelativeToolTip": "Maison\\Views\\Home\\CartCount.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-08T19:17:14.484Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "Danhmuc.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Danhmuc.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\Danhmuc.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\Danhmuc.cs",
+              "RelativeToolTip": "Maison\\Models\\Danhmuc.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T17:40:30.47Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "ProductDetail.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Product\\ProductDetail.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Views\\Product\\ProductDetail.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Views\\Product\\ProductDetail.cshtml",
+              "RelativeToolTip": "Maison\\Views\\Product\\ProductDetail.cshtml",
+              "ViewState": "AgIAAIQBAAAAAAAAAAAAAPoAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-05T12:34:29.135Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\KhuyenMais\\Index.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\KhuyenMais\\Index.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\KhuyenMais\\Index.cshtml",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\KhuyenMais\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-04T20:21:40.898Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "KhuyenMaisController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\KhuyenMaisController.cs",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\KhuyenMaisController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\KhuyenMaisController.cs",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\KhuyenMaisController.cs",
+              "ViewState": "AgIAAHcAAAAAAAAAAAAswH8AAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T19:23:09.809Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "ThuocTinh.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ThuocTinh.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\ThuocTinh.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ThuocTinh.cs",
+              "RelativeToolTip": "Maison\\Models\\ThuocTinh.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAYwBkAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T12:36:56.437Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "ManageProducts.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\KhuyenMais\\ManageProducts.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\KhuyenMais\\ManageProducts.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\KhuyenMais\\ManageProducts.cshtml",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\KhuyenMais\\ManageProducts.cshtml",
+              "ViewState": "AgIAABQAAAAAAAAAAAAqwBgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-04T20:20:16.999Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "202604081827561_themketnoigiuathuoctinhdanhmuc.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs",
+              "RelativeDocumentMoniker": "Maison\\Migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs",
+              "RelativeToolTip": "Maison\\Migrations\\202604081827561_themketnoigiuathuoctinhdanhmuc.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-08T18:28:00.778Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\BienThes\\Index.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\BienThes\\Index.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\BienThes\\Index.cshtml",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\BienThes\\Index.cshtml",
+              "ViewState": "AgIAACcAAAAAAAAAAAAiwFIAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-03T20:56:29.942Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "KhuyenMai.js",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\KhuyenMai.js",
+              "RelativeDocumentMoniker": "Maison\\Content\\admin\\JS\\KhuyenMai.js",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\KhuyenMai.js",
+              "RelativeToolTip": "Maison\\Content\\admin\\JS\\KhuyenMai.js",
+              "ViewState": "AgIAAEcAAAAAAAAAAADwv1gAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-04-04T20:22:13.507Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\Danhmucs\\Index.cshtml",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAE0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-04T17:53:04.932Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "DanhmucsController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\DanhmucsController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwBsAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T17:38:05.874Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "ThuocTinhsController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\ThuocTinhsController.cs",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\ThuocTinhsController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\ThuocTinhsController.cs",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\ThuocTinhsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T13:07:35.962Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "SanphamsController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\SanphamsController.cs",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\SanphamsController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\SanphamsController.cs",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\SanphamsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-03T20:42:24.248Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "BrandsController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\BrandsController.cs",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\BrandsController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\BrandsController.cs",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\BrandsController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAAB8AAABPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T18:48:17.579Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 44,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Brands\\Index.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\Brands\\Index.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\Brands\\Index.cshtml",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\Brands\\Index.cshtml",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAADsAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-05T18:54:50.954Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "BienThesController.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\BienThesController.cs",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Controllers\\BienThesController.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Controllers\\BienThesController.cs",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Controllers\\BienThesController.cs",
+              "ViewState": "AgIAAMAAAAAAAAAAAAAAANsAAABhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-03T20:42:51.204Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\ThuocTinhs\\Index.cshtml",
+              "RelativeDocumentMoniker": "Maison\\Areas\\Admin\\Views\\ThuocTinhs\\Index.cshtml",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Areas\\Admin\\Views\\ThuocTinhs\\Index.cshtml",
+              "RelativeToolTip": "Maison\\Areas\\Admin\\Views\\ThuocTinhs\\Index.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAAE4AAABeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-04T18:51:48.264Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "ThuVienAnh.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ThuVienAnh.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\ThuVienAnh.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ThuVienAnh.cs",
+              "RelativeToolTip": "Maison\\Models\\ThuVienAnh.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAuwBIAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T08:11:08.602Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "TinTuc.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\TinTuc.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\TinTuc.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\TinTuc.cs",
+              "RelativeToolTip": "Maison\\Models\\TinTuc.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAkwAoAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T19:35:55.963Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "SanPhamKhuyenMai.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\SanPhamKhuyenMai.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\SanPhamKhuyenMai.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\SanPhamKhuyenMai.cs",
+              "RelativeToolTip": "Maison\\Models\\SanPhamKhuyenMai.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAkwBYAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T19:33:32.9Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "KhuyenMai.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\KhuyenMai.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\KhuyenMai.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\KhuyenMai.cs",
+              "RelativeToolTip": "Maison\\Models\\KhuyenMai.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAAzwBkAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T19:33:06.681Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "DanhGia.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\DanhGia.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\DanhGia.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\DanhGia.cs",
+              "RelativeToolTip": "Maison\\Models\\DanhGia.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAA7wBkAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-04T19:35:07.406Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "ChatbotKnowledge.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ChatbotKnowledge.cs",
+              "RelativeDocumentMoniker": "Maison\\Models\\ChatbotKnowledge.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Models\\ChatbotKnowledge.cs",
+              "RelativeToolTip": "Maison\\Models\\ChatbotKnowledge.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABgAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T14:00:14.2Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "202604051404213_them2bangai.cs",
+              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604051404213_them2bangai.cs",
+              "RelativeDocumentMoniker": "Maison\\Migrations\\202604051404213_them2bangai.cs",
+              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604051404213_them2bangai.cs",
+              "RelativeToolTip": "Maison\\Migrations\\202604051404213_them2bangai.cs",
+              "ViewState": "AgIAACUAAAAAAAAAAAAQwDIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-05T14:04:26.004Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
               "Title": "thuoctinh.js",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\thuoctinh.js",
               "RelativeDocumentMoniker": "Maison\\Content\\admin\\JS\\thuoctinh.js",
@@ -798,7 +1011,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 59,
               "Title": "202604051256557_themthuoctinh.cs",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604051256557_themthuoctinh.cs",
               "RelativeDocumentMoniker": "Maison\\Migrations\\202604051256557_themthuoctinh.cs",
@@ -810,7 +1023,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 60,
               "Title": "bienthe.js",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\admin\\JS\\bienthe.js",
               "RelativeDocumentMoniker": "Maison\\Content\\admin\\JS\\bienthe.js",
@@ -822,7 +1035,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
+              "DocumentIndex": 61,
               "Title": "202604050904103_addthutubangthuvienanh.cs",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604050904103_addthutubangthuvienanh.cs",
               "RelativeDocumentMoniker": "Maison\\Migrations\\202604050904103_addthutubangthuvienanh.cs",
@@ -834,7 +1047,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
+              "DocumentIndex": 62,
               "Title": "202604050814101_bangthuvienanh.cs",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604050814101_bangthuvienanh.cs",
               "RelativeDocumentMoniker": "Maison\\Migrations\\202604050814101_bangthuvienanh.cs",
@@ -846,7 +1059,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 63,
               "Title": "202604050809298_Fix_Duplicate_FK.cs",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604050809298_Fix_Duplicate_FK.cs",
               "RelativeDocumentMoniker": "Maison\\Migrations\\202604050809298_Fix_Duplicate_FK.cs",
@@ -858,7 +1071,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 64,
               "Title": "202604050759518_fixkhoangoai1.cs",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604050759518_fixkhoangoai1.cs",
               "RelativeDocumentMoniker": "Maison\\Migrations\\202604050759518_fixkhoangoai1.cs",
@@ -870,7 +1083,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 65,
               "Title": "202604041953068_addcacbangmoi.cs",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604041953068_addcacbangmoi.cs",
               "RelativeDocumentMoniker": "Maison\\Migrations\\202604041953068_addcacbangmoi.cs",
@@ -882,7 +1095,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 66,
               "Title": "202604041746061_addthuoctinhdanhmuc.cs",
               "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Migrations\\202604041746061_addthuoctinhdanhmuc.cs",
               "RelativeDocumentMoniker": "Maison\\Migrations\\202604041746061_addthuoctinhdanhmuc.cs",
@@ -891,18 +1104,6 @@
               "ViewState": "AgIAAAkAAAAAAAAAAAAYwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-04T17:46:10.882Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 53,
-              "Title": "layout.css",
-              "DocumentMoniker": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\client\\css\\layout.css",
-              "RelativeDocumentMoniker": "Maison\\Content\\client\\css\\layout.css",
-              "ToolTip": "D:\\Download\\Du_an_ca_nhan\\Maison\\SourceCode\\Maison\\Content\\client\\css\\layout.css",
-              "RelativeToolTip": "Maison\\Content\\client\\css\\layout.css",
-              "ViewState": "AgIAAOkAAAAAAAAAAAAAAO8AAAAQAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-04-04T17:04:23.128Z"
             }
           ]
         }

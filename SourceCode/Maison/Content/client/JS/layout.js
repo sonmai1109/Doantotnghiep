@@ -1,43 +1,68 @@
 ﻿const button = document.getElementById('buttondropmenu');
 const dropmenu = document.getElementById('dropmenu');
 const overlay = document.getElementById('overlay');
-let checktk = document.getElementById('checktk')
-let clicktk = document.getElementById('clicktk')
-function openMenu(dropmenu,overlay) {
-    dropmenu.style.display = 'block';
-    overlay.style.display = 'block';
+
+const clicktk = document.getElementById('clicktk');
+const checktk = document.getElementById('checktk');
+
+const clicktk2 = document.getElementById('clicktk2');
+const checktk2 = document.getElementById('checktk2');
+
+function show(el) {
+    if (!el) return;
+    el.style.display = 'block';
 }
-function closeMenu(dropmenu, overlay) {
-    dropmenu.style.display = 'none';
-    overlay.style.display = 'none';
+
+function hide(el) {
+    if (!el) return;
+    el.style.display = 'none';
 }
 
-button.addEventListener('click', function () {
-    const isOpen = dropmenu.style.display === 'block';
+function isVisible(el) {
+    if (!el) return false;
+    return window.getComputedStyle(el).display !== 'none';
+}
 
-    if (isOpen) {
-        closeMenu(dropmenu, overlay);
-    } else {
-        openMenu(dropmenu, overlay);
+// đóng tất cả
+function closeAll() {
+    hide(dropmenu);
+    hide(checktk);
+    hide(checktk2);
+    hide(overlay);
+}
+
+// toggle chuẩn (chỉ mở 1 cái)
+function toggle(target) {
+    if (!target) return;
+
+    const currentlyOpen = isVisible(target);
+
+    closeAll();
+
+    if (!currentlyOpen) {
+        show(target);
+        show(overlay);
     }
-});
+}
 
+// ===== EVENT =====
 
-overlay.addEventListener('click', function () {
-    closeMenu(dropmenu, overlay);
-    closeMenu(checktk, overlay);
-});
-//function add(checktk, overlay) {
-//    checktk.style.display = 'block';
-//    overlay.style.display = 'block';
+// menu chính
+if (button && dropmenu) {
+    button.addEventListener('click', () => toggle(dropmenu));
+}
 
-//}
-clicktk.addEventListener('click', function () {
-    const isOpen = checktk.style.display === 'block';
-    if (isOpen) {
-        closeMenu(checktk, overlay);
-    } else {
-        openMenu(checktk, overlay);
-    }
+// chưa đăng nhập
+if (clicktk && checktk) {
+    clicktk.addEventListener('click', () => toggle(checktk));
+}
 
-});
+// đã đăng nhập
+if (clicktk2 && checktk2) {
+    clicktk2.addEventListener('click', () => toggle(checktk2));
+}
+
+// click overlay để đóng
+if (overlay) {
+    overlay.addEventListener('click', closeAll);
+}

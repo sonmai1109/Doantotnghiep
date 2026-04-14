@@ -1,0 +1,110 @@
+﻿@model List<Maison.Models.HoaDon>
+@{
+    ViewBag.Title = "Đơn hàng của bạn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumb-area mt-30">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul class="d-flex align-items-center">
+                <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                <li class="active">Đơn hàng của bạn</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="cart-main-area ptb-100 ptb-sm-60">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="table-content table-responsive mb-45">
+                    @if (Model == null || Model.Count == 0)
+                    {
+                        <h4 class="text-center text-muted py-5">Bạn chưa có đơn hàng nào.</h4>
+                    }
+                    else
+                    {
+                <table class="table table-bordered table-hover text-center align-middle" style="background-color: white; box-shadow: 0 0 10px rgba(0,0,0,0.05);">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="product-thumbnail">Mã Đơn</th>
+                            <th class="product-thumbnail">Ngày đặt</th>
+                            <th class="product-name">Người nhận</th>
+                            <th class="product-size">Số điện thoại</th>
+                            <th class="product-status">Trạng thái</th>
+                            <th class="product-detail">Chi tiết</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="font-weight-bold">#@item.MaHD</td>
+                                <td class="product-thumbnail">
+                                    <b>@item.NgayDat.ToString("dd/MM/yyyy HH:mm")</b>
+                                </td>
+                                <td class="product-name">@item.HoTenNguoiNhan</td>
+                                <td class="product-size"><b>@item.SoDienThoaiNhan</b></td>
+                                <td class="product-status font-weight-bold">
+                                    @if (item.TrangThai == 0)
+                                    {<span class="text-danger">Đã hủy</span> }
+                                    else if (item.TrangThai == 1)
+                                    { <span class="text-warning">Chờ xác nhận</span> }
+                                    else if (item.TrangThai == 2)
+                                    { <span class="text-info">Đang giao hàng</span> }
+                                    else
+                                    { <span class="text-success">Hoàn thành</span>}
+                                </td>
+                                <td><a href="@Url.Action("Details","Bill", new { id = item.MaHD })" class="text-primary font-weight-bold">Xem</a></td>
+
+                                @if (item.TrangThai == 1)
+                                {
+                                    <td><button class="btn btn-sm btn-outline-danger" type="button" onclick="huyDonHang(@item.MaHD)">Hủy đơn</button></td>
+                                }
+                                else
+                                {
+                                    <td>-</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script>
+        function huyDonHang(mahd) {
+            swal({
+                title: "Bạn chắc chắn muốn hủy?",
+                text: "Đơn hàng sau khi hủy sẽ không thể khôi phục!",
+                icon: "warning",
+                buttons: ["Quay lại", "Đồng ý Hủy"],
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '/Bill/ChangeStatus',
+                        type: 'POST',
+                        data: { mahd: mahd, stt: 0 },
+                        success: function (res) {
+                            if (res.status) {
+                                swal("Thành công!", "Đã hủy đơn hàng thành công.", "success").then(() => location.reload());
+                            } else {
+                                swal("Lỗi!", res.message ? res.message : "Không thể hủy đơn hàng này.", "error");
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

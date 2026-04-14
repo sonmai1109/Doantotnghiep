@@ -37,37 +37,39 @@ namespace Maison.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            // ❌ Tắt cascade: TaiKhoan → HoaDon
+            // 1. Tắt cascade: TaiKhoan -> HoaDon (Đã sửa lỗi tự đẻ cột)
             modelBuilder.Entity<HoaDon>()
                 .HasRequired(h => h.TaiKhoanNguoiDung)
-                .WithMany()
+                .WithMany(t => t.HoaDons) // Khớp với ICollection<HoaDon> HoaDons trong TaiKhoanNguoiDung
                 .HasForeignKey(h => h.MaTK)
                 .WillCascadeOnDelete(false);
-            modelBuilder.Entity<Baohanh>()
-            .HasRequired(b => b.TaiKhoanNguoiDung)
-            .WithMany()
-            .HasForeignKey(b => b.MaTK)
-            .WillCascadeOnDelete(false);
 
-            // ❌ Tắt cascade: BaoHanh → TaiKhoan
+            // 2. Tắt cascade: TaiKhoan -> BaoHanh (Đã sửa lỗi)
             modelBuilder.Entity<Baohanh>()
                 .HasRequired(b => b.TaiKhoanNguoiDung)
-                .WithMany()
+                .WithMany(t => t.Baohanhs) // Khớp với ICollection<Baohanh> Baohanhs
                 .HasForeignKey(b => b.MaTK)
                 .WillCascadeOnDelete(false);
 
-            // ❌ Tắt cascade: BaoHanh → HoaDon
+            // 3. Tắt cascade: HoaDon -> BaoHanh (Đã sửa lỗi)
             modelBuilder.Entity<Baohanh>()
                 .HasRequired(b => b.HoaDon)
-                .WithMany()
+                .WithMany(h => h.Baohanhs) // Khớp với ICollection<Baohanh> Baohanhs trong HoaDon
                 .HasForeignKey(b => b.MaHD)
                 .WillCascadeOnDelete(false);
 
-            // ❌ Tắt cascade: BaoHanh → BienThe
+            // 4. Tắt cascade: BienThe -> BaoHanh
             modelBuilder.Entity<Baohanh>()
                 .HasRequired(b => b.BienThe)
-                .WithMany()
+                .WithMany() // Cứ để trống nếu trong bảng BienThe bạn KHÔNG tạo ICollection<Baohanh>
                 .HasForeignKey(b => b.MaBT)
+                .WillCascadeOnDelete(false);
+
+            // 5. Ngăn lỗi cho Giỏ Hàng (Bổ sung thêm cho an toàn tuyệt đối)
+            modelBuilder.Entity<GioHang>()
+                .HasRequired(g => g.TaiKhoanNguoiDung)
+                .WithMany(t => t.GioHangs) // Khớp với ICollection<GioHang> GioHangs
+                .HasForeignKey(g => g.MaTK)
                 .WillCascadeOnDelete(false);
 
             base.OnModelCreating(modelBuilder);

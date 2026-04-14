@@ -180,12 +180,28 @@ body {
     background-color: white;
     border-radius: 15px;
     width: 400px;
-    height: 200px;
+    height: 300px;
     /* nền mờ */
     inset: 0;
-    top: 34%;
-    left: -2%;
+    top: 26%;
+    left: 0%;
     display: none;
+}
+.user-box {
+    position: relative; /* QUAN TRỌNG */
+    display: inline-block;
+}
+
+.checktk2 {
+    position: absolute;
+    top: 100%; /* nằm dưới button */
+    left: -53%;
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 15px;
+    width: 200px;
+    display: none;
+    z-index: 1000;
 }
 /*css cua phan drop menu danh muc*/
 

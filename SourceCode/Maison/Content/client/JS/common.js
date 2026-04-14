@@ -307,33 +307,56 @@
 //}
 
 //Ajax đặt hàng
-//function datHang() {
-//    let data = {};
-//    let formData = $('#add-bill-form').serializeArray({
-//    });
-//    $.each(formData, function (index, value) {
-//        data["" + value.name + ""] = value.value;
-//    });
-//    $.ajax({
-//        url: '/Bill/CreateBill',
-//        type: 'post',
-//        contentType: 'application/json',
-//        data: JSON.stringify(data),
-//        dataType: 'json',
-//        success: function (respone) {
-//            if (respone.status == true) {
-//                window.location.replace("/Bill/ListBills");
-//            } else {
-//                $("#add-message").addClass("text-danger");
-//                $("#add-message").html(respone.message);
-//            }
-//        },
-//        error: function (respone) {
-//            console.log(respone);
-//        }
-//    });
-//    return false;
-//}
+function datHang(e) {
+    // Ngăn chặn hành vi tự động load lại trang của form
+    e.preventDefault();
+
+    // 1. Thu thập toàn bộ dữ liệu từ form #add-bill-form
+    let data = {};
+    let formData = $('#add-bill-form').serializeArray();
+    $.each(formData, function (index, value) {
+        // Tên các input (hotennguoinhan, sodienthoainhan...) sẽ tự động map 
+        // với các thuộc tính của model HoaDon trong C# nhờ MVC Model Binding
+        data[value.name] = value.value;
+    });
+
+    // 2. Hiển thị thông báo đang xử lý để khóa màn hình (chống click 2 lần)
+    swal({
+        title: "Đang xử lý...",
+        text: "Hệ thống đang lên đơn hàng cho bạn",
+        icon: "info",
+        buttons: false,
+        closeOnClickOutside: false,
+    });
+
+    // 3. Bắn AJAX lên BillController
+    $.ajax({
+        url: '/Bill/CreateBill',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        dataType: 'json',
+        success: function (response) {
+            if (response.status == true) {
+                // Thành công: Báo thành công rồi mới chuyển trang
+                swal("Thành công!", "Đơn hàng của bạn đã được đặt thành công.", "success")
+                    .then(() => {
+                        // Chuyển hướng sang trang danh sách đơn hàng
+                        window.location.replace("/Bill/ListBills");
+                    });
+            } else {
+                // Thất bại: Lấy câu thông báo lỗi từ Controller để hiện ra
+                swal("Thất bại!", response.message ? response.message : "Có lỗi xảy ra, vui lòng thử lại sau.", "error");
+            }
+        },
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            swal("Lỗi mạng!", "Không thể kết nối đến máy chủ, vui lòng kiểm tra lại Internet.", "error");
+        }
+    });
+
+    return false; // Bắt buộc return false để form không submit kiểu cũ
+}
 
 ////Ajax Hủy đơn hàng
 //function huyDonHang(id) {

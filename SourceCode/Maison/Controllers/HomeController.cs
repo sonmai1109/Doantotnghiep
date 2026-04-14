@@ -159,7 +159,7 @@ namespace Maison.Controllers
             if (tk != null)
             {
                 // Nếu đã đăng nhập, đếm số lượng các cấu hình khác nhau nằm trong giỏ
-                count = db.GioHangs.Where(g => g.MaTK == tk.MaTk).Count();
+                count = db.GioHangs.Where(g => g.MaTK == tk.MaTK).Count();
             }
 
             return PartialView(count);

@@ -18,6 +18,17 @@
         z-index: 1050;
         width: 600px;
     }
+    .popupprivate2 {
+        display: none;
+        position: fixed;
+        left: 35%;
+       
+        bottom: 30%;
+        overflow-y: auto;
+        border-radius: 15px;
+        z-index: 1050;
+        width: 600px;
+    }
 </style>
 
 <div class="mt-3 d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -164,12 +175,12 @@
 }
 
 @section deletepopup{
-    <div class="deletepopup popupprivate border p-5 bg-white shadow-soft" id="deletepopup">
+    <div class="deletepopup popupprivate2 border p-5 bg-white shadow-soft" id="deletepopup">
         <div>
             <h3 class="text-warning text-center mb-3">Xóa Sản Phẩm</h3>
             <p id="delete-message"></p>
             <input type="hidden" id="delete-masp" name="MaSP" />
-            <h6 class="text-center fw-bold mb-4">Các cấu hình (Biến thể) thuộc sản phẩm này cũng sẽ bị mồ côi. Bạn chắc chắn chứ?</h6>
+            <h6 class="text-center fw-bold mb-4">Các cấu hình (Biến thể) thuộc sản phẩm này cũng sẽ bị mất. Bạn chắc chắn chứ?</h6>
 
             <button type="button" class="btn btn-block btn-primary" onclick="xoaSanPham()">Chắc chắn</button>
             <div class="btn btn-block border-primary cancelPopup">Hủy</div>
