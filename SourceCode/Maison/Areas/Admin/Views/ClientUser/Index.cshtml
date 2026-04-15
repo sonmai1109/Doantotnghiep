@@ -1,0 +1,162 @@
+﻿@model PagedList.IPagedList<Maison.Models.TaiKhoanNguoiDung>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
+@{
+    ViewBag.Title = "Quản lý Khách hàng";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <h2 class="h4 font-weight-bold"><i class="fas fa-users mr-2"></i> Danh sách Khách hàng</h2>
+        <p class="text-muted">Quản lý tài khoản, thông tin liên hệ và trạng thái hoạt động</p>
+    </div>
+</div>
+
+<div class="table-settings mb-4">
+    <div class="row align-items-center justify-content-between">
+        <div class="col col-md-6 col-lg-4 col-xl-4">
+            <form action="/Admin/ClientUser/Index" method="get">
+                <div class="input-group shadow-sm">
+                    <input type="text" class="form-control" name="searchString" value="@ViewBag.searchString" placeholder="Tìm theo Tên đăng nhập hoặc Số ĐT...">
+                    <button class="btn btn-dark" type="submit"><i class="fas fa-search"></i> Tìm kiếm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body border-light shadow-sm table-wrapper table-responsive pt-0 mb-4">
+    <table class="table table-hover align-middle text-center">
+        <thead class="thead-light">
+            <tr>
+                <th class="text-left">Khách hàng</th>
+                <th>Thông tin liên lạc</th>
+                <th>Ngày sinh</th>
+                <th>Giới tính</th>
+                <th>Trạng thái</th>
+                <th>Tùy chọn</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="row-@item.MaTK">
+                    <td class="text-left">
+                        <span class="d-block font-weight-bold text-primary" style="font-size: 15px;">@item.HoTen</span>
+                        <small class="text-muted"><i class="fas fa-user-circle"></i> @item.TenDangNhap</small>
+                    </td>
+                    <td>
+                        <span class="d-block font-weight-bold">@item.SoDienThoai</span>
+                        <small class="text-muted text-truncate d-inline-block" style="max-width: 150px;" title="@item.Email">@item.Email</small>
+                    </td>
+                    <td>@(item.NgaySinh != null ? item.NgaySinh.ToString("dd/MM/yyyy") : "-")</td>
+                    <td>
+                        @if (item.GioiTinh==1)
+                        {<span class="badge badge-light text-info border"><i class="fas fa-mars mr-1"></i> Nam</span> }
+                        else
+                        { <span class="badge badge-light text-danger border"><i class="fas fa-venus mr-1"></i> Nữ</span>}
+                    </td>
+                    <td>
+                        @if (item.TrangThai)
+                        {
+                            <span class="badge badge-success px-2 py-1"><i class="fas fa-check-circle mr-1"></i> Đang hoạt động</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger px-2 py-1"><i class="fas fa-lock mr-1"></i> Đã bị khóa</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split rounded shadow-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="fas fa-ellipsis-h"></span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right shadow">
+                                <button class="dropdown-item change font-weight-bold @(item.TrangThai ? "text-warning" : "text-success")" onclick="suaTaiKhoan(@item.MaTK)">
+                                    <i class="fas @(item.TrangThai ? "fa-user-lock" : "fa-user-check") mr-2"></i>
+                                    @(item.TrangThai ? "Khóa tài khoản" : "Mở khóa tài khoản")
+                                </button>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item text-danger delete font-weight-bold" onclick="xoaTaiKhoan(@item.MaTK)">
+                                    <i class="fas fa-trash-alt mr-2"></i>Xóa vĩnh viễn
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="card-footer px-3 border-0 d-flex align-items-center justify-content-between">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination mb-0">
+                @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
+
+                @Html.PagedListPager(Model, page => Url.Action("Index",
+                    new { page, pageSize = Model.PageSize, searchString = ViewBag.searchString }))
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@section Script{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        // Hàm Kích hoạt / Khóa tài khoản
+        function suaTaiKhoan(id) {
+            swal({ title: "Đang xử lý...", icon: "info", buttons: false, closeOnClickOutside: false });
+
+            $.ajax({
+                url: '/Admin/ClientUser/Update',
+                type: 'POST',
+                data: { Matk: id },
+                success: function (res) {
+                    if (res.status == true) {
+                        swal("Thành công!", res.message, "success").then(() => location.reload());
+                    } else {
+                        swal("Thất bại!", res.message, "error");
+                    }
+                },
+                error: function () {
+                    swal("Lỗi mạng!", "Không thể kết nối đến máy chủ", "error");
+                }
+            });
+        }
+
+        // Hàm Xóa tài khoản bằng SweetAlert (Thay thế cái Popup HTML cũ)
+        function xoaTaiKhoan(id) {
+            swal({
+                title: "Bạn chắc chắn muốn xóa?",
+                text: "LỜI KHUYÊN: Bạn nên chọn 'Khóa tài khoản' thay vì xóa. Việc xóa có thể làm mất dữ liệu đơn hàng cũ của khách. Bạn vẫn muốn tiếp tục xóa chứ?",
+                icon: "warning",
+                buttons: ["Hủy bỏ", "Vẫn Xóa!"],
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    swal({ title: "Đang xóa...", icon: "info", buttons: false });
+
+                    $.ajax({
+                        type: 'POST',
+                        data: { "id": id },
+                        url: '/Admin/ClientUser/Delete',
+                        success: function (res) {
+                            if (res.status == true) {
+                                swal("Đã xóa!", "Tài khoản đã bốc hơi khỏi hệ thống.", "success")
+                                    .then(() => { $("#row-" + id).fadeOut(500, function() { $(this).remove(); }); });
+                            } else {
+                                // Đây là lúc bắt lỗi Khóa ngoại (Đã mua hàng) phát huy tác dụng
+                                swal("Không thể xóa!", res.message, "error");
+                            }
+                        },
+                        error: function () {
+                            swal("Lỗi mạng!", "Không thể kết nối đến máy chủ", "error");
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

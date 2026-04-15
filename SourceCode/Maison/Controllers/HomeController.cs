@@ -29,7 +29,7 @@ namespace Maison.Controllers
             var sanPhamMoi = db.Sanphams
                 .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .OrderByDescending(p => p.NgayTao)
-                .Take(10)
+                .Take(5)
                 .ToList();
 
             // 3. Giá tốt
@@ -37,7 +37,7 @@ namespace Maison.Controllers
                 .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .Where(p => p.BienThes.Any())
                 .OrderBy(p => p.BienThes.Min(b => b.GiaBan))
-                .Take(10)
+                .Take(5)
                 .ToList();
 
             ViewBag.SanPhamKhuyenMai = sanPhamKhuyenMai;

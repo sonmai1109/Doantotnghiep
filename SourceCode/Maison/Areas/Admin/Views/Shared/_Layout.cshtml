@@ -178,7 +178,7 @@
             <!-- Main Sidebar Container -->
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
-                <a href="~/Content/admin/index3.html" class="brand-link">
+                <a href="#" class="brand-link">
                     <img src="~/Content/admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                     <span class="brand-text font-weight-light">AdminLTE 3</span>
                 </a>
@@ -211,36 +211,36 @@
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <!-- Add icons to the links using the .nav-icon class
-                            with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
                             @*<li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                                        <p>
-                                            Dashboard
-                                            <i class="right fas fa-angle-left"></i>
-                                        </p>
-                                    </a>
-                                    <ul class="nav nav-treeview">
-                                        <li class="nav-item">
-                                            <a href="~/Content/admin/index.html" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>Dashboard v1</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="~/Content/admin/index2.html" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>Dashboard v2</p>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a href="~/Content/admin/index3.html" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>Dashboard v3</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </li>*@
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-tachometer-alt"></i>
+                <p>
+                    Dashboard
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="~/Content/admin/index.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Dashboard v1</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="~/Content/admin/index2.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Dashboard v2</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="~/Content/admin/index3.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Dashboard v3</p>
+                    </a>
+                </li>
+            </ul>
+        </li>*@
                             <li class="nav-item">
                                 <a href="@Url.Action("Index","Home")" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -279,7 +279,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="@Url.Action("Index","DanhGia")" class="nav-link">
                                     <i class="nav-icon fas fa-comment"></i>
                                     <p>
                                         Đánh giá
@@ -296,25 +296,26 @@
                                     </p>
                                 </a>
                             </li>
-                            @if(tk.LoaiTaiKhoan == true) { 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-user"></i>
-                                    <p>
-                                        Tài khoản người dùng
+                            @if (tk.LoaiTaiKhoan == true)
+                            {
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index","ClientUser")" class="nav-link">
+                                        <i class="nav-icon fas fa-user"></i>
+                                        <p>
+                                            Tài khoản người dùng
 
-                                    </p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="@Url.Action("Index","AdminUser")" class="nav-link">
-                                    <i class="nav-icon fas fa-user"></i>
-                                    <p>
-                                        Tài khoản Quàn trị
+                                        </p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index","AdminUser")" class="nav-link">
+                                        <i class="nav-icon fas fa-user"></i>
+                                        <p>
+                                            Tài khoản Quàn trị
 
-                                    </p>
-                                </a>
-                            </li>
+                                        </p>
+                                    </a>
+                                </li>
                             }
                             <li class="nav-item">
                                 <a href="@Url.Action("Index","Brands")" class="nav-link">
@@ -330,6 +331,16 @@
                                     <i class=" nav-icon fab fa-creative-commons-by"></i>
                                     <p>
                                         Thuộc tính
+
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Index","BaoHanh")" class="nav-link">
+                                    <i class=" nav-icon fas fa-wrench"></i>
+                                    
+                                    <p>
+                                        Bảo hành
 
                                     </p>
                                 </a>

@@ -1,0 +1,271 @@
+﻿@model PagedList.IPagedList<Maison.Models.Baohanh>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
+@{
+    ViewBag.Title = "Quản lý Bảo hành";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <h2 class="h4">Danh sách Phiếu Bảo Hành</h2>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <a href="@Url.Action("Create", "BaoHanh")" class="btn btn-sm btn-primary">
+            <i class="fas fa-plus mr-2"></i> Tạo Phiếu Mới
+        </a>
+    </div>
+</div>
+
+<div class="table-settings mb-4">
+    <div class="row align-items-center justify-content-between">
+        <div class="col col-md-8 col-lg-6 col-xl-5">
+            <form>
+                <div class="input-group">
+                    <button class="input-group-text" type="submit"><span class="fas fa-search"></span></button>
+                    <input type="text" class="form-control" name="searchString" value="@ViewBag.searchString" placeholder="Nhập SĐT hoặc Mã phiếu...">
+                    <select class="form-control" name="status" onchange="this.form.submit()">
+                        <option value="">Tất cả trạng thái</option>
+                        <option @(ViewBag.Status == 1 ? "selected" : "") value="1">Chờ tiếp nhận</option>
+                        <option @(ViewBag.Status == 2 ? "selected" : "") value="2">Đang xử lý</option>
+                        <option @(ViewBag.Status == 3 ? "selected" : "") value="3">Đã sửa xong</option>
+                        <option @(ViewBag.Status == 4 ? "selected" : "") value="4">Hoàn thành (Đã trả)</option>
+                        <option @(ViewBag.Status == 0 ? "selected" : "") value="0">Đã hủy</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body border-light shadow-sm table-wrapper table-responsive pt-0">
+    <table class="table table-hover align-middle">
+        <thead class="thead-light">
+            <tr>
+                <th>Mã Phiếu</th>
+                <th>Khách hàng</th>
+                <th>Sản phẩm</th>
+                <th>Ngày nhận</th>
+                <th>Trạng thái</th>
+                <th>Chi Phí</th>
+                <th>Tình trạng lỗi</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="font-weight-bold">#@item.MaPhieu</td>
+                    <td>
+                        <span class="d-block font-weight-bold">@item.TaiKhoanNguoiDung.HoTen</span>
+                        <small class="text-muted">@item.TaiKhoanNguoiDung.SoDienThoai</small>
+                    </td>
+                    <td>
+                        <span class="d-block text-truncate" style="max-width: 200px;" title="@item.BienThe.Sanpham.TenSP">
+                            @item.BienThe.Sanpham.TenSP
+                        </span>
+                        @if (item.MaHD > 0)
+                        {<small class="text-info">Mua từ ĐH: #@item.MaHD</small>}
+                    </td>
+                    <td>@(item.NgayTiepNhan?.ToString("dd/MM/yyyy") ?? "Chưa nhận")</td>
+                    <td>
+                        @if (item.TrangThai == 0)
+                        {
+                            <span class="badge badge-danger" style="padding: 8px; font-size: 12px;">Đã hủy</span>
+                        }
+                        else if (item.TrangThai == 1)
+                        {
+                            <span class="badge badge-warning text-dark" style="padding: 8px; font-size: 12px;">Chờ tiếp nhận</span>
+                        }
+                        else if (item.TrangThai == 2)
+                        {
+                            <span class="badge badge-primary" style="padding: 8px; font-size: 12px;">Đang xử lý</span>
+                        }
+                        else if (item.TrangThai == 3)
+                        {
+                            <span class="badge badge-info text-white" style="padding: 8px; font-size: 12px;">Đã sửa xong</span>
+                        }
+                        else if (item.TrangThai == 4)
+                        {
+                            <span class="badge badge-success" style="padding: 8px; font-size: 12px;">Hoàn thành</span>
+                        }
+                    </td>
+
+                    <td class="font-weight-bold text-danger">
+                        @(item.ChiPhiSuaChua.HasValue && item.ChiPhiSuaChua.Value > 0 ? item.ChiPhiSuaChua.Value.ToString("N0") + " ₫" : "Miễn phí")
+                    </td>
+
+                    <td class="text-truncate" style="max-width: 150px;" title="@item.TinhTrangLoi">
+                        @item.TinhTrangLoi
+                    </td>
+
+                    <td>
+                        <button class="btn btn-sm btn-info text-white" onclick="loadChiTietBaoHanh(@item.MaPhieu)">
+                            <i class="fas fa-edit"></i> Cập nhật
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="mt-3">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize, searchString = ViewBag.searchString, status = ViewBag.Status }))
+    </div>
+</div>
+
+<div class="modal fade" id="modalBaoHanh" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title font-weight-bold">Xử lý Phiếu Bảo Hành <span id="m-maphieu" class="text-danger"></span></h5>
+                <button type="button" class="close" data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row p-3 bg-light rounded mb-3 mx-1 border">
+                    <div class="col-md-6">
+                        <p class="mb-1"><strong>Khách hàng:</strong> <span id="m-tenkhach"></span></p>
+                        <p class="mb-1"><strong>SĐT:</strong> <span id="m-sdt" class="font-weight-bold text-primary"></span></p>
+                        <p class="mb-0"><strong>Tình trạng lỗi (Khách báo):</strong> <br /> <span id="m-loikhach" class="text-danger"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="mb-1"><strong>Sản phẩm:</strong> <span id="m-tensp"></span></p>
+                        <p class="mb-1"><strong>Cấu hình:</strong> <span id="m-cauhinh" class="text-muted"></span></p>
+                        <p class="mb-0"><strong>Ngày nhận máy:</strong> <span id="m-ngaynhan"></span></p>
+                    </div>
+                </div>
+
+                <form id="formBaoHanh">
+                    <input type="hidden" id="hdnMaPhieu" />
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="font-weight-bold">Trạng thái xử lý <span class="text-danger">*</span></label>
+                            <select class="form-control" id="selTrangThai">
+                                <option value="1">1. Chờ tiếp nhận máy</option>
+                                <option value="2">2. Đang kiểm tra / Sửa chữa</option>
+                                <option value="3">3. Đã sửa xong (Chờ khách lấy)</option>
+                                <option value="4">4. Hoàn thành (Đã trả máy)</option>
+                                <option value="0">0. Hủy (Từ chối / Khách không sửa)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="font-weight-bold">Chi phí sửa chữa (VNĐ)</label>
+                            <input type="number" class="form-control" id="txtChiPhi" value="0" min="0">
+                            <small class="text-muted">Nhập 0 nếu bảo hành miễn phí</small>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="font-weight-bold">Ngày hẹn trả dự kiến</label>
+                            <input type="date" class="form-control" id="txtNgayHenTra">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="font-weight-bold">Nội dung sửa chữa / Ghi chú của Kỹ thuật viên</label>
+                        <textarea class="form-control" id="txtNoiDungSua" rows="3" placeholder="Nhập chi tiết linh kiện thay thế, lỗi thực tế..."></textarea>
+                    </div>
+                </form>
+
+                <div id="alertClosed" class="alert alert-danger d-none mt-2" role="alert">
+                    <i class="fas fa-lock mr-1"></i> Phiếu bảo hành này đã đóng (Hoàn thành hoặc Hủy). Không thể chỉnh sửa thêm!
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-success" id="btnSaveBaoHanh" onclick="capNhatBaoHanh()">
+                    <i class="fas fa-save mr-1"></i> Lưu cập nhật
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        // 1. LẤY DỮ LIỆU VÀ ĐỔ VÀO MODAL
+        function loadChiTietBaoHanh(id) {
+            swal({ title: "Đang tải dữ liệu...", icon: "info", buttons: false, closeOnClickOutside: false });
+
+            $.ajax({
+                type: 'POST',
+                data: { "id": id },
+                url: '/Admin/BaoHanh/GetDetails', // Route Controller Bảo Hành
+                success: function (res) {
+                    swal.close();
+                    if (res.error) {
+                        swal("Lỗi!", res.error, "error");
+                        return;
+                    }
+
+                    // Gán Data chỉ đọc
+                    $("#hdnMaPhieu").val(res.MaPhieu);
+                    $("#m-maphieu").text("#" + res.MaPhieu);
+                    $("#m-tenkhach").text(res.TenKhach);
+                    $("#m-sdt").text(res.SDT);
+                    $("#m-tensp").text(res.TenSP);
+                    $("#m-cauhinh").text(res.CauHinh);
+                    $("#m-loikhach").text(res.TinhTrangLoi);
+                    $("#m-ngaynhan").text(res.NgayTiepNhan ? res.NgayTiepNhan : "Chưa cập nhật");
+
+                    // Gán Data form nhập liệu
+                    $("#selTrangThai").val(res.TrangThai);
+                    $("#txtChiPhi").val(res.ChiPhiSuaChua);
+                    $("#txtNgayHenTra").val(res.NgayHenTra);
+                    $("#txtNoiDungSua").val(res.NoiDungSuaChua);
+
+                    // Logic Khóa Form nếu Phiếu đã Hủy (0) hoặc Hoàn thành (4)
+                    if (res.TrangThai == 0 || res.TrangThai == 4) {
+                        $("#selTrangThai, #txtChiPhi, #txtNgayHenTra, #txtNoiDungSua").prop("disabled", true);
+                        $("#btnSaveBaoHanh").hide();
+                        $("#alertClosed").removeClass("d-none");
+                    } else {
+                        $("#selTrangThai, #txtChiPhi, #txtNgayHenTra, #txtNoiDungSua").prop("disabled", false);
+                        $("#btnSaveBaoHanh").show();
+                        $("#alertClosed").addClass("d-none");
+                    }
+
+                    // Hiện Modal
+                    $('#modalBaoHanh').modal('show');
+                },
+                error: function (xhr) {
+                    swal("Lỗi!", "Đứt kết nối mạng. Mở F12 xem chi tiết.", "error");
+                }
+            });
+        }
+
+        // 2. LƯU CẬP NHẬT
+        function capNhatBaoHanh() {
+            let data = {
+                maPhieu: $("#hdnMaPhieu").val(),
+                trangThai: $("#selTrangThai").val(),
+                chiPhi: $("#txtChiPhi").val(),
+                ngayHenTra: $("#txtNgayHenTra").val(),
+                noiDung: $("#txtNoiDungSua").val()
+            };
+
+            swal({ title: "Đang lưu...", icon: "info", buttons: false, closeOnClickOutside: false });
+
+            $.ajax({
+                type: 'POST',
+                data: data,
+                url: '/Admin/BaoHanh/UpdateBaoHanh',
+                success: function (res) {
+                    if (res.status == true) {
+                        swal("Thành công!", "Đã cập nhật Phiếu bảo hành!", "success")
+                            .then(() => { window.location.reload(); });
+                    } else {
+                        swal("Thất bại!", res.message, "error");
+                    }
+                },
+                error: function (xhr) {
+                    swal("Lỗi!", "Có lỗi xảy ra khi lưu. Mở F12 xem chi tiết.", "error");
+                }
+            });
+        }
+    </script>
+}

@@ -11,7 +11,16 @@
         display: none;
         position: fixed;
         left: 40%;
-        bottom: 25%; /* Căn lại một chút cho form dài */
+        bottom: 20%; /* Căn lại một chút cho form dài */
+        border-radius: 15px;
+        z-index: 1050;
+        width: 450px;
+    }
+    .popupprivate2 {
+        display: none;
+        position: fixed;
+        left: 40%;
+        bottom: 6%; /* Căn lại một chút cho form dài */
         border-radius: 15px;
         z-index: 1050;
         width: 450px;
@@ -88,15 +97,17 @@
 
 <!-- ================= POPUP THÊM ================= -->
 @section popup{
-    <div class="popup popupprivate border p-5 bg-white shadow-soft" id="popup">
+    <div class="popup popupprivate2 border p-5 bg-white shadow-soft" id="popup">
         <div>
             <form id="add-form" onsubmit="return themTaiKhoanAdmin()">
                 <div>
                     <p id="add-message"></p>
                     <br />
-                    <h1>Tạo tài khoản</h1>
-                    <br />
+                    <h1 class="text-center mb-2">Tạo tài khoản</h1>
+                
+                    <label>Tên đăng nhập</label>
                     <input type="text" class="form-control mb-2" name="tendangnhap" placeholder="Tên đăng nhập" autofocus required>
+                    <label>Họ và tên</label>
                     <input type="text" class="form-control mb-2" name="hoten" placeholder="Họ và tên" required>
 
                     <div class="d-flex align-items-center mb-2">
@@ -107,11 +118,12 @@
                         <input type="radio" name="loaitaikhoan" id="statusManage" value="false" checked class="mr-1" />
                         <label for="statusManage" class="mb-0">Quản lý</label>
                     </div>
-
+                    <label>Mật khẩu</label>
                     <input type="password" name="matkhau" placeholder="Mật khẩu" class="form-control mb-2" required>
+                    <label>Xác nhận mật khẩu</label>
                     <input type="password" name="nhaplaimatkhau" placeholder="Xác nhận mật khẩu" class="form-control mb-2" required>
                 </div>
-                <br />
+             
                 <button type="submit" class="btn btn-block btn-primary">Đăng ký</button>
                 <div class="btn btn-block border-primary cancelPopup">Hủy</div>
             </form>
@@ -127,10 +139,12 @@
                 <div>
                     <p id="update-message"></p>
                     <br />
-                    <h1 class="text-danger">Sửa tài khoản</h1>
-                    <br />
+                    <h1 class="text-danger text-center mb-2">Sửa tài khoản</h1>
+                
                     <input class="hidden-text" type="hidden" id="matk" name="id" value="" />
+                    <label>Tên đăng nhập</label>
                     <input type="text" class="form-control mb-2" placeholder="Tên đăng nhập" id="tendangnhap" required>
+                    <label>Họ và tên</label>
                     <input type="text" class="form-control mb-2" placeholder="Họ và tên" disabled id="hoten" required>
 
                     <div class="d-flex align-items-center mb-2">

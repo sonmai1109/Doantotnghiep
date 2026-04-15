@@ -295,3 +295,6 @@ D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.F
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.RenameColumnInSQL.resources
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.DongBoCodeVaDB.resources
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.ChotFluentAPI.resources
+D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.FixBaoHanhMapping.resources
+D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.hinhanhbangdanhgia.resources
+D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.themphanhoiadmin.resources

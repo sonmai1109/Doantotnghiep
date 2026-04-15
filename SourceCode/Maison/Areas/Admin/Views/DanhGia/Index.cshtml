@@ -1,0 +1,233 @@
+﻿@model PagedList.IPagedList<Maison.Models.DanhGia>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fancyapps/ui@4.0/dist/fancybox.css" />
+
+@{
+    ViewBag.Title = "Quản lý Đánh giá";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <h2 class="h4 font-weight-bold"><i class="fas fa-star-half-alt mr-2 text-warning"></i> Quản lý Đánh giá</h2>
+        <p class="text-muted">Kiểm duyệt, phản hồi và quản lý ý kiến từ khách hàng</p>
+    </div>
+</div>
+
+<div class="table-settings mb-4">
+    <div class="row align-items-center justify-content-between">
+        <div class="col col-md-6 col-lg-4 col-xl-4">
+            <form action="/Admin/DanhGia/Index" method="get">
+                <div class="input-group shadow-sm">
+                    <input type="text" class="form-control" name="searchString" value="@ViewBag.searchString" placeholder="Tìm theo Tên khách hoặc Sản phẩm...">
+                    <button class="btn btn-dark" type="submit"><i class="fas fa-search"></i> Tìm kiếm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body border-light shadow-sm table-wrapper table-responsive pt-0 mb-4">
+    <table class="table table-hover align-middle text-center">
+        <thead class="thead-light">
+            <tr>
+                <th class="text-left" style="width: 200px;">Sản phẩm</th>
+                <th class="text-left">Khách hàng</th>
+                <th>Xếp hạng</th>
+                <th class="text-left" style="max-width: 250px;">Nội dung đánh giá</th>
+                <th>Phản hồi của Cửa hàng</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr id="row-@item.MaDanhGia">
+                    <td class="text-left">
+                        <span class="d-block font-weight-bold text-primary text-truncate" style="max-width: 180px;" title="@item.BienThe.Sanpham.TenSP">@item.BienThe.Sanpham.TenSP</span>
+                        <small class="text-muted">ID: #@item.MaBT</small>
+                    </td>
+
+                    <td class="text-left">
+                        <span class="d-block font-weight-bold">@(item.TaiKhoanNguoiDung != null ? item.TaiKhoanNguoiDung.HoTen : "Khách hàng")</span>
+                        <small class="text-muted"><i class="far fa-clock"></i> @(item.NgayTao?.ToString("dd/MM/yyyy HH:mm"))</small>
+                    </td>
+
+                    <td class="text-warning" style="font-size: 14px;">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= item.XepHang)
+                            {<i class="fas fa-star"></i> }
+                            else
+                            { <i class="far fa-star text-muted"></i>}
+                        }
+                    </td>
+
+                    <td class="text-left" style="max-width: 250px;">
+                        <div class="text-truncate" style="max-width: 250px; font-size: 14px;" title="@item.BinhLuan">
+                            @item.BinhLuan
+                        </div>
+                        @if (!string.IsNullOrEmpty(item.HinhAnh))
+                        {
+                            <div class="mt-2">
+                                <a href="@item.HinhAnh" data-fancybox="admin-gallery">
+                                    <img src="@item.HinhAnh" style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid #ccc; cursor: zoom-in;" alt="Ảnh đính kèm" />
+                                </a>
+                            </div>
+                        }
+                    </td>
+
+                    <td>
+                        @if (string.IsNullOrEmpty(item.PhanHoiCuaAdmin))
+                        {
+                            <span class="badge badge-light text-muted border"><i class="fas fa-reply"></i> Chưa phản hồi</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-info px-2 py-1 cursor-pointer" title="@item.PhanHoiCuaAdmin" onclick="swal('Nội dung phản hồi:', '@item.PhanHoiCuaAdmin', 'info')">
+                                <i class="fas fa-check"></i> Đã phản hồi
+                            </span>
+                        }
+                    </td>
+
+                    <td>
+                        @if (item.TrangThai == 1)
+                        {
+                            <span class="badge badge-success px-2 py-1"><i class="fas fa-eye"></i> Đang hiển thị</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger px-2 py-1"><i class="fas fa-eye-slash"></i> Đang ẩn</span>
+                        }
+                    </td>
+
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle dropdown-toggle-split rounded shadow-sm" data-toggle="dropdown">
+                                <span class="fas fa-ellipsis-h"></span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right shadow">
+                                <button class="dropdown-item font-weight-bold @(item.TrangThai == 1 ? "text-warning" : "text-success")" onclick="toggleStatus(@item.MaDanhGia)">
+                                    <i class="fas @(item.TrangThai == 1 ? "fa-eye-slash" : "fa-eye") mr-2"></i>
+                                    @(item.TrangThai == 1 ? "Ẩn đánh giá này" : "Duyệt hiển thị")
+                                </button>
+
+                                <button class="dropdown-item font-weight-bold text-primary" onclick="replyReview(@item.MaDanhGia, `@(item.PhanHoiCuaAdmin ?? "")`)">
+                                    <i class="fas fa-reply mr-2"></i> Viết phản hồi
+                                </button>
+
+                                <div class="dropdown-divider"></div>
+
+                                <button class="dropdown-item text-danger delete font-weight-bold" onclick="deleteReview(@item.MaDanhGia)">
+                                    <i class="fas fa-trash-alt mr-2"></i>Xóa vĩnh viễn
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="card-footer px-3 border-0 d-flex align-items-center justify-content-between bg-white">
+        <span class="text-muted font-weight-bold">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount</span>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination mb-0">
+                @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize, searchString = ViewBag.searchString }))
+            </ul>
+        </nav>
+    </div>
+</div>
+
+@section Script{
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+    <script>
+        // Khởi tạo Fancybox cho Admin xem ảnh
+        Fancybox.bind('[data-fancybox]', {
+            Toolbar: { display: ["zoom", "close"] }
+        });
+
+        // 1. HÀM DUYỆT / ẨN ĐÁNH GIÁ
+        function toggleStatus(id) {
+            $.post('/Admin/DanhGia/ToggleStatus', { id: id }, function (res) {
+                if (res.status) {
+                    swal("Thành công!", res.message, "success").then(() => location.reload());
+                } else {
+                    swal("Lỗi!", res.message, "error");
+                }
+            });
+        }
+
+        // 2. HÀM PHẢN HỒI (DÙNG SWEETALERT TEXTAREA - CỰC XỊN)
+        // 2. HÀM PHẢN HỒI (ĐÃ FIX LỖI CHỈ LƯU CHỮ "true")
+        function replyReview(id, oldReply) {
+            swal({
+                text: 'Nhập câu trả lời của Cửa hàng dành cho khách hàng này:',
+                content: {
+                    element: "textarea",
+                    attributes: {
+                        placeholder: "Dạ cảm ơn bạn đã ủng hộ cửa hàng...",
+                        value: oldReply,
+                        id: "adminReplyInput", // <-- THÊM ID NÀY ĐỂ MÓC DỮ LIỆU
+                        rows: 4,
+                        className: "form-control"
+                    }
+                },
+                buttons: {
+                    cancel: "Hủy bỏ",
+                    confirm: {
+                        text: "Gửi phản hồi",
+                        closeModal: false
+                    }
+                },
+            }).then((isConfirm) => {
+                if (isConfirm) {
+                    // Tự tay móc dữ liệu từ ô text area ra
+                    let replyText = document.getElementById("adminReplyInput").value;
+
+                    // Chặn nếu admin quên chưa gõ gì mà lỡ bấm gửi
+                    if (!replyText.trim()) {
+                        swal("Cảnh báo!", "Vui lòng nhập nội dung phản hồi.", "warning");
+                        return;
+                    }
+
+                    // Gửi lên Server
+                    $.post('/Admin/DanhGia/ReplyReview', { id: id, replyText: replyText }, function (res) {
+                        if (res.status) {
+                            swal("Thành công!", "Đã đăng câu trả lời!", "success").then(() => location.reload());
+                        } else {
+                            swal("Lỗi!", res.message, "error");
+                        }
+                    });
+                }
+            });
+        }
+
+        // 3. HÀM XÓA
+        function deleteReview(id) {
+            swal({
+                title: "Xóa đánh giá này?",
+                text: "Không thể khôi phục sau khi xóa!",
+                icon: "warning",
+                buttons: ["Hủy", "Xóa ngay"],
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.post('/Admin/DanhGia/Delete', { id: id }, function (res) {
+                        if (res.status) {
+                            swal("Đã xóa!", "Đánh giá đã bị xóa khỏi hệ thống.", "success")
+                                .then(() => { $("#row-" + id).fadeOut(); });
+                        } else {
+                            swal("Lỗi!", res.message, "error");
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

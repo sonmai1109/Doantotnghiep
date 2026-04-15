@@ -1,0 +1,309 @@
+﻿@model IEnumerable<Maison.Models.DanhGia>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fancyapps/ui@4.0/dist/fancybox.css" />
+<script src="https://cdn.jsdelivr.net/npm/fancyapps/ui@4.0/dist/fancybox.umd.js"></script>
+
+<style>
+    /* 1. KHUNG BAO QUANH CHÍNH GIỮA, ĐỔ BÓNG */
+    .review-wrapper-centered {
+        max-width: 900px;
+        margin: 0 auto 50px auto;
+        background: #ffffff;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        border: 1px solid #eaeaea;
+    }
+
+    /* Tiêu đề động */
+    .dynamic-review-title {
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 25px;
+    }
+
+    /* 2. KHUNG THỐNG KÊ SAO */
+    .rating-summary-box {
+        display: flex;
+        align-items: center;
+        border: 1px solid #f0f0f0;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+        background: #fdfdfd;
+    }
+
+    .rating-average {
+        flex: 0 0 160px;
+        text-align: center;
+        border-right: 1px solid #eee;
+    }
+
+        .rating-average h2 {
+            font-size: 40px;
+            color: #d70018;
+            font-weight: bold;
+            margin: 0;
+            line-height: 1;
+        }
+
+    .rating-bars {
+        flex: 1;
+        padding-left: 30px;
+    }
+
+    .rating-bar-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+        .rating-bar-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .rating-bar-item .star-label {
+            flex: 0 0 40px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        .rating-bar-item .progress {
+            flex: 1;
+            height: 6px;
+            margin: 0 15px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            box-shadow: none;
+        }
+
+        .rating-bar-item .progress-bar {
+            background-color: #d70018;
+            border-radius: 10px;
+        }
+
+        .rating-bar-item .count-label {
+            flex: 0 0 70px;
+            color: #888;
+            text-align: right;
+            font-size: 13px;
+        }
+
+    /* 3. DANH SÁCH REVIEW (Avatar Tròn) */
+    .single-review-item {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+        .single-review-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+    .review-user-avatar {
+        flex: 0 0 45px;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 18px;
+        color: white;
+        text-transform: uppercase;
+    }
+
+    .review-details-col {
+        flex: 1;
+    }
+
+        .review-details-col .username {
+            font-weight: bold;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .review-details-col .star-line {
+            color: #ffc107;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .review-details-col .review-comment {
+            margin-top: 10px;
+            line-height: 1.5;
+            color: #444;
+        }
+
+    .review-thumb-image {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        cursor: zoom-in; /* Chuột hình kính lúp */
+        margin-top: 12px;
+        transition: 0.2s;
+    }
+
+        .review-thumb-image:hover {
+            transform: scale(1.05);
+        }
+
+    /* 4. KHUNG ADMIN PHẢN HỒI */
+    .admin-reply-box {
+        margin-top: 15px;
+        background-color: #f8f9fa;
+        border-left: 3px solid #d70018;
+        padding: 12px 15px;
+        border-radius: 0 6px 6px 0;
+    }
+</style>
+
+@{
+    // TÍNH TOÁN THỐNG KÊ (Dùng cho Progress Bar)
+    int totalReviews = Model.Count();
+    double avgRating = totalReviews > 0 ? Model.Average(x => x.XepHang) : 0;
+
+    int count5 = Model.Count(x => x.XepHang == 5);
+    int count4 = Model.Count(x => x.XepHang == 4);
+    int count3 = Model.Count(x => x.XepHang == 3);
+    int count2 = Model.Count(x => x.XepHang == 2);
+    int count1 = Model.Count(x => x.XepHang == 1);
+
+    double pct5 = totalReviews > 0 ? (count5 * 100.0 / totalReviews) : 0;
+    double pct4 = totalReviews > 0 ? (count4 * 100.0 / totalReviews) : 0;
+    double pct3 = totalReviews > 0 ? (count3 * 100.0 / totalReviews) : 0;
+    double pct2 = totalReviews > 0 ? (count2 * 100.0 / totalReviews) : 0;
+    double pct1 = totalReviews > 0 ? (count1 * 100.0 / totalReviews) : 0;
+}
+
+<div class="review-wrapper-centered">
+    <h4 id="dynamic-review-title" class="dynamic-review-title">Đánh giá sản phẩm</h4>
+
+    <div class="rating-summary-box">
+        <div class="rating-average">
+            <h2>@(avgRating > 0 ? avgRating.ToString("0.0") : "0")<span style="font-size: 20px; color: #888;">/5</span></h2>
+            <div style="color: #ffc107; font-size: 14px; margin: 8px 0;">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (i <= Math.Round(avgRating))
+                    {<i class="fas fa-star"></i> }
+                    else
+                    { <i class="far fa-star"></i>}
+                }
+            </div>
+            <div style="font-size: 13px; color: #888;"><strong>@totalReviews</strong> lượt đánh giá</div>
+        </div>
+
+        <div class="rating-bars">
+            <div class="rating-bar-item">
+                <div class="star-label">5 <i class="fas fa-star text-warning"></i></div>
+                <div class="progress"><div class="progress-bar" style="width: @(pct5)%;"></div></div>
+                <div class="count-label">@count5 đánh giá</div>
+            </div>
+            <div class="rating-bar-item">
+                <div class="star-label">4 <i class="fas fa-star text-warning"></i></div>
+                <div class="progress"><div class="progress-bar" style="width: @(pct4)%;"></div></div>
+                <div class="count-label">@count4 đánh giá</div>
+            </div>
+            <div class="rating-bar-item">
+                <div class="star-label">3 <i class="fas fa-star text-warning"></i></div>
+                <div class="progress"><div class="progress-bar" style="width: @(pct3)%;"></div></div>
+                <div class="count-label">@count3 đánh giá</div>
+            </div>
+            <div class="rating-bar-item">
+                <div class="star-label">2 <i class="fas fa-star text-warning"></i></div>
+                <div class="progress"><div class="progress-bar" style="width: @(pct2)%;"></div></div>
+                <div class="count-label">@count2 đánh giá</div>
+            </div>
+            <div class="rating-bar-item">
+                <div class="star-label">1 <i class="fas fa-star text-warning"></i></div>
+                <div class="progress"><div class="progress-bar" style="width: @(pct1)%;"></div></div>
+                <div class="count-label">@count1 đánh giá</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="reviews-list">
+        @if (!Model.Any())
+        {
+            <div class="text-center py-4" style="color: #888;">
+                <i class="fas fa-comment-slash fa-3x mb-3 text-light"></i>
+                <p>Chưa có đánh giá nào cho cấu hình này.</p>
+            </div>
+        }
+        else
+        {
+            foreach (var item in Model)
+            {
+                <div class="single-review-item">
+                    @{
+                        string hoTenUser = item.TaiKhoanNguoiDung != null ? item.TaiKhoanNguoiDung.HoTen : "Khách";
+                        string avatarText = "K";
+                        if (!string.IsNullOrEmpty(hoTenUser))
+                        {
+                            var parts = hoTenUser.Trim().Split(' ');
+                            avatarText = parts[parts.Length - 1].Substring(0, 1).ToUpper();
+                        }
+                    }
+                    <div class="review-user-avatar" style="background-color: @(item.MaBT % 2 == 0 ? "#2563eb" : "#dc2626");">@avatarText</div>
+
+                    <div class="review-details-col">
+                        <div class="username">@hoTenUser</div>
+                        <div class="star-line">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= item.XepHang)
+                                {<i class="fas fa-star"></i> }
+                                else
+                                { <i class="far fa-star"></i>}
+                            }
+                            <span class="text-muted ml-2" style="font-size: 12px;"><i class="far fa-clock"></i> @(item.NgayTao != null ? item.NgayTao?.ToString("dd/MM/yyyy HH:mm") : "")</span>
+                        </div>
+
+                        <div class="review-comment">
+                            @Html.Raw(System.Web.HttpUtility.HtmlEncode(item.BinhLuan).Replace("\n", "<br/>"))
+                        </div>
+
+                        @if (!string.IsNullOrEmpty(item.HinhAnh))
+                        {
+                            <a href="@item.HinhAnh" data-fancybox="gallery" data-caption="Ảnh từ khách hàng @hoTenUser">
+                                <img src="@item.HinhAnh" class="review-thumb-image" alt="Ảnh thực tế" />
+                            </a>
+                        }
+
+                         @if (!string.IsNullOrEmpty(item.PhanHoiCuaAdmin))
+                            {
+                                <div class="admin-reply-box">
+                                    <div class="d-flex align-items-center mb-1" style="font-weight: 600; color: #444; font-size: 14px;">
+                                        <i class="fas fa-store text-danger mr-2"></i>Quản Trị Viên
+                                    </div>
+                                    <div style="font-size: 14px; color: #555; line-height: 1.5;">
+                                        @Html.Raw(System.Web.HttpUtility.HtmlEncode(item.PhanHoiCuaAdmin).Replace("\n", "<br/>"))
+                                    </div>
+                                </div>
+                            }
+                        
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<script>
+    // Kích hoạt tính năng phóng to ảnh của Fancybox
+    Fancybox.bind('[data-fancybox]', {
+        Toolbar: {
+            display: ["zoom", "slideShow", "fullscreen", "download", "close"],
+        },
+    });
+</script>

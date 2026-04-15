@@ -1,0 +1,145 @@
+﻿@model List<Maison.Models.ChiTietHoaDon>
+@{
+    ViewBag.Title = "Tiếp nhận Bảo hành";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="py-4">
+    <h2 class="h4">Tiếp nhận máy Bảo hành</h2>
+    <p class="text-muted">Tra cứu lịch sử mua hàng qua Số điện thoại để tạo phiếu</p>
+</div>
+
+<div class="card card-body border-light shadow-sm mb-4">
+    <form action="/Admin/BaoHanh/Create" method="get" class="row">
+        <div class="col-md-6">
+            <div class="input-group">
+                <input type="text" class="form-control" name="sdt" value="@ViewBag.SDT" placeholder="Nhập Số điện thoại khách hàng..." required>
+                <button type="submit" class="btn btn-dark"><i class="fas fa-search mr-2"></i>Tra cứu Hóa đơn</button>
+            </div>
+            @if (ViewBag.Error != null)
+            {
+                <small class="text-danger mt-2 d-block font-weight-bold">@ViewBag.Error</small>
+            }
+        </div>
+    </form>
+</div>
+
+@if (ViewBag.KhachHang != null)
+{
+    var kh = ViewBag.KhachHang as Maison.Models.TaiKhoanNguoiDung;
+    <div class="alert alert-info">
+        Khách hàng: <strong>@kh.HoTen</strong> | Email: @kh.Email
+    </div>
+
+    if (Model != null && Model.Count > 0)
+    {
+        <div class="card card-body border-light shadow-sm table-wrapper table-responsive">
+            <h5 class="mb-3">Lịch sử mua hàng</h5>
+            <table class="table table-hover align-middle">
+                <thead class="thead-light">
+                    <tr>
+                        <th>Mã HĐ</th>
+                        <th>Ngày mua</th>
+                        <th>Sản phẩm & Cấu hình</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        string cauHinh = item.BienThe.ChiTietBTs.Any() ? string.Join(" | ", item.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.GiaTri)) : "Tiêu chuẩn";
+                        <tr>
+                            <td class="font-weight-bold">#@item.MaHD</td>
+                            <td>@item.HoaDon.NgayDat.ToString("dd/MM/yyyy")</td>
+                            <td>
+                                <strong>@item.BienThe.Sanpham.TenSP</strong><br />
+                                <small class="text-muted">@cauHinh</small>
+                            </td>
+                            <td>
+                                <button class="btn btn-sm btn-primary" onclick="moFormTaoPhieu(@item.MaHD, @item.MaBT, @kh.MaTK, '@item.BienThe.Sanpham.TenSP')">
+                                    <i class="fas fa-tools"></i> Chọn máy này
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">Khách hàng này chưa có đơn hàng nào đã hoàn thành!</div>
+    }
+}
+
+<div class="modal fade" id="modalTaoPhieu" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Tạo phiếu Bảo Hành</h5>
+                <button type="button" class="close text-white" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Sản phẩm: <strong id="lblTenSP" class="text-primary"></strong></p>
+                <input type="hidden" id="hdfMaHD" />
+                <input type="hidden" id="hdfMaBT" />
+                <input type="hidden" id="hdfMaTK" />
+
+                <div class="form-group">
+                    <label class="font-weight-bold">Khách hàng báo lỗi gì? <span class="text-danger">*</span></label>
+                    <textarea id="txtLoiKhachBao" class="form-control" rows="4" placeholder="Ví dụ: Máy bật không lên nguồn, màn hình bị sọc..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success" onclick="xacNhanTaoPhieu()">Tạo phiếu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Script {
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        function moFormTaoPhieu(maHD, maBT, maTK, tenSP) {
+            $("#hdfMaHD").val(maHD);
+            $("#hdfMaBT").val(maBT);
+            $("#hdfMaTK").val(maTK);
+            $("#lblTenSP").text(tenSP);
+            $("#txtLoiKhachBao").val(""); // Xóa trắng form cũ
+            $("#modalTaoPhieu").modal('show');
+        }
+
+        function xacNhanTaoPhieu() {
+            let loi = $("#txtLoiKhachBao").val().trim();
+            if (loi === "") {
+                swal("Lỗi!", "Vui lòng nhập tình trạng lỗi!", "warning");
+                return;
+            }
+
+            swal({ title: "Đang tạo...", icon: "info", buttons: false });
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/BaoHanh/CreateTicket",
+                data: {
+                    maHD: $("#hdfMaHD").val(),
+                    maBT: $("#hdfMaBT").val(),
+                    maTK: $("#hdfMaTK").val(),
+                    loiKhachBao: loi
+                },
+                success: function (res) {
+                    if (res.status == true) {
+                        swal("Thành công!", "Đã tạo phiếu bảo hành!", "success")
+                            .then(() => {
+                                // Tạo xong thì đá về lại trang Danh sách (Index)
+                                window.location.href = "/Admin/BaoHanh/Index";
+                            });
+                    } else {
+                        swal("Thất bại!", res.message, "error");
+                    }
+                }
+            });
+        }
+    </script>
+}

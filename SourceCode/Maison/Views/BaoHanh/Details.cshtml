@@ -1,0 +1,78 @@
+﻿@model Maison.Models.Baohanh
+@{
+    ViewBag.Title = "Chi tiết Phiếu bảo hành #" + Model.MaPhieu;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string cauHinh = Model.BienThe.ChiTietBTs.Any() ? string.Join(" | ", Model.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn";
+}
+
+<div class="breadcrumb-area mt-30 mb-30">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul class="d-flex align-items-center">
+                <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                <li>@Html.ActionLink("Thông tin Bảo hành", "MyWarranties", "BaoHanh")</li>
+                <li class="active">Phiếu #@Model.MaPhieu</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-light d-flex justify-content-between align-items-center py-3">
+            <h5 class="m-0 font-weight-bold text-primary"><i class="fas fa-file-invoice mr-2"></i>Chi tiết Phiếu Bảo Hành #@Model.MaPhieu</h5>
+
+            @if (Model.TrangThai == 0)
+            {<span class="badge badge-danger p-2" style="font-size:14px;">Đã hủy</span> }
+            else if (Model.TrangThai == 1)
+            { <span class="badge badge-warning p-2" style="font-size:14px;">Chờ tiếp nhận</span> }
+            else if (Model.TrangThai == 2)
+            { <span class="badge badge-primary p-2" style="font-size:14px;">Đang xử lý</span> }
+            else if (Model.TrangThai == 3)
+            { <span class="badge badge-info p-2" style="font-size:14px;">Đã sửa xong</span> }
+            else if (Model.TrangThai == 4)
+            { <span class="badge badge-success p-2" style="font-size:14px;">Hoàn thành</span>}
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-4 mb-md-0 border-right">
+                    <h6 class="font-weight-bold text-uppercase text-muted mb-3">Thông tin thiết bị</h6>
+                    <div class="d-flex mb-3">
+                        <img src="@Model.BienThe.Sanpham.HinhAnh" alt="Ảnh SP" style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;" onerror="this.src='/Content/Images/no-image.png'" />
+                        <div class="ml-3">
+                            <h6 class="font-weight-bold mb-1">@Model.BienThe.Sanpham.TenSP</h6>
+                            <p class="text-muted mb-1"><i class="fas fa-microchip"></i> Cấu hình: @cauHinh</p>
+                            @if (Model.MaHD > 0)
+                            {<p class="text-info mb-0" style="font-size: 13px;">Mua từ Đơn hàng: #@Model.MaHD</p>}
+                        </div>
+                    </div>
+                    <hr />
+                    <p><strong>Ngày tạo phiếu:</strong> @(Model.NgayTiepNhan?.ToString("dd/MM/yyyy HH:mm"))</p>
+                    <p><strong>Tình trạng bạn báo lỗi:</strong></p>
+                    <div class="p-3 bg-light rounded text-danger" style="border-left: 4px solid #dc3545;">
+                        @Model.TinhTrangLoi
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <h6 class="font-weight-bold text-uppercase text-muted mb-3">Tiến độ sửa chữa (Trung tâm)</h6>
+                    <p><strong>Dự kiến trả máy:</strong> <span class="font-weight-bold text-primary">@(Model.NgayHenTra?.ToString("dd/MM/yyyy") ?? "Đang cập nhật...")</span></p>
+
+                    <p><strong>Chi phí sửa chữa (Dịch vụ):</strong></p>
+                    <h4 class="text-danger font-weight-bold">
+                        @(Model.ChiPhiSuaChua.HasValue && Model.ChiPhiSuaChua.Value > 0 ? Model.ChiPhiSuaChua.Value.ToString("N0") + " ₫" : "Bảo hành Miễn phí")
+                    </h4>
+
+                    <p class="mt-4"><strong>Ghi chú từ Kỹ thuật viên:</strong></p>
+                    <div class="p-3 rounded" style="background-color: #f8f9fa; border: 1px solid #e9ecef; min-height: 80px;">
+                        @(string.IsNullOrEmpty(Model.NoiDungSuaChua) ? "Kỹ thuật viên chưa cập nhật thông tin." : Model.NoiDungSuaChua)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white text-right">
+            <a href="/BaoHanh/MyWarranties" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Quay lại danh sách</a>
+        </div>
+    </div>
+</div>

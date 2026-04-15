@@ -19,6 +19,8 @@ namespace Maison.Models
         public DateTime? NgayTao { get; set; }
 
         public int TrangThai { get; set; }
+        public string HinhAnh { get; set; }
+        public string PhanHoiCuaAdmin { get; set; }
 
         public int MaBT { get; set; } // Khóa ngoại móc vào Biến thể
 

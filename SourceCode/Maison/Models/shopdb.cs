@@ -59,9 +59,10 @@ namespace Maison.Models
                 .WillCascadeOnDelete(false);
 
             // 4. Tắt cascade: BienThe -> BaoHanh
+            // 4. Tắt cascade: BienThe -> BaoHanh
             modelBuilder.Entity<Baohanh>()
                 .HasRequired(b => b.BienThe)
-                .WithMany() // Cứ để trống nếu trong bảng BienThe bạn KHÔNG tạo ICollection<Baohanh>
+                .WithMany(bt => bt.Baohanhs) // <--- CHỈ CẦN ĐIỀN THÊM (bt => bt.Baohanhs) VÀO ĐÂY
                 .HasForeignKey(b => b.MaBT)
                 .WillCascadeOnDelete(false);
 

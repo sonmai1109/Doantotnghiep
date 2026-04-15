@@ -1,127 +1,142 @@
 ﻿@model Maison.Areas.Admin.Data.LoginAccount
 
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="vi">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <!-- Primary Meta Tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập - Quản trị viên</title>
-    <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="120x120" href="~/Content/admin/Content/img/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="~/Content/admin/Content\/img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="~/Content\/admin/Content\/img/favicon/favicon-16x16.png">
-    <link rel="manifest" href="~/Content\/admin/Content\/img/favicon/site.webmanifest">
-    <link rel="mask-icon" href="~/Content\/admin/Content\/img/favicon/safari-pinned-tab.svg" color="#ffffff">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="theme-color" content="#ffffff">
 
-    <!-- Fontawesome -->
-    <link type="text/css" href="~/Content\/admin/vendor/fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
 
-    <!-- Notyf -->
-    <link type="text/css" href="~/Content\/admin/vendor/notyf/notyf.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
-    <!-- Volt CSS -->
-    <link type="text/css" href="~/Content\/admin/css/volt.css" rel="stylesheet">
+    <style>
+        body {
+            /* Nền xanh gradient cực ngầu và quyền lực */
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
 
-    <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 15px;
+        }
 
+        .login-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            border-top: 5px solid #3b82f6; /* Điểm nhấn viền xanh */
+            padding: 40px 30px;
+        }
+
+        .admin-icon {
+            font-size: 3.5rem;
+            color: #3b82f6;
+            margin-bottom: 15px;
+        }
+
+        /* Tùy chỉnh ô nhập liệu để đẹp trên mọi phiên bản Bootstrap */
+        .custom-input-group {
+            display: flex;
+            align-items: center;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            overflow: hidden;
+            background: #fff;
+            transition: all 0.3s;
+        }
+
+            .custom-input-group:focus-within {
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            }
+
+        .custom-icon {
+            padding: 10px 15px;
+            background-color: #f8fafc;
+            color: #64748b;
+            border-right: 1px solid #ced4da;
+        }
+
+        .custom-input {
+            flex: 1;
+            border: none;
+            padding: 10px 15px;
+            outline: none;
+            box-shadow: none;
+        }
+
+        .btn-login {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            width: 100%;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+            .btn-login:hover {
+                background-color: #1d4ed8;
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(37, 99, 235, 0.4);
+            }
+    </style>
 </head>
+<body>
 
-<body class="bg-soft">
-    <main>
-        <!-- Section -->
-        <section class="vh-lg-100 d-flex align-items-center">
-            <div class="container">
-                <div class="row justify-content-center form-bg-image" data-background-lg="~/Content\/admin/Content\/img/illustrations/signin.svg">
-                    <div class="col-12 d-flex align-items-center justify-content-center">
-                        <div class="signin-inner my-3 my-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
-                            <div class="text-center text-md-center mb-4 mt-md-0">
-                                <h1 class="mb-0 h3">Đăng nhập</h1>
-                            </div>
-                            @using (Html.BeginForm("Index", "Login", FormMethod.Post, new { @class = "mt-4" }))
-                            {
-                                @Html.ValidationMessage("ErrorLogin", new { @class = "text-danger" })
-                                <br />
-                                <!-- Form -->
-                                <div class="form-group mb-4">
-                                    <label for="username">Tên đăng nhập</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text" id="basic-addon1"><span class="fas fa-envelope"></span></span>
-                                        @Html.TextBoxFor(model => model.username,
-                                            new { @class = "form-control", @name = "username", @autoforcus = "autofocus", @required = "required", @placeholder = "Nhập tên đăng nhập" })
-                                    </div>
-                                </div>
-                                <!-- End of Form -->
-                                <div class="form-group">
-                                    <!-- Form -->
-                                    <div class="form-group mb-4">
-                                        <label for="password">Mật khẩu</label>
-                                        <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon2"><span class="fas fa-unlock-alt"></span></span>
-                                            @Html.PasswordFor(model => model.password,
-                                            new { @class = "form-control", @name = "password", @required = "required", @placeholder = "Nhập mật khẩu" })
-                                        </div>
-                                    </div>
-                                    <!-- End of Form -->
-                                    <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <div class="form-check">
-                                            @Html.CheckBoxFor(model => model.rememberme, new { @id = "defaultCheck5" })
-                                            <label class="form-check-label" for="defaultCheck5">
-                                                Nhớ mật khẩu
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-block btn-primary">Đăng nhập</button>
-                            }
-                        </div>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="text-center mb-4">
+                <i class="fas fa-user-shield admin-icon"></i>
+                <h4 style="font-weight: 700; color: #333;">HỆ THỐNG QUẢN TRỊ</h4>
+                <p class="text-muted" style="font-size: 14px;">Vui lòng đăng nhập để tiếp tục</p>
+            </div>
+
+            @using (Html.BeginForm("Index", "Login", FormMethod.Post))
+            {
+                @Html.ValidationMessage("ErrorLogin", new { @class = "text-danger text-center d-block mb-3 font-weight-bold" })
+
+                <div class="form-group mb-3">
+                    <label style="font-weight: 600; color: #555; margin-bottom: 5px; display: block;">Tên đăng nhập</label>
+                    <div class="custom-input-group">
+                        <div class="custom-icon"><i class="fas fa-user"></i></div>
+                        @Html.TextBoxFor(model => model.username, new { @class = "custom-input", @autofocus = "autofocus", @required = "required", @placeholder = "Nhập tài khoản..." })
                     </div>
                 </div>
-            </div>
-        </section>
-    </main>
-    <!-- Core -->
-    <script src="~/Content/admin/vendor/popper.js/dist/umd/popper.min.js"></script>
-    <script src="~/Content/admin/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
 
-    <!-- Vendor JS -->
-    <script src="~/Content/admin/vendor/onscreen/dist/on-screen.umd.min.js"></script>
+                <div class="form-group mb-3">
+                    <label style="font-weight: 600; color: #555; margin-bottom: 5px; display: block;">Mật khẩu</label>
+                    <div class="custom-input-group">
+                        <div class="custom-icon"><i class="fas fa-lock"></i></div>
+                        @Html.PasswordFor(model => model.password, new { @class = "custom-input", @required = "required", @placeholder = "••••••••" })
+                    </div>
+                </div>
 
-    <!-- Slider -->
-    <script src="~/Content/admin/vendor/nouislider/distribute/nouislider.min.js"></script>
+                <div class="form-check mb-4" style="padding-left: 0;">
+                    <label style="display: flex; align-items: center; cursor: pointer; color: #666; font-size: 14px;">
+                        @Html.CheckBoxFor(model => model.rememberme, new { style = "margin-right: 8px; width: 16px; height: 16px;" })
+                        Nhớ phiên đăng nhập
+                    </label>
+                </div>
 
-    <!-- Jarallax -->
-    <script src="~/Content/admin/vendor/jarallax/dist/jarallax.min.js"></script>
-
-    <!-- Smooth scroll -->
-    <script src="~/Content/admin/vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
-
-    <!-- Count up -->
-    <script src="~/Content/admin/vendor/countup.js/dist/countUp.umd.js"></script>
-
-    <!-- Notyf -->
-    <script src="~/Content/admin/vendor/notyf/notyf.min.js"></script>
-
-    <!-- Charts -->
-    <script src="~/Content/admin/vendor/chartist/dist/chartist.min.js"></script>
-    <script src="~/Content/admin/vendor/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
-
-    <!-- Datepicker -->
-    <script src="~/Content\/admin/vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
-
-    <!-- Simplebar -->
-    <script src="~/Content\/admin/vendor/simplebar/dist/simplebar.min.js"></script>
-
-    <!-- Github buttons -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-
-    <!-- Volt JS -->
-    <script src="~/Content\/admin/assets/js/volt.js"></script>
-
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt" style="margin-right: 5px;"></i> ĐĂNG NHẬP
+                </button>
+            }
+        </div>
+    </div>
 
 </body>
-
 </html>
-

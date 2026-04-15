@@ -11,14 +11,25 @@
     /* =======================================
        CSS Ô CHỌN CẤU HÌNH
        ======================================= */
+    /* =======================================
+       CSS Ô CHỌN CẤU HÌNH
+       ======================================= */
     .variant-box {
         border: 1px solid #d1d5db;
         border-radius: 8px;
-        padding: 8px 15px;
+        padding: 10px 15px;
         cursor: pointer;
-        display: inline-flex;
+        /* Thay vì inline-flex (ép trên 1 hàng ngang), chuyển sang flex để kiểm soát dòng */
+        display: flex;
         align-items: center;
         justify-content: center;
+        /* ÉP CHỮ XUỐNG DÒNG VÀ GIỚI HẠN KÍCH THƯỚC */
+        flex-wrap: wrap; /* Cho phép chữ tự rớt xuống dòng nếu hết chỗ */
+        text-align: center; /* Căn giữa chữ khi xuống dòng */
+        max-width: 100%; /* Ngăn không cho ô dài hơn vùng chứa */
+        word-break: break-word; /* Ép ngắt từ nếu một từ quá dài */
+        line-height: 1.4; /* Giãn dòng ra một chút cho dễ đọc */
+
         margin-right: 10px;
         margin-bottom: 10px;
         background: #fff;
@@ -132,6 +143,38 @@
         .thumb-img:hover, .thumb-img.active {
             border: 2px solid #d70018;
         }
+
+
+    /* =======================================
+       CSS HIỆU ỨNG CHỌN NGÔI SAO ĐÁNH GIÁ
+       ======================================= */
+    .star-rating-interactive {
+        direction: rtl; /* Đảo ngược hướng để hover chuẩn */
+        display: inline-flex;
+        font-size: 2.5rem;
+        justify-content: center;
+    }
+
+        .star-rating-interactive input[type="radio"] {
+            display: none; /* Ẩn nút radio thật đi */
+        }
+
+        .star-rating-interactive label {
+            color: #e4e5e9; /* Màu sao mặc định (Xám) */
+            cursor: pointer;
+            transition: color 0.2s ease-in-out, transform 0.2s;
+            padding: 0 5px;
+        }
+            /* Đổi màu vàng khi hover hoặc được chọn */
+            .star-rating-interactive input[type="radio"]:checked ~ label,
+            .star-rating-interactive label:hover,
+            .star-rating-interactive label:hover ~ label {
+                color: #ffc107;
+            }
+
+            .star-rating-interactive label:hover {
+                transform: scale(1.2); /* Phóng to nhẹ ngôi sao đang di chuột */
+            }
 </style>
 
 <div class="breadcrumb-area mt-10">
@@ -191,20 +234,16 @@
                                     string activeClass = isFirst ? "active" : "";
                                     isFirst = false;
 
-                                    var ttChinh = bt.ChiTietBTs.Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true).Select(c => c.GiaTriTT).ToList();
-                                    var cpu = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("cpu"))?.GiaTri;
-                                    var gpu = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("gpu") || t.ThuocTinh.TenTT.ToLower().Contains("vga"))?.GiaTri;
-                                    var ram = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("ram"))?.GiaTri;
-                                    var mau = ttChinh.FirstOrDefault(t => t.ThuocTinh.TenTT.ToLower().Contains("màu"))?.GiaTri;
+                                    // Lấy danh sách các Thuộc Tính Chính và ÉP "Màu" XUỐNG CUỐI CÙNG
+                                    var danhSachGiaTri = bt.ChiTietBTs
+                                                           .Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                                           // BÍ QUYẾT LÀ DÒNG NÀY: Nếu Tên thuộc tính chứa chữ "màu" thì cho điểm = 1 (xếp sau), còn lại = 0 (xếp trước)
+                                                           .OrderBy(c => c.GiaTriTT.ThuocTinh.TenTT.ToLower().Contains("màu") ? 1 : 0)
+                                                           .Select(c => c.GiaTriTT.GiaTri)
+                                                           .ToList();
 
-                                    var components = new List<string>();
-                                    if (!string.IsNullOrEmpty(cpu)) { components.Add(cpu); }
-                                    if (!string.IsNullOrEmpty(gpu)) { components.Add(gpu); }
-                                    if (!string.IsNullOrEmpty(ram)) { components.Add(ram); }
-                                    if (!string.IsNullOrEmpty(mau)) { components.Add(mau); }
-
-                                    string tenCauHinh = components.Count > 0 ? string.Join(" - ", components) : string.Join(" - ", ttChinh.Select(t => t.GiaTri));
-                                    if (string.IsNullOrEmpty(tenCauHinh)) { tenCauHinh = "Cấu hình tiêu chuẩn"; }
+                                    // Nối tất cả bằng dấu " - "
+                                    string tenCauHinh = danhSachGiaTri.Any() ? string.Join(" - ", danhSachGiaTri) : "Cấu hình tiêu chuẩn";
 
                                     <div class="variant-box @activeClass" data-mabt="@bt.MaBT">
                                         @tenCauHinh
@@ -301,11 +340,65 @@
         </div>
     </div>
 </div>
+<div class="text-center mt-5 mb-4">
+    <button id="btn-show-form" class="btn" style="background: #28a745; color: white; font-weight: bold; padding: 10px 25px; border-radius: 30px; box-shadow: 0 4px 6px rgba(40,167,69,0.3); transition: 0.3s;">
+        <i class="fas fa-pencil-alt mr-2"></i> Viết đánh giá của bạn
+    </button>
+</div>
+
+<div id="form-danhgia" style="display:none; max-width: 650px; margin: 0 auto; background: #fff; border: 1px solid #eaeaea; border-radius: 12px; padding: 30px; margin-bottom: 40px; box-shadow: 0 10px 25px rgba(0,0,0,0.08);">
+    @if (Session[Maison.Session.ConstaintUser.USER_SESSION] != null)
+    {
+        <h4 class="font-weight-bold text-center mb-2" style="color: #333;">Đánh giá sản phẩm</h4>
+        <p class="text-center text-muted mb-4">Chia sẻ trải nghiệm của bạn để giúp những người mua khác nhé!</p>
+
+        <div class="form-group text-center border-bottom pb-4 mb-4">
+            <label class="font-weight-bold d-block text-uppercase" style="color: #555; letter-spacing: 1px;">Chất lượng sản phẩm</label>
+            <div class="star-rating-interactive mt-2">
+                <input type="radio" id="star5" name="dg-xepHang" value="5" checked /><label for="star5" title="5 sao - Tuyệt vời"><i class="fas fa-star"></i></label>
+                <input type="radio" id="star4" name="dg-xepHang" value="4" /><label for="star4" title="4 sao - Rất tốt"><i class="fas fa-star"></i></label>
+                <input type="radio" id="star3" name="dg-xepHang" value="3" /><label for="star3" title="3 sao - Bình thường"><i class="fas fa-star"></i></label>
+                <input type="radio" id="star2" name="dg-xepHang" value="2" /><label for="star2" title="2 sao - Tạm được"><i class="fas fa-star"></i></label>
+                <input type="radio" id="star1" name="dg-xepHang" value="1" /><label for="star1" title="1 sao - Rất tệ"><i class="fas fa-star"></i></label>
+            </div>
+        </div>
+
+        <div class="form-group mb-4">
+            <label class="font-weight-bold" style="color: #444;">Nội dung đánh giá <span class="text-danger">*</span></label>
+            <textarea id="dg-binhLuan" class="form-control bg-light" rows="4" placeholder="Hãy chia sẻ những điều bạn thích hoặc không thích về sản phẩm này..." style="border-radius: 8px; border: 1px solid #ddd;"></textarea>
+        </div>
+
+        <div class="form-group mb-4 p-3" style="background: #f8f9fa; border-radius: 8px; border: 1px dashed #ccc;">
+            <label class="font-weight-bold mb-2"><i class="fas fa-camera text-secondary mr-2"></i>Thêm ảnh thực tế (Tùy chọn):</label>
+            <input type="file" id="dg-hinhanh" class="form-control-file mt-1" accept="image/*" />
+        </div>
+
+        <button id="btnGuiDanhGia" class="btn btn-danger btn-block font-weight-bold" style="border-radius: 8px; padding: 14px; font-size: 16px; letter-spacing: 1px;">
+            GỬI ĐÁNH GIÁ NGAY
+        </button>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <div class="mb-3"><i class="fas fa-user-lock fa-4x text-muted opacity-50"></i></div>
+            <h5 class="font-weight-bold text-dark">Chỉ khách hàng mới có thể đánh giá</h5>
+            <p class="text-muted mb-4">Vui lòng đăng nhập để chia sẻ cảm nhận của bạn về sản phẩm.</p>
+            <a href="@Url.Action("Login", "Home")" class="btn btn-primary px-5 py-2 rounded-pill font-weight-bold shadow-sm">Đăng nhập ngay</a>
+        </div>
+    }
+</div>
+
+
+
+<div id="danh-sach-danhgia">
+    @Html.Action("DanhSachTheoSP", "DanhGia", new { maSP = Model.MaSP })
+</div>
 
 @section Script {
     <script>
         const DSNguonBienThe = @Html.Raw(ViewBag.BienThes_Json);
         const PhanTramGiam = @(ViewBag.PhanTramGiam ?? 0);
+        const TEN_SAN_PHAM = "@Html.Raw(Model.TenSP)";
         let selectedMaBT = null;
         let currentImages = [];
         let currentIndex = 0;
@@ -313,7 +406,7 @@
         const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
 
         $(document).ready(function () {
-
+            // Xử lý click chọn Cấu hình
             $(document).on('click', '.variant-box', function () {
                 $(this).siblings().removeClass('active');
                 $(this).addClass('active');
@@ -322,6 +415,7 @@
 
             checkVariant();
 
+            // Xử lý tăng giảm số lượng
             $(".qty-btn.minus").click(function () {
                 let v = parseInt($("#modal-soluong").val());
                 if (v > 1) $("#modal-soluong").val(v - 1);
@@ -330,38 +424,97 @@
                 let v = parseInt($("#modal-soluong").val());
                 $("#modal-soluong").val(v + 1);
             });
+
+            // XỬ LÝ NÚT MỞ FORM ĐÁNH GIÁ (ĐÂY LÀ ĐOẠN BẠN BỊ THIẾU)
+            $('#btn-show-form').click(function () {
+                $('#form-danhgia').slideToggle(300);
+                $(this).html(function (i, html) {
+                    return html.includes('Viết đánh giá')
+                        ? '<i class="fas fa-times mr-2"></i> Hủy đánh giá'
+                        : '<i class="fas fa-pencil-alt mr-2"></i> Viết đánh giá của bạn';
+                });
+                $(this).toggleClass("btn-danger btn-success");
+            });
+
+            // XỬ LÝ GỬI ĐÁNH GIÁ AJAX
+            $('#btnGuiDanhGia').click(function (e) {
+                e.preventDefault();
+
+                var maBT = selectedMaBT;
+                if (!maBT) {
+                    Swal.fire('Chú ý', 'Vui lòng chọn một cấu hình sản phẩm ở trên trước khi đánh giá.', 'warning');
+                    return;
+                }
+
+                var binhLuan = $('#dg-binhLuan').val().trim();
+                var xepHang = $('input[name="dg-xepHang"]:checked').val();
+                var fileAnh = $('#dg-hinhanh')[0].files[0];
+
+                if (binhLuan.length === 0) {
+                    Swal.fire('Thiếu thông tin', 'Vui lòng nhập nội dung đánh giá của bạn.', 'warning');
+                    $('#dg-binhLuan').focus();
+                    return;
+                }
+
+                var formData = new FormData();
+                formData.append("maBT", maBT);
+                formData.append("xepHang", xepHang);
+                formData.append("binhLuan", binhLuan);
+                if (fileAnh) {
+                    formData.append("imageFile", fileAnh);
+                }
+
+                Swal.fire({ title: 'Đang tải lên...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+
+                $.ajax({
+                    url: '/DanhGia/ThemDanhGia',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        if (res.success) {
+                            Swal.fire('Thành công', res.message, 'success').then(() => {
+                                window.location.reload();
+                            });
+                        } else {
+                            Swal.fire('Lỗi', res.message, 'error');
+                        }
+                    },
+                    error: function () {
+                        Swal.fire('Lỗi', 'Mất kết nối mạng, vui lòng thử lại.', 'error');
+                    }
+                });
+            });
         });
 
+        // Hàm cập nhật giá và tồn kho khi đổi cấu hình
         function checkVariant() {
             let activeBox = $(".variant-box.active");
             if (activeBox.length === 0) return;
 
             let maBTChon = parseInt(activeBox.data('mabt'));
             let matchedBT = DSNguonBienThe.find(bt => bt.MaBT === maBTChon);
-
             let btnCart = $("#btn-add-cart");
 
             if (matchedBT) {
                 selectedMaBT = matchedBT.MaBT;
-
-                // --- HIỂN THỊ GIÁ DỰA TRÊN % GIẢM RIÊNG CỦA BIẾN THỂ NÀY ---
                 let giaBan = matchedBT.GiaBan;
-                let phanTramGiam = matchedBT.PhanTramGiam; // JS lấy % từ cục JSON
+                let tenCauHinh = activeBox.text().trim(); // Lấy chữ trong ô đang click (VD: 256GB - Đen)
+                $("#dynamic-review-title").text("Đánh giá " + TEN_SAN_PHAM + " | " + tenCauHinh);
+                let phanTramGiam = matchedBT.PhanTramGiam;
 
                 if (phanTramGiam > 0) {
                     let giaGiam = giaBan * (1 - phanTramGiam / 100);
-                    // In ra Giá mới, Giá cũ gạch ngang, và Badge %
                     $("#hienThiGia").html(`
                         <span style="font-size:28px;">${formatter.format(giaGiam)}</span>
                         <del style="color:gray; font-size:16px; font-weight:normal;">${formatter.format(giaBan)}</del>
                         <span class="badge badge-danger" style="font-size:14px; padding: 5px 10px;">Giảm ${phanTramGiam}%</span>
                     `);
                 } else {
-                    // Nếu cấu hình này không có khuyến mãi
                     $("#hienThiGia").html(`<span style="font-size:28px;">${formatter.format(giaBan)}</span>`);
                 }
 
-                // --- XỬ LÝ TỒN KHO ---
                 if (matchedBT.SoLuongTon > 0) {
                     $("#hienThiTonKho").text("✓ Còn hàng (" + matchedBT.SoLuongTon + " sản phẩm)").css("color", "#28a745");
                     btnCart.text("THÊM VÀO GIỎ HÀNG").removeAttr("disabled").css("background", "#d70018");
@@ -370,15 +523,14 @@
                     btnCart.text("TẠM HẾT HÀNG").attr("disabled", "disabled").css("background", "#6c757d");
                 }
 
-                // --- CẬP NHẬT ẢNH ---
                 updateGallery(matchedBT.HinhAnh, matchedBT.ThuVienAnhs);
             }
         }
 
+        // Cập nhật Slider Ảnh
         function updateGallery(mainImg, arrGallery) {
             $("#modal-hinhanh").attr("src", mainImg);
             $("#modal-a-hinhanh").attr("href", mainImg);
-
             currentImages = [mainImg, ...arrGallery];
             currentIndex = 0;
 
@@ -395,11 +547,8 @@
             if (index >= currentImages.length) index = 0;
             currentIndex = index;
 
-            // Đổi ảnh lớn
             $("#modal-hinhanh").attr("src", currentImages[currentIndex]);
             $("#modal-a-hinhanh").attr("href", currentImages[currentIndex]);
-
-            // Đổi trạng thái viền đỏ cho ảnh nhỏ
             $(".thumb-img").removeClass("active");
             $(".thumb-img").eq(currentIndex).addClass("active");
         }

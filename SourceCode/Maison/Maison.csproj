@@ -135,10 +135,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Areas\Admin\AreasAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\AdminUserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BaoHanhController.cs" />
     <Compile Include="Areas\Admin\Controllers\BaseController.cs" />
     <Compile Include="Areas\Admin\Controllers\BienThesController.cs" />
     <Compile Include="Areas\Admin\Controllers\BillController.cs" />
     <Compile Include="Areas\Admin\Controllers\BrandsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ClientUserController.cs" />
+    <Compile Include="Areas\Admin\Controllers\DanhGiaController.cs" />
     <Compile Include="Areas\Admin\Controllers\DanhmucsController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\KhuyenMaisController.cs" />
@@ -146,8 +149,10 @@
     <Compile Include="Areas\Admin\Controllers\SanphamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThuocTinhsController.cs" />
     <Compile Include="Areas\Admin\Data\LoginAccount.cs" />
+    <Compile Include="Controllers\BaoHanhController.cs" />
     <Compile Include="Controllers\BillController.cs" />
     <Compile Include="Controllers\CartController.cs" />
+    <Compile Include="Controllers\DanhGiaController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
@@ -245,6 +250,18 @@
     <Compile Include="Migrations\202604132117108_ChotFluentAPI.cs" />
     <Compile Include="Migrations\202604132117108_ChotFluentAPI.Designer.cs">
       <DependentUpon>202604132117108_ChotFluentAPI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604151751540_FixBaoHanhMapping.cs" />
+    <Compile Include="Migrations\202604151751540_FixBaoHanhMapping.Designer.cs">
+      <DependentUpon>202604151751540_FixBaoHanhMapping.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604151931421_hinhanhbangdanhgia.cs" />
+    <Compile Include="Migrations\202604151931421_hinhanhbangdanhgia.Designer.cs">
+      <DependentUpon>202604151931421_hinhanhbangdanhgia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604152018464_themphanhoiadmin.cs" />
+    <Compile Include="Migrations\202604152018464_themphanhoiadmin.Designer.cs">
+      <DependentUpon>202604152018464_themphanhoiadmin.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Baohanh.cs" />
@@ -2356,6 +2373,10 @@
     <Content Include="Areas\Admin\Views\KhuyenMais\ManageProducts.cshtml" />
     <Content Include="Areas\Admin\Views\KhuyenMais\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Bill\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\BaoHanh\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\BaoHanh\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ClientUser\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\DanhGia\Index.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -2391,6 +2412,9 @@
     <Content Include="Views\Home\CartCount.cshtml" />
     <Content Include="Views\Bill\Details.cshtml" />
     <Content Include="Views\Bill\ListBills.cshtml" />
+    <Content Include="Views\BaoHanh\MyWarranties.cshtml" />
+    <Content Include="Views\BaoHanh\Details.cshtml" />
+    <Content Include="Views\DanhGia\_DanhSachDanhGia.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2494,6 +2518,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202604132117108_ChotFluentAPI.resx">
       <DependentUpon>202604132117108_ChotFluentAPI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604151751540_FixBaoHanhMapping.resx">
+      <DependentUpon>202604151751540_FixBaoHanhMapping.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604151931421_hinhanhbangdanhgia.resx">
+      <DependentUpon>202604151931421_hinhanhbangdanhgia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604152018464_themphanhoiadmin.resx">
+      <DependentUpon>202604152018464_themphanhoiadmin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
