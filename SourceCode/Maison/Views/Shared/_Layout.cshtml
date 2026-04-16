@@ -76,15 +76,19 @@
                         <button class="btn btn-light" id="buttondropmenu"> Danh Mục</button>
                         <ul class="border bg-white text-center dropmenu" id="dropmenu">@{Html.RenderAction("dropdanhmuc", "Home");}</ul>
                     </div>
-                    <div class="flex-grow-1">
+                    <div class="flex-grow-1 position-relative">
                         <div class="input-group">
-
                             <span class="input-group-text bg-white">
                                 <i class="fas fa-search "></i>
                             </span>
                             <input type="text"
+                                   id="live-search-input"
                                    class="form-control"
                                    placeholder="Bạn muốn tìm gì?">
+                        </div>
+
+                        <div id="search-results-container" class="position-absolute bg-white border rounded shadow-sm w-100"
+                             style="display: none; z-index: 1000; top: 100%; max-height: 400px; overflow-y: auto;">
                         </div>
                     </div>
                     @{ Html.RenderAction("CartCount", "Home"); }
@@ -115,19 +119,19 @@
 
 
 
-                <div class="user-box">
-                    <div class="btn btn-danger p-2 clicktk2" id="clicktk2">
-                        <i class="nav-icon fas fa-user"></i>
-                        @tk.TenDangNhap
-                    </div>
+                            <div class="user-box">
+                                <div class="btn btn-danger p-2 clicktk2" id="clicktk2">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    @tk.TenDangNhap
+                                </div>
 
-                    <div class="card text-center rounded-4 shadow checktk2" id="checktk2">
-                        @Html.ActionLink("Đơn Hàng Của Bạn", "ListBills", "Bill", null, new { @class = "text-dark text-decoration-none d-block p-2" })
-                        @Html.ActionLink("Tra cứu bảo hành", "MyWarranties", "BaoHanh", null, new { @class = "text-dark text-decoration-none d-block p-2" })
-                        @Html.ActionLink("Đăng Xuất", "Logout", "Home", null, new { @class = "text-dark text-decoration-none d-block p-2" })
+                                <div class="card text-center rounded-4 shadow checktk2" id="checktk2">
+                                    @Html.ActionLink("Đơn Hàng Của Bạn", "ListBills", "Bill", null, new { @class = "text-dark text-decoration-none d-block p-2" })
+                                    @Html.ActionLink("Tra cứu bảo hành", "MyWarranties", "BaoHanh", null, new { @class = "text-dark text-decoration-none d-block p-2" })
+                                    @Html.ActionLink("Đăng Xuất", "Logout", "Home", null, new { @class = "text-dark text-decoration-none d-block p-2" })
 
-                    </div>
-                </div>
+                                </div>
+                            </div>
 
                         }
 
@@ -186,6 +190,8 @@
     <script src="~/Content/client/JS/main.js"></script>
     <script src="~/Content/client/JS/common.js"></script>
     <script src="~/Content/client/JS/layout.js"></script>
+    <script src="~/Content/client/JS/search.js"></script>
+
     @RenderSection("Script", required: false)
 
 </body>

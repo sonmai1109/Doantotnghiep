@@ -150,6 +150,20 @@ namespace Maison.Controllers
 
 
         }
+        [HttpGet]
+        public ActionResult LiveSearch(string keyword)
+        {
+            if (string.IsNullOrEmpty(keyword)) return Content("");
+
+            // Thêm .Include(sp => sp.DanhMuc) để lôi tên Danh mục ra
+            var sanPhams = db.Sanphams
+                             .Include(sp => sp.DanhMuc) // <-- THÊM DÒNG NÀY LÀ XONG
+                             .Where(sp => sp.TenSP.ToLower().Contains(keyword.ToLower()))
+                             .Take(5)
+                             .ToList();
+
+            return PartialView("_LiveSearchResults", sanPhams);
+        }
         [ChildActionOnly]
         public ActionResult CartCount()
         {

@@ -66,3 +66,6 @@ if (clicktk2 && checktk2) {
 if (overlay) {
     overlay.addEventListener('click', closeAll);
 }
+
+
+

@@ -2256,6 +2256,7 @@
     <Content Include="Content\client\JS\owl.carousel.min.js" />
     <Content Include="Content\client\JS\plugins.js" />
     <Content Include="Content\client\JS\popper.min.js" />
+    <Content Include="Content\client\JS\search.js" />
     <Content Include="Content\client\JS\sweetalert.min.js" />
     <Content Include="Content\client\JS\vendor\jquery-3.2.1.min.js" />
     <Content Include="Content\client\JS\vendor\modernizr-3.5.0.min.js" />
@@ -2415,6 +2416,7 @@
     <Content Include="Views\BaoHanh\MyWarranties.cshtml" />
     <Content Include="Views\BaoHanh\Details.cshtml" />
     <Content Include="Views\DanhGia\_DanhSachDanhGia.cshtml" />
+    <Content Include="Views\Home\_LiveSearchResults.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
