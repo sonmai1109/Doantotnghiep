@@ -51,7 +51,7 @@ namespace Maison.Controllers
             return View(result);
         }
 
-        public ActionResult Sale(int page = 1, int pageSize = 9)
+        public ActionResult Sale(int page = 1, int pageSize = 20)
         {
             DateTime now = DateTime.Now;
             var sanphams = db.Sanphams
@@ -73,7 +73,7 @@ namespace Maison.Controllers
             return View("Shop", sanphams);
         }
 
-        public ActionResult New(int page = 1, int pageSize = 12)
+        public ActionResult New(int page = 1, int pageSize = 20)
         {
             DateTime now = DateTime.Now;
             var sanphams = db.Sanphams
@@ -94,7 +94,7 @@ namespace Maison.Controllers
             return View("Shop", sanphams);
         }
 
-        public ActionResult GiaTot(int page = 1, int pageSize = 12)
+        public ActionResult GiaTot(int page = 1, int pageSize = 20)
         {
             var sanphams = db.Sanphams
                 .Include(s => s.DanhMuc)
@@ -176,16 +176,23 @@ namespace Maison.Controllers
             ViewBag.ThongSoKyThuat = thongSoKyThuat;
 
             // 3. ĐÓNG GÓI JSON BIẾN THỂ (Gắn % Khuyến mãi vào TỪNG cấu hình)
+            // 3. ĐÓNG GÓI JSON BIẾN THỂ (Gắn % Khuyến mãi TO NHẤT vào TỪNG cấu hình)
             var listBT = sp.BienThes.Select(b => {
 
-                // Thuật toán lấy % giảm: Ưu tiên KM gán riêng cho cấu hình này (MaBT). 
-                // Nếu không có thì kiểm tra xem có KM gán chung cho cả Sản phẩm (MaBT == null) không.
-                var kmRieng = activeKMs.FirstOrDefault(k => k.MaBT == b.MaBT);
-                var kmChung = activeKMs.FirstOrDefault(k => k.MaBT == null);
+                // 1. Tìm TẤT CẢ khuyến mãi gán RIÊNG cho cấu hình này và bốc ra % giảm cao nhất
+                int maxRieng = activeKMs.Where(k => k.MaBT == b.MaBT)
+                                        .Select(k => k.PhanTramGiam)
+                                        .DefaultIfEmpty(0)
+                                        .Max();
 
-                int phanTram = 0;
-                if (kmRieng != null) phanTram = kmRieng.PhanTramGiam;
-                else if (kmChung != null) phanTram = kmChung.PhanTramGiam;
+                // 2. Tìm TẤT CẢ khuyến mãi gán CHUNG cho cả sản phẩm và bốc ra % giảm cao nhất
+                int maxChung = activeKMs.Where(k => k.MaBT == null)
+                                        .Select(k => k.PhanTramGiam)
+                                        .DefaultIfEmpty(0)
+                                        .Max();
+
+                // 3. CHỐT: So sánh KM riêng và KM chung, cái nào mang lại lợi ích (to hơn) cho khách thì lấy!
+                int phanTramChot = Math.Max(maxRieng, maxChung);
 
                 return new
                 {
@@ -193,13 +200,27 @@ namespace Maison.Controllers
                     GiaBan = b.GiaBan,
                     SoLuongTon = b.SoLuongTon,
                     HinhAnh = b.HinhAnh,
-                    PhanTramGiam = phanTram, // <--- THÊM CHÌA KHÓA NÀY VÀO JSON
+                    PhanTramGiam = phanTramChot, // <--- Truyền đúng cái % to nhất này ra giao diện
                     ThuVienAnhs = b.ThuVienAnhs.OrderBy(a => a.ThuTu).Select(a => a.DuongDanAnh).ToList(),
                     ChiTiets = b.ChiTietBTs.Select(c => c.MaGT).ToList()
                 };
             });
 
             ViewBag.BienThes_Json = JsonConvert.SerializeObject(listBT);
+            // ... code cũ (đóng gói JSON biến thể) ...
+            ViewBag.BienThes_Json = JsonConvert.SerializeObject(listBT);
+
+            // THÊM ĐOẠN NÀY LẤY SẢN PHẨM TƯƠNG TỰ (Cùng danh mục, khác sản phẩm hiện tại)
+            var sanPhamTuongTu = db.Sanphams
+                .Include(s => s.BienThes)
+                .Include(s => s.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
+                .Where(x => x.MaDM == sp.MaDM && x.MaSP != sp.MaSP)
+                .OrderByDescending(x => x.NgayTao)
+                .Take(5) // Lấy 10 cái (2 hàng 5 cột)
+                .ToList();
+
+            ViewBag.SanPhamTuongTu = sanPhamTuongTu;
+
             return View(sp);
         }
     }

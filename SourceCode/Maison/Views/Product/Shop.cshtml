@@ -101,6 +101,30 @@
         justify-content: center;
         width: 100%;
     }
+    /* =======================================
+       CSS ÉP LƯỚI 5 CỘT (TỰ RỚT DÒNG & GIÃN ĐỀU)
+       ======================================= */
+    .grid-5-cols {
+        display: flex;
+        flex-wrap: wrap; /* Lệnh quan trọng: Hết chỗ là bắt buộc rớt dòng */
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+        .grid-5-cols > .col-item {
+            flex: 0 0 20%; /* Lệnh quan trọng: Chiếm ĐÚNG 20% chiều ngang (100% / 5 = 20%) */
+            max-width: 20%;
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-bottom: 20px; /* Khoảng cách giữa hàng trên và hàng dưới */
+        }
+
+    @*@media (max-width: 991px) {
+        .grid-5-cols > .col-item { flex: 0 0 33.3333%; max-width: 33.3333%; }
+    }
+    @media (max-width: 767px) {
+        .grid-5-cols > .col-item { flex: 0 0 50%; max-width: 50%; }
+    }*@
 </style>
 
 <div class="breadcrumb-area mt-30 mb-4">
@@ -146,85 +170,73 @@
     }
     else
     {
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+<div class="grid-5-cols">
 
-            @foreach (var item in Model)
-            {
-                <div class="col">
-                    <div class="cps-card">
-                        @{
-                            // 1. Tên hiển thị luôn giữ nguyên chuẩn (Không nối cấu hình)
-                            string tenHienThi = item.TenSP;
+    @foreach (var item in Model)
+    {
+        <div class="col-item">
+            <div class="cps-card">
+                @{
+                    // THUẬT TOÁN: QUÉT TÌM BẢN CÓ GIÁ CUỐI CÙNG RẺ NHẤT LÀM MỒI NHỬ
+                    decimal minGiaSauGiam = decimal.MaxValue;
+                    decimal giaGocCuaBanReNhat = 0;
+                    int phanTramHienThi = 0;
 
-                            // 2. Giá gốc mặc định (Lấy cấu hình rẻ nhất)
-                            decimal giaGoc = item.BienThes != null && item.BienThes.Any() ? item.BienThes.Min(b => b.GiaBan) : 0;
-                            decimal? giamoi = null;
-                            int phanTramMax = 0;
-
-                            // 3. Lấy TẤT CẢ Khuyến mãi đang chạy của sản phẩm này
-                            var activeKMs = item.SanPhamKhuyenMais?.Where(k => k.KhuyenMai.TrangThai == 1
-                                                && k.KhuyenMai.NgayBatDau <= DateTime.Now
-                                                && k.KhuyenMai.NgayKetThuc >= DateTime.Now).ToList();
-
-                            if (activeKMs != null && activeKMs.Any())
-                            {
-                                // THUẬT TOÁN: Tìm % Giảm giá lớn nhất
-                                phanTramMax = activeKMs.Max(k => k.PhanTramGiam);
-
-                                // Tìm ngược lại xem cái % to nhất này thuộc về biến thể nào
-                                var bestKM = activeKMs.FirstOrDefault(k => k.PhanTramGiam == phanTramMax);
-
-                                // Nếu thuộc về 1 biến thể cụ thể -> Phải lấy giá gốc của biến thể đó để tính
-                                if (bestKM != null && bestKM.MaBT != null)
-                                {
-                                    var bt = item.BienThes?.FirstOrDefault(b => b.MaBT == bestKM.MaBT);
-                                    if (bt != null)
-                                    {
-                                        giaGoc = bt.GiaBan;
-                                    }
-                                }
-
-                                // Tính giá mới hiển thị
-                                giamoi = giaGoc * (1 - (decimal)phanTramMax / 100);
-                            }
-                        }
-
-                        @if (phanTramMax > 0)
+                    if (item.BienThes != null && item.BienThes.Any())
+                    {
+                        foreach (var bt in item.BienThes)
                         {
-                            <div class="discount-badge">Giảm tới @phanTramMax%</div>
+                            var activeKMs = item.SanPhamKhuyenMais != null
+                                ? item.SanPhamKhuyenMais.Where(k => k.KhuyenMai != null && k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= DateTime.Now && k.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                                : Enumerable.Empty<Maison.Models.SanPhamKhuyenMai>();
+
+                            int maxRieng = activeKMs.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                            int maxChung = activeKMs.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                            int phanTram = Math.Max(maxRieng, maxChung);
+
+                            decimal giaSauGiam = bt.GiaBan * (1 - (decimal)phanTram / 100);
+
+                            if (giaSauGiam < minGiaSauGiam)
+                            {
+                                minGiaSauGiam = giaSauGiam;
+                                giaGocCuaBanReNhat = bt.GiaBan;
+                                phanTramHienThi = phanTram;
+                            }
                         }
+                    }
+                }
 
-                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-img">
-                            <img src="@item.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@item.TenSP" />
-                        </a>
+                @if (phanTramHienThi > 0)
+                {
+                    <div class="discount-badge">Giảm @phanTramHienThi%</div>
+                }
 
-                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-title">
-                            @tenHienThi
-                        </a>
+                <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-img">
+                    <img src="@item.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@item.TenSP" />
+                </a>
 
-                        <div class="cps-price-box">
-                            @if (giaGoc > 0)
-                            {
-                                if (phanTramMax > 0)
-                                {
-                                    <span class="cps-price-new">@string.Format(info, "{0:c0}", giamoi)</span>
-                                    <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGoc)</span>
-                                }
-                                else
-                                {
-                                    <span class="cps-price-new">@string.Format(info, "{0:c0}", giaGoc)</span>
-                                }
-                            }
-                            else
-                            {
-                                <span class="cps-price-new text-muted" style="font-size:14px;">Chưa có cấu hình</span>
-                            }
-                        </div>
-                    </div>
+                <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-title">
+                    @item.TenSP
+                </a>
+
+                <div class="cps-price-box">
+                    @if (minGiaSauGiam != decimal.MaxValue)
+                    {
+                        <span class="cps-price-new">@string.Format(info, "{0:c0}", minGiaSauGiam)</span>
+                        if (phanTramHienThi > 0)
+                        {
+                            <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGocCuaBanReNhat)</span>
+                        }
+                    }
+                    else
+                    {
+                        <span class="cps-price-new text-muted" style="font-size:14px;">Đang cập nhật giá</span>
+                    }
                 </div>
-            }
-
+            </div>
         </div>
+    }
+</div>
 
         <div class="pagination-container">
             <ul class="blog-pagination">

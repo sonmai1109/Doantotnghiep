@@ -113,17 +113,62 @@
         height: 100%;
         background-color: #000; /* Đổi thành màu đen hoặc mã màu trùng với viền ảnh banner của bạn */
     }
+
     .carousel-inner, .carousel-item {
         background-color: #000;
     }
     /* Thêm đoạn này để ép các khung hình dính chặt vào nhau */
-    
 
-        .promo-banner img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+
+    .promo-banner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* CSS cho các ô thuộc tính nhỏ (Variant Tags) */
+    .variant-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+    }
+
+    .v-tag {
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        padding: 3px 8px;
+        font-size: 11px;
+        color: #555;
+        background-color: #fcfcfc;
+        white-space: nowrap;
+    }
+    /* =======================================
+       CSS ÉP LƯỚI 5 CỘT (TỰ RỚT DÒNG)
+       ======================================= */
+    .grid-5-cols {
+        display: flex;
+        flex-wrap: wrap; /* Lệnh quan trọng: Hết chỗ là bắt buộc rớt dòng */
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    .grid-5-cols > .col-item {
+        flex: 0 0 20%; /* Lệnh quan trọng: Chiếm ĐÚNG 20% chiều ngang (100% / 5 = 20%) */
+        max-width: 20%;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-bottom: 20px; /* Khoảng cách giữa hàng trên và hàng dưới */
+    }
+
+    /* Reponsive: Nếu xem trên Ipad thì hiện 3 cái 1 hàng */
+    /*media (max-width: 991px) {
+        .grid-5-cols > .col-item { flex: 0 0 33.3333%; max-width: 33.3333%; }
+    }*/
+    /* Reponsive: Nếu xem trên Điện thoại thì hiện 2 cái 1 hàng */
+    /*media (max-width: 767px) {
+        .grid-5-cols > .col-item { flex: 0 0 50%; max-width: 50%; }
+    }*/
 </style>
 
 <div class="container">
@@ -185,56 +230,87 @@
     <div class="block-title mt-5">
         <h2>🔥 HOT SALE Cuối Tuần</h2>
     </div>
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+
+    <div class="grid-5-cols">
         @if (ViewBag.SanPhamKhuyenMai != null)
         {
-            foreach (var item in ViewBag.SanPhamKhuyenMai as List<Maison.Models.SanPhamKhuyenMai>)
+            // Nhận đúng danh sách Khuyến Mãi từ Controller
+            var listKM = ViewBag.SanPhamKhuyenMai as List<Maison.Models.SanPhamKhuyenMai>;
+
+            foreach (var km in listKM)
             {
-                var sp = item.Sanpham;
+                var sp = km.Sanpham;
+                if (sp == null || sp.BienThes == null) { continue; } // Bỏ qua nếu lỗi data
 
-                // Mặc định tên và giá gốc là lấy giá rẻ nhất
-                string tenHienThi = sp.TenSP;
-                decimal giaGoc = sp.BienThes != null && sp.BienThes.Any() ? sp.BienThes.Min(b => b.GiaBan) : 0;
+                Maison.Models.BienThe btHienThi = null;
 
-                // NẾU GIẢM GIÁ RIÊNG CHO 1 CẤU HÌNH (MaBT != null)
-                if (item.MaBT != null)
+                // LẤY LUÔN % GIẢM TỪ DATABASE (Đã được Controller lọc to nhất rồi, không cần Math.Max nữa)
+                int phanTramChot = Convert.ToInt32(km.PhanTramGiam);
+
+                if (km.MaBT != null)
                 {
-                    var bt = sp.BienThes.FirstOrDefault(b => b.MaBT == item.MaBT);
-                    if (bt != null)
-                    {
-                        giaGoc = bt.GiaBan; // Lấy đúng giá gốc của bản đó
+                    // 1. NHÓM KM RIÊNG: Bốc chính xác cấu hình được giảm giá riêng
+                    btHienThi = sp.BienThes.FirstOrDefault(b => b.MaBT == km.MaBT);
+                }
+                else
+                {
+                    // 2. NHÓM KM CHUNG: Bốc cấu hình đại diện (Rẻ nhất)
+                    // BÍ QUYẾT: Tìm xem những cấu hình nào CỦA SẢN PHẨM NÀY đã có KM riêng rồi, thì "cách ly" nó ra
+                    var cacBanDaCoKmRieng = listKM.Where(x => x.MaSP == sp.MaSP && x.MaBT != null)
+                                                  .Select(x => x.MaBT)
+                                                  .ToList();
 
-                        // Lấy các thuộc tính chính (RAM, CPU...) ghép lại
-                        var ttChinh = bt.ChiTietBTs.Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh).Select(c => c.GiaTriTT.GiaTri);
-                        if (ttChinh != null && ttChinh.Any())
-                        {
-                            tenHienThi = sp.TenSP + " (" + string.Join(" - ", ttChinh) + ")";
-                        }
-                    }
+                    // Chọn bản có giá gốc rẻ nhất NHƯNG PHẢI NẰM NGOÀI DANH SÁCH BỊ "CÁCH LY"
+                    btHienThi = sp.BienThes
+                                  .Where(b => !cacBanDaCoKmRieng.Contains(b.MaBT))
+                                  .OrderBy(b => b.GiaBan)
+                                  .FirstOrDefault();
+
+                    // Nếu tất cả cấu hình đều có KM riêng hết rồi, thì cái KM chung này bị "thừa" -> Bỏ qua không vẽ thẻ nữa!
+                    if (btHienThi == null) { continue; }
                 }
 
-                decimal giaGiam = giaGoc * (1 - (decimal)item.PhanTramGiam / 100);
+                if (btHienThi == null) { continue; }
 
-                <div class="col">
+                // 3. TÍNH TIỀN & LẤY ẢNH (Đúng ảnh cấu hình đó)
+                decimal giaSauGiam = btHienThi.GiaBan * (1 - (decimal)phanTramChot / 100);
+                string anhHienThi = !string.IsNullOrEmpty(btHienThi.HinhAnh) ? btHienThi.HinhAnh : sp.HinhAnh;
+
+                // 4. LẤY THUỘC TÍNH (Đóng gói vào các ô Xám nhỏ)
+                var thuocTinhs = btHienThi.ChiTietBTs.Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh).Select(c => c.GiaTriTT.GiaTri).ToList();
+
+                <div class="col-item">
                     <div class="cps-card">
-                        <div class="discount-badge">Giảm @((int)item.PhanTramGiam)%</div>
+                        @if (phanTramChot > 0)
+                        {
+                            <div class="discount-badge">Giảm @phanTramChot%</div>
+                        }
+
                         <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-img">
-                            <img src="@sp.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@sp.TenSP" />
+                            <img src="@anhHienThi" onerror="this.src='/Content/Images/no-image.png'" alt="@sp.TenSP" />
                         </a>
+
                         <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-title">
-                            @tenHienThi
+                            @sp.TenSP
                         </a>
+
                         <div class="cps-price-box">
-                            @if (giaGoc > 0)
+                            <span class="cps-price-new">@string.Format(info, "{0:c0}", giaSauGiam)</span>
+                            @if (phanTramChot > 0)
                             {
-                                <span class="cps-price-new">@string.Format(info, "{0:c0}", giaGiam)</span>
-                                <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGoc)</span>
-                            }
-                            else
-                            {
-                                <span class="cps-price-new text-muted" style="font-size:14px;">Đang cập nhật giá</span>
+                                <span class="cps-price-old">@string.Format(info, "{0:c0}", btHienThi.GiaBan)</span>
                             }
                         </div>
+
+                        @if (thuocTinhs.Any())
+                        {
+                            <div class="variant-tags">
+                                @foreach (var tt in thuocTinhs)
+                                {
+                                    <span class="v-tag">@tt</span>
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             }
@@ -244,25 +320,62 @@
     <div class="block-title mt-5">
         <h2>✨ Sản Phẩm Mới Ra Mắt</h2>
     </div>
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+    <div class="grid-5-cols">
         @if (ViewBag.SanPhamMoi != null)
         {
-            foreach (var item in ViewBag.SanPhamMoi as List<Maison.Models.Sanpham>)
+            foreach (var sp in ViewBag.SanPhamMoi as List<Maison.Models.Sanpham>)
             {
-                decimal giaMin = item.BienThes != null && item.BienThes.Any() ? item.BienThes.Min(b => b.GiaBan) : 0;
+                decimal minGiaSauGiam = decimal.MaxValue;
+                decimal giaGocCuaBanReNhat = 0;
+                int phanTramHienThi = 0;
 
-                <div class="col">
+                // TÌM CẤU HÌNH CÓ GIÁ RẺ NHẤT (LÀM MỒI NHỬ)
+                if (sp.BienThes != null && sp.BienThes.Any())
+                {
+                    foreach (var bt in sp.BienThes)
+                    {
+                        var activeKMs = sp.SanPhamKhuyenMais != null
+                            ? sp.SanPhamKhuyenMais.Where(k => k.KhuyenMai != null && k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= DateTime.Now && k.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                            : Enumerable.Empty<Maison.Models.SanPhamKhuyenMai>();
+
+                        int maxRieng = activeKMs.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                        int maxChung = activeKMs.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                        int phanTram = Math.Max(maxRieng, maxChung);
+
+                        decimal giaSauGiam = bt.GiaBan * (1 - (decimal)phanTram / 100);
+
+                        if (giaSauGiam < minGiaSauGiam)
+                        {
+                            minGiaSauGiam = giaSauGiam;
+                            giaGocCuaBanReNhat = bt.GiaBan;
+                            phanTramHienThi = phanTram;
+                        }
+                    }
+                }
+
+                <div class="col-item">
                     <div class="cps-card">
-                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-img">
-                            <img src="@item.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@item.TenSP" />
+                        @if (phanTramHienThi > 0)
+                        {
+                            <div class="discount-badge">Giảm @phanTramHienThi%</div>
+                        }
+
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-img">
+                            <img src="@sp.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@sp.TenSP" />
                         </a>
-                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-title">
-                            @item.TenSP
+
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-title">
+                            @sp.TenSP
                         </a>
+
                         <div class="cps-price-box">
-                            @if (giaMin > 0)
+                            @if (minGiaSauGiam != decimal.MaxValue)
                             {
-                                <span class="cps-price-new">@string.Format(info, "{0:c0}", giaMin)</span>
+                                <span class="cps-price-new">@string.Format(info, "{0:c0}", minGiaSauGiam)</span>
+                                if (phanTramHienThi > 0)
+                                {
+                                    <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGocCuaBanReNhat)</span>
+                                }
                             }
                             else
                             {
@@ -278,25 +391,62 @@
     <div class="block-title mt-5">
         <h2>💰 Giá Tốt Chốt Ngay</h2>
     </div>
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-3">
+    <div class="grid-5-cols">
         @if (ViewBag.GiaTot != null)
         {
-            foreach (var item in ViewBag.GiaTot as List<Maison.Models.Sanpham>)
+            foreach (var sp in ViewBag.GiaTot as List<Maison.Models.Sanpham>)
             {
-                decimal giaMin = item.BienThes != null && item.BienThes.Any() ? item.BienThes.Min(b => b.GiaBan) : 0;
+                decimal minGiaSauGiam = decimal.MaxValue;
+                decimal giaGocCuaBanReNhat = 0;
+                int phanTramHienThi = 0;
 
-                <div class="col">
+                // TÌM CẤU HÌNH CÓ GIÁ RẺ NHẤT (LÀM MỒI NHỬ)
+                if (sp.BienThes != null && sp.BienThes.Any())
+                {
+                    foreach (var bt in sp.BienThes)
+                    {
+                        var activeKMs = sp.SanPhamKhuyenMais != null
+                            ? sp.SanPhamKhuyenMais.Where(k => k.KhuyenMai != null && k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= DateTime.Now && k.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                            : Enumerable.Empty<Maison.Models.SanPhamKhuyenMai>();
+
+                        int maxRieng = activeKMs.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                        int maxChung = activeKMs.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                        int phanTram = Math.Max(maxRieng, maxChung);
+
+                        decimal giaSauGiam = bt.GiaBan * (1 - (decimal)phanTram / 100);
+
+                        if (giaSauGiam < minGiaSauGiam)
+                        {
+                            minGiaSauGiam = giaSauGiam;
+                            giaGocCuaBanReNhat = bt.GiaBan;
+                            phanTramHienThi = phanTram;
+                        }
+                    }
+                }
+
+                <div class="col-item">
                     <div class="cps-card">
-                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-img">
-                            <img src="@item.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@item.TenSP" />
+                        @if (phanTramHienThi > 0)
+                        {
+                            <div class="discount-badge">Giảm @phanTramHienThi%</div>
+                        }
+
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-img">
+                            <img src="@sp.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@sp.TenSP" />
                         </a>
-                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-title">
-                            @item.TenSP
+
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-title">
+                            @sp.TenSP
                         </a>
+
                         <div class="cps-price-box">
-                            @if (giaMin > 0)
+                            @if (minGiaSauGiam != decimal.MaxValue)
                             {
-                                <span class="cps-price-new">@string.Format(info, "{0:c0}", giaMin)</span>
+                                <span class="cps-price-new">@string.Format(info, "{0:c0}", minGiaSauGiam)</span>
+                                if (phanTramHienThi > 0)
+                                {
+                                    <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGocCuaBanReNhat)</span>
+                                }
                             }
                             else
                             {

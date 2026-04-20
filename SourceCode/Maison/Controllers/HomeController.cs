@@ -14,30 +14,36 @@ namespace Maison.Controllers
         shopdb db = new shopdb();
         public ActionResult Index()
         {
-            // 1. Sản phẩm khuyến mãi
+            DateTime now = DateTime.Now;
+
+            // 1. Sản phẩm khuyến mãi (Giữ nguyên như cũ, đã làm xong)
             var sanPhamKhuyenMai = db.SanPhamKhuyenMais
                 .Include(s => s.Sanpham)
-                // Lệnh Include cực kỳ quan trọng để View móc được tên RAM, CPU ra nối chuỗi:
                 .Include(s => s.Sanpham.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .Include(s => s.KhuyenMai)
                 .Where(s => s.KhuyenMai.TrangThai == 1
-                            && s.KhuyenMai.NgayBatDau <= DateTime.Now
-                            && s.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                            && s.KhuyenMai.NgayBatDau <= now
+                            && s.KhuyenMai.NgayKetThuc >= now)
+                .GroupBy(s => new { s.MaSP, s.MaBT })
+                .Select(nhom => nhom.OrderByDescending(x => x.PhanTramGiam).FirstOrDefault())
+                .Take(20) // Đủ 4 hàng
                 .ToList();
 
             // 2. Sản phẩm mới
             var sanPhamMoi = db.Sanphams
                 .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
+                .Include(s => s.SanPhamKhuyenMais.Select(k => k.KhuyenMai)) // <--- BẮT BUỘC THÊM DÒNG NÀY
                 .OrderByDescending(p => p.NgayTao)
-                .Take(5)
+                .Take(20) // Sửa thành 20
                 .ToList();
 
             // 3. Giá tốt
             var giaTot = db.Sanphams
                 .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
+                .Include(s => s.SanPhamKhuyenMais.Select(k => k.KhuyenMai)) // <--- BẮT BUỘC THÊM DÒNG NÀY
                 .Where(p => p.BienThes.Any())
                 .OrderBy(p => p.BienThes.Min(b => b.GiaBan))
-                .Take(5)
+                .Take(20) // Sửa thành 20
                 .ToList();
 
             ViewBag.SanPhamKhuyenMai = sanPhamKhuyenMai;
