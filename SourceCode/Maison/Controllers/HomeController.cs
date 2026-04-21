@@ -17,17 +17,45 @@ namespace Maison.Controllers
             DateTime now = DateTime.Now;
 
             // 1. Sản phẩm khuyến mãi (Giữ nguyên như cũ, đã làm xong)
-            var sanPhamKhuyenMai = db.SanPhamKhuyenMais
-                .Include(s => s.Sanpham)
-                .Include(s => s.Sanpham.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
-                .Include(s => s.KhuyenMai)
-                .Where(s => s.KhuyenMai.TrangThai == 1
-                            && s.KhuyenMai.NgayBatDau <= now
-                            && s.KhuyenMai.NgayKetThuc >= now)
-                .GroupBy(s => new { s.MaSP, s.MaBT })
-                .Select(nhom => nhom.OrderByDescending(x => x.PhanTramGiam).FirstOrDefault())
-                .Take(20) // Đủ 4 hàng
+            // 1. Sản phẩm khuyến mãi (ĐÃ FIX: Trả về List<Sanpham> thay vì List<SanPhamKhuyenMai>)
+            var activeKMs = db.SanPhamKhuyenMais
+                    .Include(k => k.KhuyenMai)
+                    .Where(k => k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= now && k.KhuyenMai.NgayKetThuc >= now)
+                    .ToList();
+
+            // Nhóm KM lại để dễ tra cứu. Key là Mã Sản Phẩm.
+            var kmGomNhomTheoSP = activeKMs.GroupBy(k => k.MaSP).ToDictionary(g => g.Key, g => g.ToList());
+
+            // Bước B: Lấy toàn bộ biến thể ra để xét duyệt
+            // Bước B: Lấy toàn bộ biến thể ra để xét duyệt
+            var tatCaBienThe = db.BienThes
+                .Include(b => b.Sanpham)
+                .Include(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh))
                 .ToList();
+
+            // ĐÃ SỬA CHỖ NÀY: Dùng Tuple<BienThe, int> thay vì dynamic
+            var danhSachHotSale = new List<Tuple<BienThe, int>>();
+
+            foreach (var bt in tatCaBienThe)
+            {
+                if (kmGomNhomTheoSP.ContainsKey(bt.MaSP))
+                {
+                    var kmCuaSPNay = kmGomNhomTheoSP[bt.MaSP];
+
+                    int maxRieng = kmCuaSPNay.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                    int maxChung = kmCuaSPNay.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                    int phanTramChot = Math.Max(maxRieng, maxChung);
+
+                    if (phanTramChot > 0)
+                    {
+                        // ĐÃ SỬA CHỖ NÀY: Khởi tạo Tuple (Item1 là Biến thể, Item2 là Phần trăm)
+                        danhSachHotSale.Add(new Tuple<BienThe, int>(bt, phanTramChot));
+                    }
+                }
+            }
+
+            // ĐÃ SỬA CHỖ NÀY: Gọi x.Item2 (chính là PhanTramGiam) để sắp xếp
+            ViewBag.HotSale = danhSachHotSale.OrderByDescending(x => x.Item2).Take(20).ToList();
 
             // 2. Sản phẩm mới
             var sanPhamMoi = db.Sanphams
@@ -46,7 +74,7 @@ namespace Maison.Controllers
                 .Take(20) // Sửa thành 20
                 .ToList();
 
-            ViewBag.SanPhamKhuyenMai = sanPhamKhuyenMai;
+     
             ViewBag.SanPhamMoi = sanPhamMoi;
             ViewBag.GiaTot = giaTot;
 

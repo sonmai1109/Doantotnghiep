@@ -43,6 +43,9 @@ namespace Maison.Areas.Admin.Controllers // Đổi namespace nếu cần
         // ==========================================
         // 2. API: LẤY THUỘC TÍNH (RAM, CPU...) KÈM CÁC GIÁ TRỊ CŨ (8GB, 16GB...)
         // ==========================================
+        // ==========================================
+        // 2. API: LẤY THUỘC TÍNH (KÈM PHÂN BIỆT CHÍNH/PHỤ VÀ SẮP XẾP)
+        // ==========================================
         [HttpPost]
         public JsonResult LoadThuocTinhTheoDanhMuc(int maDM)
         {
@@ -50,9 +53,11 @@ namespace Maison.Areas.Admin.Controllers // Đổi namespace nếu cần
 
             var data = db.ThuocTinhs
                          .Where(t => t.MaDM == maDM || t.MaDM == null)
+                         .OrderBy(t => t.ThuTuHienThi) // Sắp xếp theo thứ tự Admin đã cấu hình
                          .Select(t => new {
                              MaTT = t.MaTT,
                              TenTT = t.TenTT,
+                             LaThuocTinhChinh = t.LaThuocTinhChinh, // Bổ sung cờ này để JS nhận biết
                              GiaTris = t.GiaTriTTs.Select(g => new { g.MaGT, g.GiaTri }).ToList()
                          }).ToList();
 
@@ -426,6 +431,101 @@ namespace Maison.Areas.Admin.Controllers // Đổi namespace nếu cần
                 db.SaveChanges();
             }
             return Json(new { status = true });
+        }
+        // ==========================================
+        // THUẬT TOÁN NHÂN CHÉO TỔ HỢP (CARTESIAN PRODUCT)
+        // ==========================================
+        private IEnumerable<IEnumerable<T>> GenerateCombinations<T>(IEnumerable<IEnumerable<T>> collections)
+        {
+            IEnumerable<IEnumerable<T>> result = new[] { Enumerable.Empty<T>() };
+            foreach (var collection in collections)
+            {
+                var currentCollection = collection;
+                result = from seq in result
+                         from item in currentCollection
+                         select seq.Concat(new[] { item });
+            }
+            return result;
+        }
+
+        // ==========================================
+        // API: TẠO BIẾN THỂ HÀNG LOẠT (BULK CREATE)
+        // ==========================================
+        [HttpPost]
+        public JsonResult BulkCreate(int maSP, decimal giaBan, int soLuong, string chuoiMaGT)
+        {
+            // Kiểm tra xem chuỗi có rỗng không
+            if (string.IsNullOrEmpty(chuoiMaGT))
+                return Json(new { status = false, message = "Vui lòng chọn ít nhất một thông số!" });
+
+            // Bẻ chuỗi "1,4,7" thành List<int> {1, 4, 7}
+            List<int> selectedMaGTs = chuoiMaGT.Split(',')
+                                               .Select(s => int.Parse(s.Trim()))
+                                               .ToList();
+
+            using (var transaction = db.Database.BeginTransaction())
+            {
+                try
+                {
+                    TaiKhoanQuanTri tk = (TaiKhoanQuanTri)Session[Maison.Session.ConstaintUser.ADMIN_SESSION];
+                    string adminName = tk != null ? tk.HoTen : "Admin";
+
+                    var allSelectedValues = db.GiaTriTTs
+                                              .Include(g => g.ThuocTinh)
+                                              .Where(g => selectedMaGTs.Contains(g.MaGT))
+                                              .ToList();
+
+                    var groupedValues = allSelectedValues
+                                        .GroupBy(g => g.MaTT)
+                                        .OrderBy(group => group.First().ThuocTinh.ThuTuHienThi)
+                                        .Select(group => group.Select(g => g.MaGT).ToList())
+                                        .ToList();
+
+                    var combinations = GenerateCombinations(groupedValues).ToList();
+
+                    int countCreated = 0;
+
+                    foreach (var combo in combinations)
+                    {
+                        var comboList = combo.ToList();
+
+                        BienThe newBt = new BienThe
+                        {
+                            MaSP = maSP,
+                            GiaBan = giaBan,
+                            SoLuongTon = soLuong,
+                            NgayTao = DateTime.Now,
+                            NguoiTao = adminName,
+                            NgaySua = DateTime.Now,
+                            NguoiSua = adminName,
+                            TrangThai = true,
+                            HinhAnh = "/Content/Images/no-image.png"
+                        };
+
+                        db.BienThes.Add(newBt);
+                        db.SaveChanges();
+
+                        foreach (var maGT in comboList)
+                        {
+                            db.ChiTietBTs.Add(new ChiTietBT
+                            {
+                                MaBT = newBt.MaBT,
+                                MaGT = maGT
+                            });
+                        }
+                        db.SaveChanges();
+                        countCreated++;
+                    }
+
+                    transaction.Commit();
+                    return Json(new { status = true, message = $"Đã tạo thành công {countCreated} cấu hình!" });
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    return Json(new { status = false, message = "Lỗi hệ thống: " + ex.Message });
+                }
+            }
         }
 
         // ==========================================

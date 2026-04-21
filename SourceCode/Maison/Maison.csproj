@@ -263,6 +263,10 @@
     <Compile Include="Migrations\202604152018464_themphanhoiadmin.Designer.cs">
       <DependentUpon>202604152018464_themphanhoiadmin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202604202004033_themcotthutubangthuoctinh.cs" />
+    <Compile Include="Migrations\202604202004033_themcotthutubangthuoctinh.Designer.cs">
+      <DependentUpon>202604202004033_themcotthutubangthuoctinh.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Baohanh.cs" />
     <Compile Include="Models\BienThe.cs" />
@@ -2529,6 +2533,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202604152018464_themphanhoiadmin.resx">
       <DependentUpon>202604152018464_themphanhoiadmin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604202004033_themcotthutubangthuoctinh.resx">
+      <DependentUpon>202604202004033_themcotthutubangthuoctinh.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

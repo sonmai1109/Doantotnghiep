@@ -232,59 +232,29 @@
     </div>
 
     <div class="grid-5-cols">
-        @if (ViewBag.SanPhamKhuyenMai != null)
+        @if (ViewBag.HotSale != null)
         {
-            // Nhận đúng danh sách Khuyến Mãi từ Controller
-            var listKM = ViewBag.SanPhamKhuyenMai as List<Maison.Models.SanPhamKhuyenMai>;
-
-            foreach (var km in listKM)
+            foreach (var item in ViewBag.HotSale as List<Tuple<Maison.Models.BienThe, int>>)
             {
-                var sp = km.Sanpham;
-                if (sp == null || sp.BienThes == null) { continue; } // Bỏ qua nếu lỗi data
+                // Item1 là BienThe, Item2 là PhanTramGiam
+                Maison.Models.BienThe bt = item.Item1;
+                int phanTramHienThi = item.Item2;
+                Maison.Models.Sanpham sp = bt.Sanpham;
 
-                Maison.Models.BienThe btHienThi = null;
+                decimal minGiaSauGiam = bt.GiaBan * (1 - (decimal)phanTramHienThi / 100);
+                string anhHienThi = !string.IsNullOrEmpty(bt.HinhAnh) ? bt.HinhAnh : sp.HinhAnh;
 
-                // LẤY LUÔN % GIẢM TỪ DATABASE (Đã được Controller lọc to nhất rồi, không cần Math.Max nữa)
-                int phanTramChot = Convert.ToInt32(km.PhanTramGiam);
-
-                if (km.MaBT != null)
-                {
-                    // 1. NHÓM KM RIÊNG: Bốc chính xác cấu hình được giảm giá riêng
-                    btHienThi = sp.BienThes.FirstOrDefault(b => b.MaBT == km.MaBT);
-                }
-                else
-                {
-                    // 2. NHÓM KM CHUNG: Bốc cấu hình đại diện (Rẻ nhất)
-                    // BÍ QUYẾT: Tìm xem những cấu hình nào CỦA SẢN PHẨM NÀY đã có KM riêng rồi, thì "cách ly" nó ra
-                    var cacBanDaCoKmRieng = listKM.Where(x => x.MaSP == sp.MaSP && x.MaBT != null)
-                                                  .Select(x => x.MaBT)
-                                                  .ToList();
-
-                    // Chọn bản có giá gốc rẻ nhất NHƯNG PHẢI NẰM NGOÀI DANH SÁCH BỊ "CÁCH LY"
-                    btHienThi = sp.BienThes
-                                  .Where(b => !cacBanDaCoKmRieng.Contains(b.MaBT))
-                                  .OrderBy(b => b.GiaBan)
-                                  .FirstOrDefault();
-
-                    // Nếu tất cả cấu hình đều có KM riêng hết rồi, thì cái KM chung này bị "thừa" -> Bỏ qua không vẽ thẻ nữa!
-                    if (btHienThi == null) { continue; }
-                }
-
-                if (btHienThi == null) { continue; }
-
-                // 3. TÍNH TIỀN & LẤY ẢNH (Đúng ảnh cấu hình đó)
-                decimal giaSauGiam = btHienThi.GiaBan * (1 - (decimal)phanTramChot / 100);
-                string anhHienThi = !string.IsNullOrEmpty(btHienThi.HinhAnh) ? btHienThi.HinhAnh : sp.HinhAnh;
-
-                // 4. LẤY THUỘC TÍNH (Đóng gói vào các ô Xám nhỏ)
-                var thuocTinhs = btHienThi.ChiTietBTs.Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh).Select(c => c.GiaTriTT.GiaTri).ToList();
-
+                // Lấy tag thông số ĐẶC TRƯNG CỦA CẤU HÌNH NÀY
+                // Lấy tag thông số ĐẶC TRƯNG CỦA CẤU HÌNH NÀY và xếp đúng thứ tự 0, 1, 2...
+                var cacTagThongSo = bt.ChiTietBTs
+                    .Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                    .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi) // Sắp xếp từ bé đến lớn
+                    .Select(c => c.GiaTriTT.GiaTri)
+                    .ToList();
                 <div class="col-item">
-                    <div class="cps-card">
-                        @if (phanTramChot > 0)
-                        {
-                            <div class="discount-badge">Giảm @phanTramChot%</div>
-                        }
+                    <div class="cps-card" style="height: 100%;">
+
+                        <div class="discount-badge">Giảm @phanTramHienThi%</div>
 
                         <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-img">
                             <img src="@anhHienThi" onerror="this.src='/Content/Images/no-image.png'" alt="@sp.TenSP" />
@@ -295,19 +265,16 @@
                         </a>
 
                         <div class="cps-price-box">
-                            <span class="cps-price-new">@string.Format(info, "{0:c0}", giaSauGiam)</span>
-                            @if (phanTramChot > 0)
-                            {
-                                <span class="cps-price-old">@string.Format(info, "{0:c0}", btHienThi.GiaBan)</span>
-                            }
+                            <span class="cps-price-new">@string.Format(info, "{0:c0}", minGiaSauGiam)</span>
+                            <span class="cps-price-old">@string.Format(info, "{0:c0}", bt.GiaBan)</span>
                         </div>
 
-                        @if (thuocTinhs.Any())
+                        @if (cacTagThongSo.Any())
                         {
-                            <div class="variant-tags">
-                                @foreach (var tt in thuocTinhs)
+                            <div class="variant-tags mt-2">
+                                @foreach (var tag in cacTagThongSo)
                                 {
-                                    <span class="v-tag">@tt</span>
+                                    <span class="v-tag" style="background-color: #fff3f3; color: #d70018; border-color: #ffcccc;">@tag</span>
                                 }
                             </div>
                         }
@@ -316,7 +283,6 @@
             }
         }
     </div>
-
     <div class="block-title mt-5">
         <h2>✨ Sản Phẩm Mới Ra Mắt</h2>
     </div>
@@ -325,36 +291,49 @@
         {
             foreach (var sp in ViewBag.SanPhamMoi as List<Maison.Models.Sanpham>)
             {
-                decimal minGiaSauGiam = decimal.MaxValue;
-                decimal giaGocCuaBanReNhat = 0;
-                int phanTramHienThi = 0;
-
-                // TÌM CẤU HÌNH CÓ GIÁ RẺ NHẤT (LÀM MỒI NHỬ)
-                if (sp.BienThes != null && sp.BienThes.Any())
-                {
-                    foreach (var bt in sp.BienThes)
-                    {
-                        var activeKMs = sp.SanPhamKhuyenMais != null
-                            ? sp.SanPhamKhuyenMais.Where(k => k.KhuyenMai != null && k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= DateTime.Now && k.KhuyenMai.NgayKetThuc >= DateTime.Now)
-                            : Enumerable.Empty<Maison.Models.SanPhamKhuyenMai>();
-
-                        int maxRieng = activeKMs.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
-                        int maxChung = activeKMs.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
-                        int phanTram = Math.Max(maxRieng, maxChung);
-
-                        decimal giaSauGiam = bt.GiaBan * (1 - (decimal)phanTram / 100);
-
-                        if (giaSauGiam < minGiaSauGiam)
-                        {
-                            minGiaSauGiam = giaSauGiam;
-                            giaGocCuaBanReNhat = bt.GiaBan;
-                            phanTramHienThi = phanTram;
-                        }
-                    }
-                }
-
                 <div class="col-item">
-                    <div class="cps-card">
+                    <div class="cps-card" style="height: 100%;">
+                        @{
+                            // 1. TÌM CẤU HÌNH CÓ % GIẢM LỚN NHẤT (NẾU BẰNG NHAU HOẶC = 0 THÌ LẤY RẺ NHẤT)
+                            decimal minGiaSauGiam = decimal.MaxValue;
+                            decimal giaGocCuaBanReNhat = 0;
+                            int phanTramHienThi = -1;
+
+                            if (sp.BienThes != null && sp.BienThes.Any())
+                            {
+                                foreach (var bt in sp.BienThes)
+                                {
+                                    var activeKMs = sp.SanPhamKhuyenMais != null
+                                        ? sp.SanPhamKhuyenMais.Where(k => k.KhuyenMai != null && k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= DateTime.Now && k.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                                        : Enumerable.Empty<Maison.Models.SanPhamKhuyenMai>();
+
+                                    int maxRieng = activeKMs.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                                    int maxChung = activeKMs.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                                    int phanTram = Math.Max(maxRieng, maxChung);
+
+                                    decimal giaSauGiam = bt.GiaBan * (1 - (decimal)phanTram / 100);
+
+                                    // So sánh ưu tiên 1: % giảm cao nhất. Ưu tiên 2: Giá rẻ nhất
+                                    if (phanTram > phanTramHienThi || (phanTram == phanTramHienThi && giaSauGiam < minGiaSauGiam))
+                                    {
+                                        minGiaSauGiam = giaSauGiam;
+                                        giaGocCuaBanReNhat = bt.GiaBan;
+                                        phanTramHienThi = phanTram;
+                                    }
+                                }
+                            }
+
+                            // 2. LỌC VÀ LẤY TAG THÔNG SỐ ĐỂ HIỂN THỊ (Gom nhóm, Xóa trùng, Xếp thứ tự 0, 1, 2...)
+                            var cacTagThongSo = sp.BienThes != null ? sp.BienThes
+                                .SelectMany(b => b.ChiTietBTs)
+                                .Where(c => c.GiaTriTT != null && c.GiaTriTT.ThuocTinh != null && c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                .GroupBy(c => c.GiaTriTT.GiaTri)
+                                .Select(g => g.First())
+                                .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                                .Select(c => c.GiaTriTT.GiaTri)
+                                .ToList() : new List<string>();
+                        }
+
                         @if (phanTramHienThi > 0)
                         {
                             <div class="discount-badge">Giảm @phanTramHienThi%</div>
@@ -382,6 +361,18 @@
                                 <span class="cps-price-new text-muted" style="font-size:14px;">Đang cập nhật giá</span>
                             }
                         </div>
+
+                        @if (cacTagThongSo.Any())
+                        {
+                            <div class="variant-tags mt-2" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                                @foreach (var tag in cacTagThongSo)
+                                {
+                                    <span class="v-tag" style="font-size: 11px; color: #555; background: #f3f4f6; padding: 3px 6px; border: 1px solid #e5e7eb; border-radius: 4px;">
+                                        @tag
+                                    </span>
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             }
@@ -396,36 +387,48 @@
         {
             foreach (var sp in ViewBag.GiaTot as List<Maison.Models.Sanpham>)
             {
-                decimal minGiaSauGiam = decimal.MaxValue;
-                decimal giaGocCuaBanReNhat = 0;
-                int phanTramHienThi = 0;
-
-                // TÌM CẤU HÌNH CÓ GIÁ RẺ NHẤT (LÀM MỒI NHỬ)
-                if (sp.BienThes != null && sp.BienThes.Any())
-                {
-                    foreach (var bt in sp.BienThes)
-                    {
-                        var activeKMs = sp.SanPhamKhuyenMais != null
-                            ? sp.SanPhamKhuyenMais.Where(k => k.KhuyenMai != null && k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= DateTime.Now && k.KhuyenMai.NgayKetThuc >= DateTime.Now)
-                            : Enumerable.Empty<Maison.Models.SanPhamKhuyenMai>();
-
-                        int maxRieng = activeKMs.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
-                        int maxChung = activeKMs.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
-                        int phanTram = Math.Max(maxRieng, maxChung);
-
-                        decimal giaSauGiam = bt.GiaBan * (1 - (decimal)phanTram / 100);
-
-                        if (giaSauGiam < minGiaSauGiam)
-                        {
-                            minGiaSauGiam = giaSauGiam;
-                            giaGocCuaBanReNhat = bt.GiaBan;
-                            phanTramHienThi = phanTram;
-                        }
-                    }
-                }
-
                 <div class="col-item">
-                    <div class="cps-card">
+                    <div class="cps-card" style="height: 100%;">
+                        @{
+                            // 1. TÌM CẤU HÌNH CÓ % GIẢM LỚN NHẤT (NẾU BẰNG NHAU HOẶC = 0 THÌ LẤY RẺ NHẤT)
+                            decimal minGiaSauGiam = decimal.MaxValue;
+                            decimal giaGocCuaBanReNhat = 0;
+                            int phanTramHienThi = -1;
+
+                            if (sp.BienThes != null && sp.BienThes.Any())
+                            {
+                                foreach (var bt in sp.BienThes)
+                                {
+                                    var activeKMs = sp.SanPhamKhuyenMais != null
+                                        ? sp.SanPhamKhuyenMais.Where(k => k.KhuyenMai != null && k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= DateTime.Now && k.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                                        : Enumerable.Empty<Maison.Models.SanPhamKhuyenMai>();
+
+                                    int maxRieng = activeKMs.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                                    int maxChung = activeKMs.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                                    int phanTram = Math.Max(maxRieng, maxChung);
+
+                                    decimal giaSauGiam = bt.GiaBan * (1 - (decimal)phanTram / 100);
+
+                                    if (phanTram > phanTramHienThi || (phanTram == phanTramHienThi && giaSauGiam < minGiaSauGiam))
+                                    {
+                                        minGiaSauGiam = giaSauGiam;
+                                        giaGocCuaBanReNhat = bt.GiaBan;
+                                        phanTramHienThi = phanTram;
+                                    }
+                                }
+                            }
+
+                            // 2. LỌC VÀ LẤY TAG THÔNG SỐ ĐỂ HIỂN THỊ
+                            var cacTagThongSo = sp.BienThes != null ? sp.BienThes
+                                .SelectMany(b => b.ChiTietBTs)
+                                .Where(c => c.GiaTriTT != null && c.GiaTriTT.ThuocTinh != null && c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                .GroupBy(c => c.GiaTriTT.GiaTri)
+                                .Select(g => g.First())
+                                .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                                .Select(c => c.GiaTriTT.GiaTri)
+                                .ToList() : new List<string>();
+                        }
+
                         @if (phanTramHienThi > 0)
                         {
                             <div class="discount-badge">Giảm @phanTramHienThi%</div>
@@ -453,6 +456,18 @@
                                 <span class="cps-price-new text-muted" style="font-size:14px;">Đang cập nhật giá</span>
                             }
                         </div>
+
+                        @if (cacTagThongSo.Any())
+                        {
+                            <div class="variant-tags mt-2" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                                @foreach (var tag in cacTagThongSo)
+                                {
+                                    <span class="v-tag" style="font-size: 11px; color: #555; background: #f3f4f6; padding: 3px 6px; border: 1px solid #e5e7eb; border-radius: 4px;">
+                                        @tag
+                                    </span>
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             }

@@ -35,7 +35,9 @@ function loaddata(id) {
             $("#tentt").val(res.TenTT);
             $("#madm").val(res.MaDM);
 
-            // Ép kiểu boolean thành string chữ thường để match với thẻ <option value="true">
+            // Lấy thứ tự hiển thị ném vào input
+            $("#edit_ThuTuHienThi").val(res.ThuTuHienThi);
+
             if (res.LaThuocTinhChinh !== undefined) {
                 $("#edit_LaThuocTinhChinh").val(res.LaThuocTinhChinh.toString().toLowerCase());
             }
@@ -43,6 +45,8 @@ function loaddata(id) {
         error: function (xhr) { alert("Lỗi tải dữ liệu..."); }
     });
 }
+
+// CÁC HÀM KHÁC NHƯ themThuocTinh, suaThuocTinh GIỮ NGUYÊN HOÀN TOÀN BÌNH THƯỜNG
 
 function suaThuocTinh() {
     let data = {};

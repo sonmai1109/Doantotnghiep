@@ -298,3 +298,4 @@ D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.C
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.FixBaoHanhMapping.resources
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.hinhanhbangdanhgia.resources
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.themphanhoiadmin.resources
+D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.themcotthutubangthuoctinh.resources

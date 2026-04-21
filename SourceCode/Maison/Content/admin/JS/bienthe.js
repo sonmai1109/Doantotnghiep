@@ -1,6 +1,9 @@
 ﻿// ========================================================
 // HÀM DÙNG CHUNG: VẼ MÃ HTML CHO KHU VỰC THÔNG SỐ KỸ THUẬT
 // ========================================================
+// ========================================================
+// HÀM DÙNG CHUNG: VẼ MÃ HTML CHO KHU VỰC THÔNG SỐ KỸ THUẬT
+// ========================================================
 function renderAttributeHTML(attributesData, currentSelected = []) {
     let html = '';
     attributesData.forEach(function (item) {
@@ -18,12 +21,24 @@ function renderAttributeHTML(attributesData, currentSelected = []) {
 
         options += `<option value="NEW" class="text-primary font-weight-bold">➕ Thêm giá trị mới...</option>`;
 
+        // === MA THUẬT PHÂN BIỆT UI Ở ĐÂY ===
+        let isMain = item.LaThuocTinhChinh;
+
+        // CSS Box bọc bên ngoài
+        let boxClass = isMain ? "border-primary bg-white shadow-sm" : "bg-light";
+        let borderStyle = isMain ? "border: 2px solid #007bff;" : "border: 1px dashed #ccc;";
+
+        // CSS Chữ và Icon
+        let labelClass = isMain ? "text-primary" : "text-secondary";
+        let icon = isMain ? `<i class="fas fa-star text-warning mr-1"></i>` : `<i class="fas fa-tag text-muted mr-1"></i>`;
+        let selectClass = isMain ? "border-primary" : "";
+
         html += `
-            <div class="form-group mb-3 p-3 border rounded shadow-sm" style="background-color: #f8f9fa;">
-                <label class="font-weight-bold text-dark">${item.TenTT}:</label>
+            <div class="form-group mb-3 p-3 rounded ${boxClass}" style="${borderStyle}">
+                <label class="font-weight-bold ${labelClass}">${icon} ${item.TenTT}:</label>
                 
                 <div class="d-flex align-items-center mb-2">
-                    <select class="form-control" name="ThuocTinh_Select_${item.MaTT}" id="Select_${item.MaTT}" onchange="toggleNewInput(this, ${item.MaTT})">
+                    <select class="form-control ${selectClass}" name="ThuocTinh_Select_${item.MaTT}" id="Select_${item.MaTT}" onchange="toggleNewInput(this, ${item.MaTT})">
                         ${options}
                     </select>
                     
@@ -37,7 +52,7 @@ function renderAttributeHTML(attributesData, currentSelected = []) {
                         <input type="text" class="form-control border-primary" id="NewInput_${item.MaTT}" placeholder="Nhập ${item.TenTT} mới (VD: RTX 4060)..." />
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" onclick="luuGiaTriNhanh(${item.MaTT})">
-                                <i class="fas fa-check mr-1"></i> Lưu thông số
+                                <i class="fas fa-check mr-1"></i> Lưu
                             </button>
                         </div>
                     </div>
@@ -390,6 +405,123 @@ function autoUploadGallery() {
         error: function () {
             alert("Lỗi khi tải ảnh lên server!");
             $("#upload-loading").remove();
+        }
+    });
+}
+// ========================================================
+// NGHIỆP VỤ: TẠO BIẾN THỂ HÀNG LOẠT (BULK CREATE)
+// ========================================================
+
+// 1. Bắt sự kiện bấm nút "Tạo hàng loạt"
+document.getElementById('btnBulkCreate').addEventListener('click', function () {
+    let maDM = $("#current_MaDM").val();
+    $("#dynamic-attributes-bulk").html('<span class="text-muted font-italic">Đang tải thông số...</span>');
+
+    $.ajax({
+        url: '/BienThes/LoadThuocTinhTheoDanhMuc',
+        type: 'POST',
+        data: { maDM: maDM },
+        success: function (res) {
+            if (res.length === 0) {
+                $("#dynamic-attributes-bulk").html('<span class="text-danger">Danh mục này chưa cài đặt thuộc tính nào.</span>');
+            } else {
+                // Vẽ Checkbox thay vì Select
+                let html = '';
+                res.forEach(function (item) {
+
+                    let isMain = item.LaThuocTinhChinh;
+                    let boxClass = isMain ? "border-success bg-white shadow-sm" : "bg-white border-light";
+                    let labelClass = isMain ? "text-success" : "text-secondary";
+                    let icon = isMain ? `<i class="fas fa-star text-warning mr-1"></i>` : `<i class="fas fa-tag text-muted mr-1"></i>`;
+
+                    html += `<div class="mb-3 p-3 rounded border ${boxClass}">
+                                <label class="font-weight-bold ${labelClass}">${icon} ${item.TenTT}:</label>
+                                <div class="d-flex flex-wrap" style="gap: 15px; margin-top: 10px;">`;
+
+                    if (item.GiaTris.length === 0) {
+                        html += `<span class="text-muted" style="font-size:13px;">Chưa có thông số nào, hãy thêm ở mục "Sửa biến thể" hoặc "Quản lý thuộc tính".</span>`;
+                    }
+
+                    // Vẽ từng Checkbox
+                    item.GiaTris.forEach(function (val) {
+                        html += `
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input bulk-checkbox" id="chk_${val.MaGT}" name="BulkGiaTri" value="${val.MaGT}">
+                                <label class="custom-control-label" for="chk_${val.MaGT}" style="cursor:pointer;">${val.GiaTri}</label>
+                            </div>
+                        `;
+                    });
+
+                    html += `   </div>
+                             </div>`;
+                });
+                $("#dynamic-attributes-bulk").html(html);
+            }
+
+            document.getElementById('bulkpopup').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+    });
+});
+
+// 2. Submit form Tạo hàng loạt
+// 2. Submit form Tạo hàng loạt
+// 2. Submit form Tạo hàng loạt
+// 2. Submit form Tạo hàng loạt
+function taoHangLoat() {
+    let maSP = parseInt($("#current_MaSP").val());
+    let giaBan = parseFloat($("#bulk_giaban").val());
+    let soLuong = parseInt($("#bulk_soluongton").val());
+
+    // 1. Kiểm tra Admin đã nhập Giá và Tồn kho chưa
+    if (!giaBan || isNaN(giaBan) || !soLuong || isNaN(soLuong)) {
+        Swal.fire('Chú ý', 'Vui lòng nhập giá bán và số lượng kho chung!', 'warning');
+        return false;
+    }
+
+    // 2. Thu gom các Checkbox đã được tick
+    let selectedMaGTs = [];
+    $('.bulk-checkbox:checked').each(function () {
+        selectedMaGTs.push(parseInt($(this).val()));
+    });
+
+    if (selectedMaGTs.length === 0) {
+        Swal.fire('Chú ý', 'Bạn phải tick chọn ít nhất 1 thông số để tạo!', 'warning');
+        return false;
+    }
+
+    Swal.fire({
+        title: 'Đang xử lý nhân chéo...',
+        text: 'Vui lòng không đóng trình duyệt!',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading() }
+    });
+
+    // 3. Ép mảng thành chuỗi (VD: "1,4,7") để gửi xuống Backend không bị lỗi
+    let chuoiID = selectedMaGTs.join(',');
+
+    // Gửi AJAX
+    $.ajax({
+        url: '/Admin/BienThes/BulkCreate',
+        type: 'POST',
+        data: {
+            maSP: maSP,
+            giaBan: giaBan,
+            soLuong: soLuong,
+            chuoiMaGT: chuoiID
+        },
+        success: function (res) {
+            if (res.status == true) {
+                Swal.fire('Thành công', res.message, 'success').then(() => {
+                    // Dùng window.location.href để ép reload trang hiện tại, chống văng về danh sách SP
+                    window.location.href = "/Admin/BienThes/Index?maSP=" + maSP;
+                });
+            } else {
+                Swal.fire('Lỗi', res.message, 'error');
+            }
+        },
+        error: function (xhr) {
+            Swal.fire('Lỗi Server', xhr.responseText, 'error');
         }
     });
 }

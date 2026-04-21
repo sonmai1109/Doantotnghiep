@@ -24,7 +24,7 @@ namespace Maison.Controllers
             var sanphams = db.Sanphams
                 .Include(s => s.DanhMuc)
                 .Include(s => s.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
-                .Include(s => s.BienThes)
+                .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
@@ -56,7 +56,7 @@ namespace Maison.Controllers
             DateTime now = DateTime.Now;
             var sanphams = db.Sanphams
                 .Include(s => s.DanhMuc)
-                .Include(s => s.BienThes)
+               .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .Include(s => s.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
                 .Where(sp => sp.SanPhamKhuyenMais.Any(km =>
                     km.KhuyenMai.TrangThai == 1 &&
@@ -78,7 +78,7 @@ namespace Maison.Controllers
             DateTime now = DateTime.Now;
             var sanphams = db.Sanphams
                 .Include(s => s.DanhMuc)
-                .Include(s => s.BienThes)
+               .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .Include(s => s.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
                 .Where(sp => !sp.SanPhamKhuyenMais.Any(k =>
                     k.KhuyenMai.TrangThai == 1 &&
@@ -98,7 +98,7 @@ namespace Maison.Controllers
         {
             var sanphams = db.Sanphams
                 .Include(s => s.DanhMuc)
-                .Include(s => s.BienThes)
+              .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .Include(s => s.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
                 .Where(p => p.BienThes.Any())
                 .ToList();
@@ -209,10 +209,23 @@ namespace Maison.Controllers
             ViewBag.BienThes_Json = JsonConvert.SerializeObject(listBT);
             // ... code cũ (đóng gói JSON biến thể) ...
             ViewBag.BienThes_Json = JsonConvert.SerializeObject(listBT);
+            //them tùy chọn bấm bấm
+            var thuocTinhCauHinh = sp.BienThes
+                .SelectMany(b => b.ChiTietBTs)
+                .Select(c => c.GiaTriTT)
+                .Where(g => g.ThuocTinh.LaThuocTinhChinh == true)
+                .GroupBy(g => g.ThuocTinh)
+                .OrderBy(g => g.Key.ThuTuHienThi) // Xếp CPU -> RAM -> SSD... theo số Admin nhập
+                .Select(g => new {
+                    MaTT = g.Key.MaTT,
+                    TenTT = g.Key.TenTT,
+                    GiaTris = g.GroupBy(x => x.MaGT).Select(x => new { MaGT = x.Key, GiaTri = x.First().GiaTri }).ToList()
+                }).ToList();
 
+            ViewBag.ThuocTinhCauHinh_Json = JsonConvert.SerializeObject(thuocTinhCauHinh);
             // THÊM ĐOẠN NÀY LẤY SẢN PHẨM TƯƠNG TỰ (Cùng danh mục, khác sản phẩm hiện tại)
             var sanPhamTuongTu = db.Sanphams
-                .Include(s => s.BienThes)
+            .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .Include(s => s.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
                 .Where(x => x.MaDM == sp.MaDM && x.MaSP != sp.MaSP)
                 .OrderByDescending(x => x.NgayTao)

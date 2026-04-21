@@ -21,6 +21,7 @@ namespace Maison.Models
         [ForeignKey("MaDM")]
         public virtual Danhmuc DanhMuc { get; set; }
         public bool LaThuocTinhChinh { get; set; } = true;
+        public int? ThuTuHienThi { get; set; }
         public virtual ICollection<GiaTriTT> GiaTriTTs { get; set; }
 
         public ThuocTinh()
