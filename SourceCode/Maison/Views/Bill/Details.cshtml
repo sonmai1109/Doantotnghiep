@@ -44,10 +44,21 @@
                                         </a>
                                     </td>
                                     <td class="product-name text-left pl-3">
-                                        <a href="@Url.Action("ProductDetail","Product",new { id = bt.MaSP })" style="font-weight: bold; font-size:16px;">@bt.Sanpham.TenSP</a>
+                                        <a href="@Url.Action("ProductDetail", "Product", new { id = bt.MaSP })" style="font-weight: bold; font-size:16px;">@bt.Sanpham.TenSP</a>
+
+                                        @{
+                                            // LỌC THÔNG SỐ CHÍNH VÀ XẾP ĐÚNG THỨ TỰ (0, 1, 2...)
+                                            var cacThongSoChinh = bt.ChiTietBTs
+                                                .Where(c => c.GiaTriTT != null && c.GiaTriTT.ThuocTinh != null && c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                                .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                                                .Select(c => c.GiaTriTT.GiaTri)
+                                                .ToList();
+
+                                            string chuoiThongSo = cacThongSoChinh.Any() ? string.Join(" | ", cacThongSoChinh) : "Bản tiêu chuẩn";
+                                        }
+
                                         <p style="font-size:13px; color:#555; margin-top:5px;">
-                                            <i class="fas fa-microchip mr-1"></i>
-                                            @(bt.ChiTietBTs.Any() ? string.Join(" | ", bt.ChiTietBTs.Select(c => c.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn")
+                                            <i class="fas fa-microchip mr-1"></i> @chuoiThongSo
                                         </p>
                                     </td>
                                     <td class="product-price"><span class="amount font-weight-bold">@string.Format(info, "{0:c0}", item.GiaMua)</span></td>
@@ -59,14 +70,44 @@
                                 tongtien += item.GiaMua * item.SoLuongMua;
                             }
                         </tbody>
-                        <tfoot>
+                        <tfoot class="bg-light">
                             <tr>
-                                <td colspan="4" class="text-right font-weight-bold py-3" style="font-size: 18px;">Tổng cộng thanh toán:</td>
+                                <td colspan="4" class="text-right py-2">Phương thức thanh toán:</td>
+                                <td class="text-center font-weight-bold text-dark py-2">
+                                    @(Model.PhuongThucThanhToan == "QR" ? "Chuyển khoản mã QR" : "Thanh toán khi nhận hàng (COD)")
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right py-2">Trạng thái thanh toán:</td>
+                                <td class="text-center py-2">
+                                    @if (Model.TrangThaiThanhToan == 1)
+                                    {
+                                        <span class="text-success font-weight-bold"><i class="fas fa-check-circle"></i> Đã thanh toán</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger font-weight-bold"><i class="fas fa-times-circle"></i> Chưa thanh toán</span>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right font-weight-bold py-3" style="font-size: 18px;">Tổng cộng:</td>
                                 <td class="text-center font-weight-bold text-danger py-3" style="font-size: 18px;">@string.Format(info, "{0:c0}", tongtien)</td>
                             </tr>
                         </tfoot>
                     </table>
                 </div>
+                @if (Model.TrangThai == 1 && Model.PhuongThucThanhToan == "QR" && Model.TrangThaiThanhToan == 0)
+                {
+                    <div class="text-right mt-3">
+                        <div class="alert alert-warning d-inline-block text-left mr-3" style="font-size: 14px;">
+                            <i class="fas fa-exclamation-triangle text-danger"></i> Đơn hàng đang chờ bạn thanh toán để được xử lý.
+                        </div>
+                        <a href="@Url.Action("PaymentQR", "Bill", new { id = Model.MaHD })" class="btn btn-success font-weight-bold px-4 py-2">
+                            <i class="fas fa-qrcode mr-1"></i> Bấm vào đây để quét mã thanh toán
+                        </a>
+                    </div>
+                }
             </div>
         </div>
     </div>

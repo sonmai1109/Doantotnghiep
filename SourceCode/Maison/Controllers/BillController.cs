@@ -5,6 +5,8 @@ using System.Web.Mvc;
 using Maison.Models;
 using Maison.Session;
 using System.Data.Entity;
+using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Maison.Controllers
 {
@@ -22,6 +24,19 @@ namespace Maison.Controllers
             var list = db.HoaDons.Where(p => p.MaTK == tk.MaTK).OrderByDescending(x => x.NgayDat).ToList();
             return View(list);
         }
+        // Đổi thành HttpPost để chống lưu cache
+        [HttpPost]
+        public JsonResult CheckPaymentStatus(int maHD)
+        {
+            // Thêm AsNoTracking() để lấy dữ liệu tươi nhất trực tiếp từ SQL Server
+            var hd = db.HoaDons.AsNoTracking().FirstOrDefault(x => x.MaHD == maHD);
+
+            if (hd != null && hd.TrangThaiThanhToan == 1)
+            {
+                return Json(new { isPaid = true });
+            }
+            return Json(new { isPaid = false });
+        }
 
         // 2. CHI TIẾT HÓA ĐƠN
         [HttpGet]
@@ -34,7 +49,7 @@ namespace Maison.Controllers
             var hd = db.HoaDons
                 .Include(x => x.TaiKhoanNguoiDung)
                 .Include(x => x.ChiTietHoaDons.Select(c => c.BienThe.Sanpham))
-                .Include(x => x.ChiTietHoaDons.Select(c => c.BienThe.ChiTietBTs.Select(ct => ct.GiaTriTT)))
+                .Include(x => x.ChiTietHoaDons.Select(c => c.BienThe.ChiTietBTs.Select(ct => ct.GiaTriTT.ThuocTinh)))
                 .FirstOrDefault(x => x.MaHD == id && x.MaTK == tk.MaTK);
 
             if (hd == null) return RedirectToAction("PageNotFound", "Error");
@@ -44,7 +59,7 @@ namespace Maison.Controllers
 
         // 3. TẠO ĐƠN HÀNG MỚI (TỪ NÚT XÁC NHẬN ĐẶT HÀNG)
         [HttpPost]
-        public JsonResult CreateBill(HoaDon hd)
+        public JsonResult CreateBill(HoaDon hd, string PhuongThuc)
         {
             TaiKhoanNguoiDung tk = (TaiKhoanNguoiDung)Session[ConstaintUser.USER_SESSION];
             if (tk == null) return Json(new { status = false, message = "Vui lòng đăng nhập!" });
@@ -58,9 +73,11 @@ namespace Maison.Controllers
                     hd.MaTK = tk.MaTK;
                     hd.NgayDat = DateTime.Now;
                     hd.TrangThai = 1; // 1: Đang chuẩn bị / Chờ duyệt
+                   // Cần SaveChanges để lấy MaHD phát sinh tự động
+                    hd.PhuongThucThanhToan = string.IsNullOrEmpty(PhuongThuc) ? "COD" : PhuongThuc;
+                    hd.TrangThaiThanhToan = 0; // 0 = Chưa thanh toán
                     db.HoaDons.Add(hd);
-                    db.SaveChanges(); // Cần SaveChanges để lấy MaHD phát sinh tự động
-
+                    db.SaveChanges();
                     // 2. Lấy giỏ hàng từ Database (kèm Khuyến mãi để chốt giá cuối cùng)
                     var cartItems = db.GioHangs
                         .Include(g => g.BienThe.Sanpham.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
@@ -166,6 +183,45 @@ namespace Maison.Controllers
             {
                 return Json(new { status = false, message = "Lỗi khi hủy đơn: " + ex.Message });
             }
+        }
+
+        [HttpPost]
+        public JsonResult SwitchToCOD(int maHD)
+        {
+            TaiKhoanNguoiDung tk = (TaiKhoanNguoiDung)Session[ConstaintUser.USER_SESSION];
+            if (tk == null) return Json(new { status = false, message = "Lỗi đăng nhập" });
+
+            var hd = db.HoaDons.FirstOrDefault(x => x.MaHD == maHD && x.MaTK == tk.MaTK);
+            if (hd != null)
+            {
+                // ÉP CỨNG TRẠNG THÁI LÀ COD 
+                hd.PhuongThucThanhToan = "COD";
+                hd.GhiChu = hd.GhiChu + " [Khách đã báo đổi sang thanh toán COD (Tiền mặt)]";
+
+                db.SaveChanges();
+                return Json(new { status = true });
+            }
+            return Json(new { status = false, message = "Không tìm thấy đơn hàng" });
+        }
+        // 5. TRANG THANH TOÁN QR ĐỘNG
+        [HttpGet]
+        public ActionResult PaymentQR(int id)
+        {
+            TaiKhoanNguoiDung tk = (TaiKhoanNguoiDung)Session[ConstaintUser.USER_SESSION];
+            if (tk == null) return RedirectToAction("Login", "Home");
+
+            var hd = db.HoaDons
+                .Include(x => x.TaiKhoanNguoiDung)
+                .Include(x => x.ChiTietHoaDons.Select(c => c.BienThe.Sanpham))
+                .FirstOrDefault(x => x.MaHD == id && x.MaTK == tk.MaTK);
+
+            if (hd == null) return RedirectToAction("PageNotFound", "Error");
+
+            // Lấy tổng tiền để render QR
+            decimal tongTienDonHang = db.ChiTietHoaDons.Where(c => c.MaHD == id).Sum(c => c.GiaMua * c.SoLuongMua);
+            ViewBag.TongTien = tongTienDonHang;
+
+            return View(hd);
         }
     }
 }

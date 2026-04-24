@@ -18,7 +18,7 @@ namespace Maison.Models
 
         [StringLength(500)]
         public string GhiChu { get; set; }
-
+      
         public int TrangThai { get; set; } // 1: Chờ duyệt, 2: Đang giao, 3: Thành công...
 
         [Required]
@@ -35,6 +35,10 @@ namespace Maison.Models
 
         public DateTime? NgaySua { get; set; }
         public string NguoiSua { get; set; }
+        [Required]
+        [StringLength(100)]
+        public string PhuongThucThanhToan { get; set; }
+        public int? TrangThaiThanhToan { get; set; }
 
         // Khóa ngoại đến tài khoản người mua
         [ForeignKey("MaTK")]

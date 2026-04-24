@@ -63,9 +63,20 @@
                                     </td>
                                     <td class="product-name text-left pl-3">
                                         <a href="@Url.Action("ProductDetail", "Product", new { id = bt.MaSP })" style="font-weight: bold; font-size:16px;">@bt.Sanpham.TenSP</a>
+
+                                        @{
+                                            // LỌC THÔNG SỐ CHÍNH VÀ XẾP ĐÚNG THỨ TỰ (0, 1, 2...)
+                                            var cacThongSoChinh = bt.ChiTietBTs
+                                                .Where(c => c.GiaTriTT != null && c.GiaTriTT.ThuocTinh != null && c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                                .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                                                .Select(c => c.GiaTriTT.GiaTri)
+                                                .ToList();
+
+                                            string chuoiThongSo = cacThongSoChinh.Any() ? string.Join(" | ", cacThongSoChinh) : "Bản tiêu chuẩn";
+                                        }
+
                                         <p style="font-size:13px; color:#555; margin-top:5px;">
-                                            <i class="fas fa-microchip mr-1"></i>
-                                            @(bt.ChiTietBTs.Any() ? string.Join(" | ", bt.ChiTietBTs.Select(c => c.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn")
+                                            <i class="fas fa-microchip mr-1"></i> @chuoiThongSo
                                         </p>
                                     </td>
                                     <td class="product-price">

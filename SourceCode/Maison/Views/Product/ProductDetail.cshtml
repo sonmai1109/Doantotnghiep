@@ -75,11 +75,14 @@
     }
 
         .variant-box.disabled-variant {
-            opacity: 0.35;
+            opacity: 0.75; /* Tăng độ hiển thị lên 75% để chữ rõ ràng, dễ đọc hơn */
             cursor: not-allowed;
-            background: #f9f9f9;
-            border-color: #eee;
-            color: #bbb;
+            background-color: #f8f9fa; /* Nền xám nhạt nhẹ nhàng */
+            border-color: #ced4da; /* Viền xám đậm hơn chút cho rõ form */
+            color: #6c757d; /* Màu chữ xám đậm, không bị chìm nghỉm nữa */
+            /* TIỂU XẢO PRO: Thêm một đường gạch chéo mờ mờ từ góc này sang góc kia 
+           để khách nhìn phát biết ngay là "Cấu hình này không khả dụng" */
+            background-image: linear-gradient(to top right, transparent calc(50% - 1px), #dee2e6 calc(50%), transparent calc(50% + 1px) );
         }
 
         .variant-box:hover:not(.disabled-variant) {
@@ -337,7 +340,7 @@
                     <div class="tab-content position-relative image-slider-wrapper" style="border: 1px solid #e5e7eb; border-radius: 12px; background: #fff; overflow: hidden;">
                         <button id="btn-prev-img" class="btn-slide">‹</button>
                         <div id="thumb1" class="tab-pane fade show active text-center">
-                            <a id="modal-a-hinhanh" data-fancybox="images" href="@Model.HinhAnh" class="d-flex align-items-center justify-content-center" style="height: 380px;">
+                            <a id="modal-a-hinhanh" data-fancybox="images" href="@Model.HinhAnh" class="d-flex align-items-center justify-content-center" style="height: 265px;">
                                 <img id="modal-hinhanh" src="@Model.HinhAnh" alt="@Model.TenSP" style="width: 100%; height: 100%; max-height: 360px; object-fit: contain; border-radius: 8px; transition: 0.3s;">
                             </a>
                         </div>

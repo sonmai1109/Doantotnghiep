@@ -71,7 +71,19 @@
                                     <tr class="cart_item">
                                         <td class="product-name">
                                             <strong>@bt.Sanpham.TenSP</strong>
-                                            <br /><small class="text-muted">(@(bt.ChiTietBTs.Any() ? string.Join(" - ", bt.ChiTietBTs.Select(c => c.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn"))</small>
+
+                                            @{
+                                                // LỌC THÔNG SỐ CHÍNH VÀ XẾP ĐÚNG THỨ TỰ (0, 1, 2...)
+                                                var cacThongSoChinh = bt.ChiTietBTs
+                                                    .Where(c => c.GiaTriTT != null && c.GiaTriTT.ThuocTinh != null && c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                                    .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                                                    .Select(c => c.GiaTriTT.GiaTri)
+                                                    .ToList();
+
+                                                string chuoiThongSo = cacThongSoChinh.Any() ? string.Join(" - ", cacThongSoChinh) : "Bản tiêu chuẩn";
+                                            }
+
+                                            <br /><small class="text-muted">(@chuoiThongSo)</small>
                                             <strong class="product-quantity text-danger ml-2">x @soLuong</strong>
                                         </td>
                                         <td class="product-total text-right align-middle">
@@ -92,9 +104,76 @@
                         </table>
                     </div>
 
-                    <button type="submit" form="add-bill-form" class="btn btn-danger btn-block font-weight-bold py-3 mt-3" style="font-size: 16px;">XÁC NHẬN ĐẶT HÀNG</button>
+                    <h5 class="font-weight-bold mb-3 mt-4 text-uppercase">Phương thức thanh toán</h5>
+                    <div class="payment-method-box mb-4">
+                        <div class="custom-control custom-radio mb-3 p-3 border rounded bg-white shadow-sm">
+                            <input type="radio" id="pay-cod" name="PhuongThuc" value="COD" class="custom-control-input" checked>
+                            <label class="custom-control-label font-weight-bold" for="pay-cod" style="cursor:pointer; padding-top: 2px;">
+                                <i class="fas fa-money-bill-wave text-success mr-2"></i> Thanh toán khi nhận hàng (COD)
+                            </label>
+                        </div>
+                        <div class="custom-control custom-radio p-3 border rounded bg-white shadow-sm">
+                            <input type="radio" id="pay-qr" name="PhuongThuc" value="QR" class="custom-control-input">
+                            <label class="custom-control-label font-weight-bold" for="pay-qr" style="cursor:pointer; padding-top: 2px;">
+                                <i class="fas fa-qrcode text-danger mr-2"></i> Chuyển khoản ngân hàng qua mã QR
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="wc-proceed-to-checkout">
+                        <button type="submit" form="add-bill-form" class="btn btn-danger btn-block font-weight-bold py-3 mt-3" style="font-size: 16px;">XÁC NHẬN ĐẶT HÀNG</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+@section Script {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function datHang(e) {
+            e.preventDefault();
+            let formData = new FormData(document.getElementById("add-bill-form"));
+            let phuongThuc = $("input[name='PhuongThuc']:checked").val();
+
+            // THÊM DÒNG NÀY: Ép thêm cái Phương thức vào gói hàng để gửi lên C#
+            formData.append("PhuongThuc", phuongThuc);
+
+            Swal.fire({ title: 'Đang tạo đơn hàng...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+
+            $.ajax({
+                url: '/Bill/CreateBill',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    if (res.status == true) {
+                        // NẾU LÀ MÃ QR -> CHUYỂN HƯỚNG SANG TRANG QR
+                        if (phuongThuc === "QR") {
+                            window.location.href = '/Bill/PaymentQR/' + res.billid;
+                        }
+        // ... code cũ bên dưới giữ nguyên
+                        // NẾU LÀ COD -> BÁO THÀNH CÔNG VÀ VỀ TRANG CHI TIẾT
+                        else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Đặt hàng thành công!',
+                                text: 'Đơn hàng của bạn đang chờ xử lý.',
+                                showConfirmButton: false,
+                                timer: 2000
+                            }).then(() => {
+                                window.location.href = '/Bill/Details/' + res.billid;
+                            });
+                        }
+                    } else {
+                        Swal.fire('Lỗi đặt hàng', res.message, 'error');
+                    }
+                }
+            });
+            return false;
+        }
+    </script>
+}

@@ -1,0 +1,285 @@
+﻿@model Maison.Models.HoaDon
+@{
+    ViewBag.Title = "Thanh toán đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+
+    decimal tongTien = ViewBag.TongTien;
+    string maDonHang = Model.MaHD.ToString();
+    string ngayDat = Model.NgayDat.ToString("dd Tháng M, yyyy");
+
+    // CẤU HÌNH THÔNG TIN NGÂN HÀNG MB BANK CỦA BẠN
+    string bankCode = "MB";
+    string stk = "0962079463";
+    string tenChuTaiKhoan = "MAI TRUONG SON";
+    string noiDungCK = "DH" + maDonHang + "TS";
+
+    // TẠO LINK QR ĐỘNG TỪ VIETQR
+    string qrUrl = $"https://img.vietqr.io/image/{bankCode}-{stk}-compact2.png?amount={tongTien}&addInfo={noiDungCK}&accountName={tenChuTaiKhoan}";
+}
+
+<style>
+    .qr-container {
+        background: #f8f9fa;
+        padding: 40px 0;
+    }
+
+    .payment-box {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        padding: 20px;
+        height: 100%;
+        border: 1px solid #eaeaea;
+    }
+
+    .qr-image {
+        width: 220px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        border-radius: 8px;
+        margin: 10px 0;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px dashed #eee;
+        padding: 8px 0;
+        font-size: 14px;
+    }
+
+    .info-label {
+        font-weight: 600;
+        color: #555;
+    }
+
+    .info-value {
+        font-weight: bold;
+        color: #111;
+    }
+
+    .btn-copy {
+        background: none;
+        border: none;
+        color: #28a745;
+        cursor: pointer;
+        padding: 0 5px;
+    }
+
+    .warning-text {
+        background: #fff3f3;
+        color: #d70018;
+        padding: 10px;
+        font-size: 13px;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 6px;
+        margin-top: 15px;
+    }
+
+    .order-summary {
+        background: #fdfdfd;
+    }
+
+        .order-summary ul {
+            list-style: none;
+            padding: 0;
+            line-height: 2.2;
+            font-size: 15px;
+        }
+
+        .order-summary li::before {
+            content: "•";
+            color: #333;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+</style>
+
+<div class="qr-container">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="payment-box text-center">
+                    <p class="font-weight-bold text-left" style="font-size:14px; margin-bottom:5px;">Bước 1: Mở ứng dụng Ngân hàng<br />Bước 2: Chọn quét mã QR</p>
+                    <img src="@qrUrl" class="qr-image" alt="Mã QR" />
+                    <a href="@qrUrl" download="QR_ThanhToan_DH@(maDonHang).png" class="btn btn-sm btn-outline-success font-weight-bold mb-3 d-inline-flex align-items-center">
+                        <i class="fas fa-download mr-2"></i> Tải xuống
+                    </a>
+                    <p class="font-weight-bold mb-0">Bước 3: Xác Nhận Chuyển Khoản</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="payment-box">
+                    <h6 class="font-weight-bold text-center text-uppercase">Thông tin chuyển khoản</h6>
+                    <p class="text-center text-muted" style="font-size:12px;">Hoặc ứng dụng ngân hàng để chuyển khoản 24/7</p>
+                    <h5 class="font-weight-bold text-center text-primary mb-3">@tenChuTaiKhoan</h5>
+
+                    <div class="info-row">
+                        <span class="info-label">NGÂN HÀNG:</span>
+                        <span class="info-value text-danger">@bankCode</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">TÀI KHOẢN:</span>
+                        <span class="info-value"><span id="cp-stk">@stk</span> <button class="btn-copy" onclick="copyToClipboard('cp-stk')"><i class="fas fa-copy"></i></button></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">SỐ TIỀN:</span>
+                        <span class="info-value"><span id="cp-tien">@tongTien.ToString("N0")</span> ₫ <button class="btn-copy" onclick="copyToClipboard('cp-tien')"><i class="fas fa-copy"></i></button></span>
+                    </div>
+                    <div class="info-row" style="border-bottom:none;">
+                        <span class="info-label">NỘI DUNG*:</span>
+                        <span class="info-value text-danger"><span id="cp-nd">@noiDungCK</span> <button class="btn-copy" onclick="copyToClipboard('cp-nd')"><i class="fas fa-copy"></i></button></span>
+                    </div>
+
+                    <div class="warning-text">Vui lòng nhập chính xác nội dung, thanh toán xong vui lòng không tắt trình duyệt cho tới khi đơn hàng được xác nhận.</div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="payment-box order-summary border-0" style="background-color: #f6f8fa;">
+                    <h6 class="font-weight-bold text-success mb-3">Cảm ơn bạn. Đơn hàng của bạn đã được nhận.</h6>
+                    <ul>
+                        <li>Mã đơn hàng: <b>@maDonHang</b></li>
+                        <li>Ngày: <b>@ngayDat</b></li>
+                        <li>Tổng cộng: <b>@string.Format(info, "{0:c0}", tongTien)</b></li>
+                        <li>Phương thức: <b>Chuyển khoản QR 24/7</b></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <h4 class="font-weight-bold mb-4">Chi tiết đơn hàng</h4>
+        <div class="table-responsive bg-white p-4 border rounded shadow-sm">
+            <table class="table table-borderless">
+                <thead class="border-bottom">
+                    <tr>
+                        <th class="text-uppercase text-muted" style="font-size:13px;">Sản phẩm</th>
+                        <th class="text-uppercase text-muted text-right" style="font-size:13px;">Tổng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ct in Model.ChiTietHoaDons)
+                    {
+                        <tr class="border-bottom">
+                            <td class="py-3">
+                                <b>@ct.BienThe.Sanpham.TenSP</b> <strong class="text-danger ml-1">x @ct.SoLuongMua</strong>
+                            </td>
+                            <td class="py-3 text-right font-weight-bold">@string.Format(info, "{0:c0}", ct.GiaMua * ct.SoLuongMua)</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="py-3 font-weight-bold text-dark">Tổng phụ:</td>
+                        <td class="py-3 text-right font-weight-bold">@string.Format(info, "{0:c0}", tongTien)</td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <td class="py-3 font-weight-bold text-dark">Phương thức thanh toán:</td>
+                        <td class="py-3 text-right text-muted">Chuyển khoản QR Ngân Hàng</td>
+                    </tr>
+                    <tr>
+                        <td class="py-4 font-weight-bold text-dark" style="font-size:18px;">Tổng cộng:</td>
+                        <td class="py-4 text-right font-weight-bold text-danger" style="font-size:18px;">@string.Format(info, "{0:c0}", tongTien)</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-right mt-3">
+                <a href="/Bill/Details/@maDonHang" class="btn btn-success font-weight-bold px-4 py-2">Xem chi tiết đơn hàng</a>
+
+                <button type="button" onclick="doiSangCOD(@maDonHang)" class="btn btn-outline-secondary font-weight-bold px-4 py-2 ml-2">
+                    <i class="fas fa-motorcycle mr-1"></i> Đổi sang thanh toán COD
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Script {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // HÀM COPY STK
+        function copyToClipboard(elementId) {
+            var text = document.getElementById(elementId).innerText.replace(/,/g, "");
+            navigator.clipboard.writeText(text).then(() => {
+                Swal.fire({ toast: true, position: 'top-end', icon: 'success', title: 'Đã copy: ' + text, showConfirmButton: false, timer: 1500 });
+            });
+        }
+
+        // HÀM QUAY XE SANG COD
+        function doiSangCOD(maDonHang) {
+            Swal.fire({
+                title: 'Xác nhận đổi phương thức?',
+                text: "Bạn muốn thanh toán bằng tiền mặt (COD) khi nhận hàng thay vì chuyển khoản?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#28a745',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Đồng ý, đổi sang COD',
+                cancelButtonText: 'Đóng'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({ title: 'Đang xử lý...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+
+                    $.ajax({
+                        url: '@Url.Action("SwitchToCOD", "Bill")',
+                        type: 'POST',
+                        data: { maHD: maDonHang },
+                        success: function (res) {
+                            if (res.status) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Đã đổi sang COD!',
+                                    text: 'Đơn hàng sẽ được thanh toán khi bạn nhận được hàng.',
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                }).then(() => {
+                                    window.location.href = '/Bill/Details/' + maDonHang;
+                                });
+                            } else {
+                                Swal.fire('Lỗi', res.message, 'error');
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // ĐIỆP VIÊN NGẦM: Tự động hỏi server mỗi 3 giây
+        $(document).ready(function () {
+            let maDonHangCheck = @maDonHang;
+            console.log("Bắt đầu theo dõi đơn hàng số: " + maDonHangCheck);
+
+            let paymentChecker = setInterval(function () {
+                $.ajax({
+                    url: '@Url.Action("CheckPaymentStatus", "Bill")',
+                    type: 'POST',
+                    data: { maHD: maDonHangCheck },
+                    success: function (res) {
+                        console.log("Server trả về: ", res);
+
+                        if (res.isPaid) {
+                            clearInterval(paymentChecker); // Có tiền thì dừng hỏi
+
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Thanh toán thành công!',
+                                text: 'Hệ thống đã nhận được tiền. Đơn hàng của bạn đang được xử lý.',
+                                showConfirmButton: false,
+                                timer: 2500,
+                                allowOutsideClick: false
+                            }).then(() => {
+                                window.location.href = '/Bill/Details/' + maDonHangCheck;
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log("Lỗi gửi AJAX (Kệ nó, 3s sau hỏi lại): ", error);
+                    }
+                });
+            }, 3000);
+        });
+    </script>
+}

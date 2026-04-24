@@ -1,0 +1,36 @@
+
+
+[24/04/2026 20:49:56] DATA NHẬN ĐƯỢC:
+{"gateway":"MBBank","transactionDate":"2026-04-24 20:49:00","accountNumber":"0962079463","subAccount":null,"code":null,"content":"126574185405-DH47TS-CHUYEN TIEN-OQCH000AVoPo-MOMO126574185405MOMO","transferType":"in","description":"BankAPINotify 126574185405-DH47TS-CHUYEN TIEN-OQCH000AVoPo-MOMO126574185405MOMO","transferAmount":10000,"referenceCode":"FT26114825445071","accumulated":0,"id":53288591}
+ -> Trích xuất được Mã HD: 47
+ -> THÀNH CÔNG! Đã cập nhật database!
+
+[24/04/2026 20:53:05] DATA NHẬN ĐƯỢC:
+{"gateway":"MBBank","transactionDate":"2026-04-24 20:53:00","accountNumber":"0962079463","subAccount":null,"code":null,"content":"126574677793-DH48TS-CHUYEN TIEN-OQCH000AVp5l-MOMO126574677793MOMO","transferType":"in","description":"BankAPINotify 126574677793-DH48TS-CHUYEN TIEN-OQCH000AVp5l-MOMO126574677793MOMO","transferAmount":10000,"referenceCode":"FT26114368459317","accumulated":0,"id":53289308}
+ -> Trích xuất được Mã HD: 48
+ -> THÀNH CÔNG! Đã cập nhật database!
+
+[24/04/2026 20:54:17] DATA NHẬN ĐƯỢC:
+{"gateway":"MBBank","transactionDate":"2026-04-24 20:54:00","accountNumber":"0962079463","subAccount":null,"code":null,"content":"126574669073-DH49TS-CHUYEN TIEN-OQCH000AVpMW-MOMO126574669073MOMO","transferType":"in","description":"BankAPINotify 126574669073-DH49TS-CHUYEN TIEN-OQCH000AVpMW-MOMO126574669073MOMO","transferAmount":10000,"referenceCode":"FT26114512217033","accumulated":0,"id":53289591}
+ -> Trích xuất được Mã HD: 49
+ -> THÀNH CÔNG! Đã cập nhật database!
+
+[24/04/2026 20:59:21] DATA NHẬN ĐƯỢC:
+{"gateway":"MBBank","transactionDate":"2026-04-24 20:59:00","accountNumber":"0962079463","subAccount":null,"code":null,"content":"126575570716-DH50TS-CHUYEN TIEN-OQCH000AVqPR-MOMO126575570716MOMO","transferType":"in","description":"BankAPINotify 126575570716-DH50TS-CHUYEN TIEN-OQCH000AVqPR-MOMO126575570716MOMO","transferAmount":10000,"referenceCode":"FT26114349683043","accumulated":0,"id":53290710}
+ -> Trích xuất được Mã HD: 50
+ -> THÀNH CÔNG! Đã cập nhật database!
+
+[24/04/2026 21:00:55] DATA NHẬN ĐƯỢC:
+{"gateway":"MBBank","transactionDate":"2026-04-24 21:00:00","accountNumber":"0962079463","subAccount":null,"code":null,"content":"126575469515-DH51TS-CHUYEN TIEN-OQCH000AVqmA-MOMO126575469515MOMO","transferType":"in","description":"BankAPINotify 126575469515-DH51TS-CHUYEN TIEN-OQCH000AVqmA-MOMO126575469515MOMO","transferAmount":10000,"referenceCode":"FT26114223420807","accumulated":0,"id":53291031}
+ -> Trích xuất được Mã HD: 51
+ -> THÀNH CÔNG! Đã cập nhật database!
+
+[24/04/2026 21:05:02] DATA NHẬN ĐƯỢC:
+{"gateway":"MBBank","transactionDate":"2026-04-24 21:04:00","accountNumber":"0962079463","subAccount":null,"code":null,"content":"126576210791-DH52TS-CHUYEN TIEN-OQCH000AVreu-MOMO126576210791MOMO","transferType":"in","description":"BankAPINotify 126576210791-DH52TS-CHUYEN TIEN-OQCH000AVreu-MOMO126576210791MOMO","transferAmount":10000,"referenceCode":"FT26114566908685","accumulated":0,"id":53292062}
+ -> Trích xuất được Mã HD: 52
+ -> THÀNH CÔNG! Đã cập nhật database!
+
+[24/04/2026 21:13:59] DATA NHẬN ĐƯỢC:
+{"gateway":"MBBank","transactionDate":"2026-04-24 21:13:00","accountNumber":"0962079463","subAccount":null,"code":null,"content":"126577217978-DH53TS-CHUYEN TIEN-OQCH000AVtaa-MOMO126577217978MOMO","transferType":"in","description":"BankAPINotify 126577217978-DH53TS-CHUYEN TIEN-OQCH000AVtaa-MOMO126577217978MOMO","transferAmount":10000,"referenceCode":"FT26114533241468","accumulated":0,"id":53294089}
+ -> Trích xuất được Mã HD: 53
+ -> THÀNH CÔNG! Đã cập nhật database!

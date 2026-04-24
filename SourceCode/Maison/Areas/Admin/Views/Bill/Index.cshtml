@@ -13,23 +13,47 @@
 </div>
 
 <div class="table-settings mb-4">
-    <div class="row align-items-center justify-content-between">
-        <div class="col col-md-6 col-lg-3 col-xl-4">
-            <form>
+    <form method="get" action="@Url.Action("Index")">
+        <div class="row align-items-center">
+            <div class="col-md-3 mb-2">
                 <div class="input-group">
                     <button class="input-group-text" type="submit"><span class="fas fa-search"></span></button>
-                    <input type="date" class="form-control" name="searchString" value="@ViewBag.searchString">
-                    <select class="form-control" name="status" onchange="this.form.submit()">
-                        <option value="">Tất cả hóa đơn</option>
-                        <option @(ViewBag.Status == 0 ? "selected" : "") value="0">Đã hủy</option>
-                        <option @(ViewBag.Status == 1 ? "selected" : "") value="1">Đang chuẩn bị</option>
-                        <option @(ViewBag.Status == 2 ? "selected" : "") value="2">Đang giao</option>
-                        <option @(ViewBag.Status == 3 ? "selected" : "") value="3">Đã thanh toán</option>
-                    </select>
+                    <input type="date" class="form-control" name="searchString" value="@ViewBag.searchString" onchange="this.form.submit()">
                 </div>
-            </form>
+            </div>
+            <div class="col-md-3 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                    <input type="text" class="form-control" name="sdt" value="@ViewBag.Sdt" placeholder="Nhập SĐT khách hàng..." onchange="this.form.submit()">
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                <select class="form-control" name="status" onchange="this.form.submit()">
+                    <option value="">-- Trạng thái Đơn --</option>
+                    <option @(ViewBag.Status == 0 ? "selected" : "") value="0">Đã hủy</option>
+                    <option @(ViewBag.Status == 1 ? "selected" : "") value="1">Đang chuẩn bị</option>
+                    <option @(ViewBag.Status == 2 ? "selected" : "") value="2">Đang giao</option>
+                    <option @(ViewBag.Status == 3 ? "selected" : "") value="3">Đã hoàn thành</option>
+                </select>
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <select class="form-control" name="phuongThuc" onchange="this.form.submit()">
+                    <option value="">-- Phương thức TT --</option>
+                    <option @(ViewBag.PhuongThuc == "COD" ? "selected" : "") value="COD">Tiền mặt (COD)</option>
+                    <option @(ViewBag.PhuongThuc == "QR" ? "selected" : "") value="QR">Chuyển khoản (QR)</option>
+                </select>
+            </div>
+
+            <div class="col-md-3 mb-2">
+                <select class="form-control" name="trangThaiTT" onchange="this.form.submit()">
+                    <option value="">-- Trạng thái TT --</option>
+                    <option @(ViewBag.TrangThaiTT == 0 ? "selected" : "") value="0">Chưa thanh toán</option>
+                    <option @(ViewBag.TrangThaiTT == 1 ? "selected" : "") value="1">Đã thanh toán</option>
+                </select>
+            </div>
         </div>
-    </div>
+    </form>
 </div>
 
 <div class="card card-body border-light shadow-sm table-wrapper table-responsive pt-0">
@@ -86,7 +110,17 @@
         </tbody>
     </table>
     <div class="card-footer px-3 border-0">
-        @Html.PagedListPager(Model, page => Url.Action("Index", new { page, pageSize = Model.PageSize, searchString = ViewBag.searchString, status = ViewBag.Status }))
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+            new
+            {
+                page,
+                pageSize = Model.PageSize,
+                searchString = ViewBag.searchString,
+                status = ViewBag.Status,
+                phuongThuc = ViewBag.PhuongThuc,     // THÊM DÒNG NÀY
+                trangThaiTT = ViewBag.TrangThaiTT,
+                sdt = ViewBag.Sdt// THÊM DÒNG NÀY
+            }))
     </div>
 </div>
 
@@ -116,6 +150,14 @@
                     <div class="col-md-6 mb-2">
                         <label>Trạng thái</label>
                         <input class="form-control text-danger font-weight-bold" id="hd-trangthai" type="text" readonly disabled>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label>Phương thức TT</label>
+                        <input class="form-control font-weight-bold text-primary" id="hd-phuongthuc" type="text" readonly disabled>
+                    </div>
+                    <div class="col-md-6 mb-2">
+                        <label>Trạng thái TT</label>
+                        <input class="form-control font-weight-bold text-success" id="hd-trangthaitt" type="text" readonly disabled>
                     </div>
                     <div class="col-md-6 mb-2">
                         <label>Số điện thoại</label>
@@ -255,6 +297,8 @@
                     $("#hd-nguoidat").val(hd.TaiKhoanNguoiDung.HoTen);
                     $("#hd-nguoinhan").val(hd.HoTenNguoiNhan);
                     $("#hd-trangthai").val(hd.TrangThai == 0 ? "Đã hủy" : (hd.TrangThai == 1 ? "Đang chuẩn bị" : (hd.TrangThai == 2 ? "Đang giao" : "Đã thanh toán")));
+                    $("#hd-phuongthuc").val(hd.PhuongThucThanhToan === "QR" ? "Chuyển khoản mã QR" : "Tiền mặt (COD)");
+                    $("#hd-trangthaitt").val(hd.TrangThaiThanhToan);
                     $("#hd-ngaydat").val(hd.NgayDat);
                     $("#hd-sdt").val(hd.SoDienThoaiNhan);
                     $("#hd-diachi").val(hd.DiaChiNhan);

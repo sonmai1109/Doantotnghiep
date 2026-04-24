@@ -32,9 +32,8 @@
                             <th class="product-thumbnail">Mã Đơn</th>
                             <th class="product-thumbnail">Ngày đặt</th>
                             <th class="product-name">Người nhận</th>
-                            <th class="product-size">Số điện thoại</th>
-                            <th class="product-status">Trạng thái</th>
-                            <th class="product-detail">Chi tiết</th>
+                            <th class="product-status">Trạng thái Giao</th>
+                            <th class="product-status">Thanh toán</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
@@ -46,8 +45,11 @@
                                 <td class="product-thumbnail">
                                     <b>@item.NgayDat.ToString("dd/MM/yyyy HH:mm")</b>
                                 </td>
-                                <td class="product-name">@item.HoTenNguoiNhan</td>
-                                <td class="product-size"><b>@item.SoDienThoaiNhan</b></td>
+                                <td class="product-name">
+                                    @item.HoTenNguoiNhan<br />
+                                    <small class="text-muted">@item.SoDienThoaiNhan</small>
+                                </td>
+
                                 <td class="product-status font-weight-bold">
                                     @if (item.TrangThai == 0)
                                     {<span class="text-danger">Đã hủy</span> }
@@ -58,16 +60,35 @@
                                     else
                                     { <span class="text-success">Hoàn thành</span>}
                                 </td>
-                                <td><a href="@Url.Action("Details","Bill", new { id = item.MaHD })" class="text-primary font-weight-bold">Xem</a></td>
 
-                                @if (item.TrangThai == 1)
-                                {
-                                    <td><button class="btn btn-sm btn-outline-danger" type="button" onclick="huyDonHang(@item.MaHD)">Hủy đơn</button></td>
-                                }
-                                else
-                                {
-                                    <td>-</td>
-                                }
+                                <td class="product-status">
+                                    <span class="badge badge-dark mb-1">@(item.PhuongThucThanhToan == "QR" ? "Chuyển khoản QR" : "Tiền mặt (COD)")</span><br />
+                                    @if (item.TrangThaiThanhToan == 1)
+                                    {
+                                        <span class="text-success font-weight-bold"><i class="fas fa-check-circle"></i> Đã thanh toán</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-danger font-weight-bold"><i class="fas fa-times-circle"></i> Chưa thanh toán</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    <a href="@Url.Action("Details","Bill", new { id = item.MaHD })" class="btn btn-sm btn-outline-primary mb-1">Chi tiết</a>
+
+                                    @if (item.TrangThai == 1)
+                                    {
+                                        <button class="btn btn-sm btn-outline-danger mb-1" type="button" onclick="huyDonHang(@item.MaHD)">Hủy đơn</button>
+
+                                        // NẾU LÀ ĐƠN QR VÀ CHƯA THANH TOÁN -> HIỆN NÚT QUÉT MÃ LẠI
+                                        if (item.PhuongThucThanhToan == "QR" && item.TrangThaiThanhToan == 0)
+                                        {
+                                            <a href="@Url.Action("PaymentQR", "Bill", new { id = item.MaHD })" class="btn btn-sm btn-success font-weight-bold text-white mb-1">
+                                                <i class="fas fa-qrcode"></i> Thanh toán
+                                            </a>
+                                        }
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>

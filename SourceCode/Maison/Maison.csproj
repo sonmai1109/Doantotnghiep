@@ -156,6 +156,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\WebhookController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -266,6 +267,10 @@
     <Compile Include="Migrations\202604202004033_themcotthutubangthuoctinh.cs" />
     <Compile Include="Migrations\202604202004033_themcotthutubangthuoctinh.Designer.cs">
       <DependentUpon>202604202004033_themcotthutubangthuoctinh.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604241311253_themcotthanhtoanvaohoadon.cs" />
+    <Compile Include="Migrations\202604241311253_themcotthanhtoanvaohoadon.Designer.cs">
+      <DependentUpon>202604241311253_themcotthanhtoanvaohoadon.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Baohanh.cs" />
@@ -2421,12 +2426,14 @@
     <Content Include="Views\BaoHanh\Details.cshtml" />
     <Content Include="Views\DanhGia\_DanhSachDanhGia.cshtml" />
     <Content Include="Views\Home\_LiveSearchResults.cshtml" />
+    <Content Include="Views\Bill\PaymentQR.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Views\Base\" />
     <Folder Include="Content\Images\Brands\" />
     <Folder Include="Content\Images\SanPhams\" />
+    <Folder Include="Views\Webhook\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -2536,6 +2543,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202604202004033_themcotthutubangthuoctinh.resx">
       <DependentUpon>202604202004033_themcotthutubangthuoctinh.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604241311253_themcotthanhtoanvaohoadon.resx">
+      <DependentUpon>202604241311253_themcotthanhtoanvaohoadon.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
