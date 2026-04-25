@@ -58,6 +58,7 @@ namespace Maison.Controllers
         }
 
         // 3. TẠO ĐƠN HÀNG MỚI (TỪ NÚT XÁC NHẬN ĐẶT HÀNG)
+        // 3. TẠO ĐƠN HÀNG MỚI (TỪ NÚT XÁC NHẬN ĐẶT HÀNG)
         [HttpPost]
         public JsonResult CreateBill(HoaDon hd, string PhuongThuc)
         {
@@ -73,12 +74,12 @@ namespace Maison.Controllers
                     hd.MaTK = tk.MaTK;
                     hd.NgayDat = DateTime.Now;
                     hd.TrangThai = 1; // 1: Đang chuẩn bị / Chờ duyệt
-                   // Cần SaveChanges để lấy MaHD phát sinh tự động
                     hd.PhuongThucThanhToan = string.IsNullOrEmpty(PhuongThuc) ? "COD" : PhuongThuc;
                     hd.TrangThaiThanhToan = 0; // 0 = Chưa thanh toán
                     db.HoaDons.Add(hd);
-                    db.SaveChanges();
-                    // 2. Lấy giỏ hàng từ Database (kèm Khuyến mãi để chốt giá cuối cùng)
+                    db.SaveChanges(); // Lấy MaHD phát sinh tự động
+
+                    // 2. Lấy giỏ hàng từ Database
                     var cartItems = db.GioHangs
                         .Include(g => g.BienThe.Sanpham.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
                         .Where(g => g.MaTK == tk.MaTK).ToList();
@@ -90,11 +91,33 @@ namespace Maison.Controllers
                     {
                         var bt = item.BienThe;
 
-                        // Tính lại giá có khuyến mãi tại thời điểm đặt hàng
-                        var activeKMs = bt.Sanpham.SanPhamKhuyenMais.Where(x => x.KhuyenMai.TrangThai == 1 && x.KhuyenMai.NgayBatDau <= DateTime.Now && x.KhuyenMai.NgayKetThuc >= DateTime.Now).ToList();
-                        var kmRieng = activeKMs.FirstOrDefault(k => k.MaBT == bt.MaBT);
-                        var kmChung = activeKMs.FirstOrDefault(k => k.MaBT == null);
-                        int phanTram = kmRieng?.PhanTramGiam ?? kmChung?.PhanTramGiam ?? 0;
+                        // ========================================================
+                        // TÍNH TOÁN GIÁ & TRỪ SUẤT FLASH SALE (NẾU CÓ)
+                        // ========================================================
+                        var activeKMs = bt.Sanpham.SanPhamKhuyenMais
+                            .Where(x => x.KhuyenMai.TrangThai == 1 && x.KhuyenMai.NgayBatDau <= DateTime.Now && x.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                            .ToList();
+
+                        var kmApDung = activeKMs.Where(k => k.MaBT == null || k.MaBT == bt.MaBT).ToList();
+
+                        // Lọc ra các KM Flash Sale mà vẫn CÒN SUẤT
+                        // ... (code trên giữ nguyên) ...
+
+                        // TÌM FLASH SALE BẰNG LUẬT MỚI (PHẢI ĐỦ SUẤT MỚI ĐƯỢC ÁP DỤNG)
+                        var kmConSuat = kmApDung.Where(k =>
+                            k.SoLuongKhuyenMai == null ||
+                            (k.SoLuongKhuyenMai.Value - k.SoLuongDaBan) >= item.SoLuong
+                        ).ToList();
+
+                        int phanTram = 0;
+                        SanPhamKhuyenMai flashSaleDangApDung = null;
+
+                        if (kmConSuat.Any())
+                        {
+                            phanTram = kmConSuat.Max(k => k.PhanTramGiam);
+                            flashSaleDangApDung = kmConSuat.FirstOrDefault(k => k.PhanTramGiam == phanTram);
+                        }
+
                         decimal giaChot = phanTram > 0 ? Math.Round(bt.GiaBan * (1 - (decimal)phanTram / 100), 0) : bt.GiaBan;
 
                         ChiTietHoaDon cthd = new ChiTietHoaDon
@@ -106,14 +129,28 @@ namespace Maison.Controllers
                         };
                         db.ChiTietHoaDons.Add(cthd);
 
-                        // 4. Trừ số lượng tồn kho
+                        // Trừ số lượng tồn kho (Kho tổng)
                         bt.SoLuongTon -= item.SoLuong;
                         if (bt.SoLuongTon < 0)
                             throw new Exception($"Sản phẩm {bt.Sanpham.TenSP} không đủ số lượng tồn kho!");
 
-                        // 5. Xóa sản phẩm khỏi giỏ hàng
+                        // CỘNG VÀO SỐ LƯỢNG ĐÃ BÁN CỦA FLASH SALE (VỚI CHỐT CHẶN AN TOÀN)
+                        if (flashSaleDangApDung != null && flashSaleDangApDung.SoLuongKhuyenMai != null)
+                        {
+                            // Safety Check lần cuối trước khi ghi DB
+                            if (flashSaleDangApDung.SoLuongDaBan + item.SoLuong > flashSaleDangApDung.SoLuongKhuyenMai.Value)
+                            {
+                                throw new Exception($"Sản phẩm {bt.Sanpham.TenSP} đã hết Flash Sale. Vui lòng quay lại giỏ hàng để cập nhật!");
+                            }
+
+                            flashSaleDangApDung.SoLuongDaBan += item.SoLuong;
+                            db.Entry(flashSaleDangApDung).State = EntityState.Modified;
+                        }
+
                         db.GioHangs.Remove(item);
                     }
+
+                    // ... (Code dưới giữ nguyên) ...
 
                     db.SaveChanges();
                     transaction.Commit(); // Hoàn tất giao dịch
@@ -121,9 +158,8 @@ namespace Maison.Controllers
                 }
                 catch (Exception ex)
                 {
-                    transaction.Rollback(); // Nếu có lỗi, quay lại trạng thái ban đầu, không lưu gì cả
+                    transaction.Rollback();
 
-                    // -- THÊM ĐOẠN NÀY ĐỂ BỚI MÓC LỖI THỰC SỰ ẨN BÊN TRONG --
                     string errorMsg = ex.Message;
                     if (ex.InnerException != null)
                     {
@@ -133,8 +169,6 @@ namespace Maison.Controllers
                             errorMsg = ex.InnerException.InnerException.Message;
                         }
                     }
-                    // --------------------------------------------------------
-
                     return Json(new { status = false, message = "Lỗi hệ thống: " + errorMsg });
                 }
             }
@@ -163,15 +197,33 @@ namespace Maison.Controllers
                 hd.NgaySua = DateTime.Now;
 
                 // Hoàn lại số lượng tồn kho (Truy vấn trực tiếp để đảm bảo EF tracking)
-                if (stt == 0)
+                // Hoàn lại số lượng tồn kho và suất Flash Sale
+                if (stt == 0) // Trạng thái 0 là Hủy
                 {
                     var chiTietHDs = db.ChiTietHoaDons.Where(c => c.MaHD == mahd).ToList();
                     foreach (var ct in chiTietHDs)
                     {
+                        // Trả lại kho tổng
                         var bt = db.BienThes.FirstOrDefault(b => b.MaBT == ct.MaBT);
                         if (bt != null)
                         {
                             bt.SoLuongTon += ct.SoLuongMua;
+                        }
+
+                        // THÊM: Trả lại suất Flash Sale (Tìm theo giá mua để biết nó đã từng hưởng KM nào)
+                        var activeKMs = db.SanPhamKhuyenMais.Where(k => k.MaBT == ct.MaBT || (k.MaSP == ct.BienThe.MaSP && k.MaBT == null)).ToList();
+
+                        // Quét các khuyến mãi có giới hạn số lượng, nếu tìm thấy thì trả lại số suất đã bán
+                        foreach (var km in activeKMs.Where(x => x.SoLuongKhuyenMai != null && x.SoLuongDaBan > 0))
+                        {
+                            // Kiểm tra xem giá lúc mua có khớp với % giảm của KM này không
+                            decimal giaSauKhiGiamCuaKM = Math.Round(ct.BienThe.GiaBan * (1 - (decimal)km.PhanTramGiam / 100), 0);
+                            if (ct.GiaMua == giaSauKhiGiamCuaKM)
+                            {
+                                km.SoLuongDaBan -= ct.SoLuongMua; // Trả lại số lượng
+                                if (km.SoLuongDaBan < 0) km.SoLuongDaBan = 0; // Chống lỗi âm
+                                db.Entry(km).State = EntityState.Modified;
+                            }
                         }
                     }
                 }

@@ -3,7 +3,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
 }
-
 <style>
     /* CSS Card Sản phẩm mang phong cách CellphoneS */
     .block-title {
@@ -103,22 +102,19 @@
         font-size: 13px;
         text-decoration: line-through;
     }
-    /* CSS cho Banner */
-    /* CSS cho Banner */
+
     .promo-banner {
         display: block;
         overflow: hidden;
         border-radius: 10px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         height: 100%;
-        background-color: #000; /* Đổi thành màu đen hoặc mã màu trùng với viền ảnh banner của bạn */
+        background-color: #000;
     }
 
     .carousel-inner, .carousel-item {
         background-color: #000;
     }
-    /* Thêm đoạn này để ép các khung hình dính chặt vào nhau */
-
 
     .promo-banner img {
         width: 100%;
@@ -126,7 +122,6 @@
         object-fit: cover;
     }
 
-    /* CSS cho các ô thuộc tính nhỏ (Variant Tags) */
     .variant-tags {
         display: flex;
         flex-wrap: wrap;
@@ -143,32 +138,89 @@
         background-color: #fcfcfc;
         white-space: nowrap;
     }
-    /* =======================================
-       CSS ÉP LƯỚI 5 CỘT (TỰ RỚT DÒNG)
-       ======================================= */
+
     .grid-5-cols {
         display: flex;
-        flex-wrap: wrap; /* Lệnh quan trọng: Hết chỗ là bắt buộc rớt dòng */
+        flex-wrap: wrap;
         margin-left: -10px;
         margin-right: -10px;
     }
 
-    .grid-5-cols > .col-item {
-        flex: 0 0 20%; /* Lệnh quan trọng: Chiếm ĐÚNG 20% chiều ngang (100% / 5 = 20%) */
-        max-width: 20%;
-        padding-left: 10px;
-        padding-right: 10px;
-        margin-bottom: 20px; /* Khoảng cách giữa hàng trên và hàng dưới */
+        .grid-5-cols > .col-item {
+            flex: 0 0 20%;
+            max-width: 20%;
+            padding-left: 10px;
+            padding-right: 10px;
+            margin-bottom: 20px;
+        }
+
+    /* CSS hỗ trợ Tabs Khuyến mãi mượt mà */
+    #promoTabs .nav-link {
+        transition: all 0.3s ease;
+        border-radius: 20px !important;
     }
 
-    /* Reponsive: Nếu xem trên Ipad thì hiện 3 cái 1 hàng */
-    /*media (max-width: 991px) {
-        .grid-5-cols > .col-item { flex: 0 0 33.3333%; max-width: 33.3333%; }
-    }*/
-    /* Reponsive: Nếu xem trên Điện thoại thì hiện 2 cái 1 hàng */
-    /*media (max-width: 767px) {
-        .grid-5-cols > .col-item { flex: 0 0 50%; max-width: 50%; }
-    }*/
+        #promoTabs .nav-link.active {
+            background-color: #fff !important;
+            color: #d70018 !important;
+            border: 1px solid #d70018 !important;
+            box-shadow: 0 4px 6px rgba(215, 0, 24, 0.15);
+        }
+
+        #promoTabs .nav-link:hover:not(.active) {
+            background-color: #ffe6e6 !important;
+            color: #d70018 !important;
+        }
+
+    /* CSS Đồng hồ đếm ngược */
+    .flash-sale-timer {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background: #d70018;
+        padding: 5px 15px;
+        border-radius: 30px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .timer-box {
+        background: white;
+        color: #d70018;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+    /* CSS cho Thanh Tiến Trình Flash Sale */
+    .flash-sale-progress {
+        background-color: #ffcccc;
+        border-radius: 10px;
+        position: relative;
+        height: 18px;
+        width: 100%;
+        margin-top: 10px;
+        overflow: hidden;
+    }
+
+        .flash-sale-progress .progress-bar-fill {
+            background: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%);
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .flash-sale-progress .progress-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 11px;
+            color: white;
+            font-weight: bold;
+            line-height: 18px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }   
 </style>
 
 <div class="container">
@@ -228,61 +280,158 @@
     </div>
 
     <div class="block-title mt-5">
-        <h2>🔥 HOT SALE Cuối Tuần</h2>
+        <h2>🔥 Vườn Bách Deal - Bách Trúng</h2>
     </div>
 
-    <div class="grid-5-cols">
-        @if (ViewBag.HotSale != null)
-        {
-            foreach (var item in ViewBag.HotSale as List<Tuple<Maison.Models.BienThe, int>>)
+    @{
+        var activePromos = ViewBag.ActivePromos as List<Maison.Models.KhuyenMai>;
+        var hotSaleItems = ViewBag.HotSaleItems as List<Maison.Controllers.HotSaleDTO>;
+    }
+
+    @if (activePromos != null && activePromos.Any() && hotSaleItems != null && hotSaleItems.Any())
+    {
+        <ul class="nav nav-tabs border-0 mb-4" id="promoTabs" role="tablist" style="gap: 10px; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 5px;">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active font-weight-bold rounded px-4 py-2 border" style="white-space: nowrap; color: #d70018;" id="all-deal-tab" data-bs-toggle="tab" data-bs-target="#alldeal" type="button" role="tab">
+                    🔥 Tất cả Deal
+                </button>
+            </li>
+
+            @foreach (var km in activePromos)
             {
-                // Item1 là BienThe, Item2 là PhanTramGiam
-                Maison.Models.BienThe bt = item.Item1;
-                int phanTramHienThi = item.Item2;
-                Maison.Models.Sanpham sp = bt.Sanpham;
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link font-weight-bold rounded px-4 py-2 border text-dark bg-light" style="white-space: nowrap;" id="tab-@km.MaKM" data-bs-toggle="tab" data-bs-target="#content-@km.MaKM" type="button" role="tab">
+                        @km.TenKM
+                    </button>
+                </li>
+            }
+        </ul>
 
-                decimal minGiaSauGiam = bt.GiaBan * (1 - (decimal)phanTramHienThi / 100);
-                string anhHienThi = !string.IsNullOrEmpty(bt.HinhAnh) ? bt.HinhAnh : sp.HinhAnh;
+        <div class="tab-content" id="promoTabsContent">
 
-                // Lấy tag thông số ĐẶC TRƯNG CỦA CẤU HÌNH NÀY
-                // Lấy tag thông số ĐẶC TRƯNG CỦA CẤU HÌNH NÀY và xếp đúng thứ tự 0, 1, 2...
-                var cacTagThongSo = bt.ChiTietBTs
-                    .Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
-                    .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi) // Sắp xếp từ bé đến lớn
-                    .Select(c => c.GiaTriTT.GiaTri)
-                    .ToList();
-                <div class="col-item">
-                    <div class="cps-card" style="height: 100%;">
+            <div class="tab-pane fade show active" id="alldeal" role="tabpanel">
+                <div class="grid-5-cols">
+                    @foreach (var item in hotSaleItems)
+                    {
+                        var sp = item.BienThe.Sanpham;
+                        var anhHienThi = !string.IsNullOrEmpty(item.BienThe.HinhAnh) ? item.BienThe.HinhAnh : sp.HinhAnh;
 
-                        <div class="discount-badge">Giảm @phanTramHienThi%</div>
+                        // Lấy các tag cấu hình chính
+                        var cacTagThongSo = item.BienThe.ChiTietBTs
+                            .Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                            .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                            .Select(c => c.GiaTriTT.GiaTri).ToList();
 
-                        <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-img">
-                            <img src="@anhHienThi" onerror="this.src='/Content/Images/no-image.png'" alt="@sp.TenSP" />
-                        </a>
+                        <div class="col-item">
+                            <div class="cps-card" style="height: 100%;">
+                                <div class="discount-badge">Giảm @item.PhanTramMax%</div>
 
-                        <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-title">
-                            @sp.TenSP
-                        </a>
+                                <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-img">
+                                    <img src="@anhHienThi" onerror="this.src='/Content/Images/no-image.png'" alt="@sp.TenSP" />
+                                </a>
 
-                        <div class="cps-price-box">
-                            <span class="cps-price-new">@string.Format(info, "{0:c0}", minGiaSauGiam)</span>
-                            <span class="cps-price-old">@string.Format(info, "{0:c0}", bt.GiaBan)</span>
-                        </div>
+                                <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-title">@sp.TenSP</a>
 
-                        @if (cacTagThongSo.Any())
-                        {
-                            <div class="variant-tags mt-2">
-                                @foreach (var tag in cacTagThongSo)
+                                <div class="cps-price-box">
+                                    <span class="cps-price-new">@string.Format(info, "{0:c0}", item.GiaSauGiam)</span>
+                                    <span class="cps-price-old">@string.Format(info, "{0:c0}", item.BienThe.GiaBan)</span>
+                                </div>
+
+
+                                @if (cacTagThongSo.Any())
                                 {
-                                    <span class="v-tag" style="background-color: #fff3f3; color: #d70018; border-color: #ffcccc;">@tag</span>
+                                    <div class="variant-tags mt-2">
+                                        @foreach (var tag in cacTagThongSo)
+                                        {
+                                            <span class="v-tag" style="background-color: #fff3f3; color: #d70018; border-color: #ffcccc;">@tag</span>
+                                        }
+                                    </div>
                                 }
+                                @if (item.SoLuongKhuyenMai.HasValue)
+                                {
+                                    int soLuongTong = item.SoLuongKhuyenMai.Value;
+                                    int daBan = item.SoLuongDaBan;
+                                    double pt = soLuongTong > 0 ? (double)daBan / soLuongTong * 100 : 0;
+                                    if (pt > 100) { pt = 100; }
+
+                                    <div class="flash-sale-progress mt-3">
+                                        <div class="progress-bar-fill" style="width: @pt"></div>
+                                        <div class="progress-text">
+                                            @if (daBan >= soLuongTong)
+                                            {
+                                                <span style="color: #fff1f1;">Hết suất</span>
+                                            }
+                                            else if (daBan == 0)
+                                            {
+                                                <span>Vừa mở bán</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Đã bán @daBan/@soLuongTong suất</span>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div style="height: 28px; margin-top: 10px;"></div>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @foreach (var km in activePromos)
+            {
+                <div class="tab-pane fade" id="content-@km.MaKM" role="tabpanel">
+                    <div class="grid-5-cols">
+                        @foreach (var item in hotSaleItems.Where(x => x.ThuocCacChuyenTrinh.Contains(km.MaKM)))
+                        {
+                            var sp = item.BienThe.Sanpham;
+                            var anhHienThi = !string.IsNullOrEmpty(item.BienThe.HinhAnh) ? item.BienThe.HinhAnh : sp.HinhAnh;
+
+                            var cacTagThongSo = item.BienThe.ChiTietBTs
+                                .Where(c => c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                                .Select(c => c.GiaTriTT.GiaTri).ToList();
+
+                            <div class="col-item">
+                                <div class="cps-card" style="height: 100%;">
+                                    <div class="discount-badge">Giảm @item.PhanTramMax%</div>
+
+                                    <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-img">
+                                        <img src="@anhHienThi" onerror="this.src='/Content/Images/no-image.png'" alt="@sp.TenSP" />
+                                    </a>
+
+                                    <a href="@Url.Action("ProductDetail", "Product", new { id = sp.MaSP })" class="cps-card-title">@sp.TenSP</a>
+
+                                    <div class="cps-price-box">
+                                        <span class="cps-price-new">@string.Format(info, "{0:c0}", item.GiaSauGiam)</span>
+                                        <span class="cps-price-old">@string.Format(info, "{0:c0}", item.BienThe.GiaBan)</span>
+                                    </div>
+
+                                    @if (cacTagThongSo.Any())
+                                    {
+                                        <div class="variant-tags mt-2">
+                                            @foreach (var tag in cacTagThongSo)
+                                            {
+                                                <span class="v-tag" style="background-color: #fff3f3; color: #d70018; border-color: #ffcccc;">@tag</span>
+                                            }
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         }
                     </div>
                 </div>
             }
-        }
-    </div>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted font-italic">Hiện tại không có chương trình khuyến mãi nào.</p>
+    }
     <div class="block-title mt-5">
         <h2>✨ Sản Phẩm Mới Ra Mắt</h2>
     </div>

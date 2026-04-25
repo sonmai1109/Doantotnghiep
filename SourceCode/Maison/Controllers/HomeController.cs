@@ -7,55 +7,88 @@ using System.Web.Mvc;
 using Maison.Models;
 using Maison.Session;
 using Maison.Areas.Admin.Data;
+
 namespace Maison.Controllers
 {
+    public class HotSaleDTO
+    {
+        public Maison.Models.BienThe BienThe { get; set; }
+        public int PhanTramMax { get; set; } // Luôn giữ % to nhất bất chấp ở chương trình nào
+        public List<int> ThuocCacChuyenTrinh { get; set; } // Danh sách các Mã Khuyến Mãi chứa SP này
+        public decimal GiaSauGiam => (BienThe?.GiaBan ?? 0) * (1 - (decimal)PhanTramMax / 100);
+        public int? SoLuongKhuyenMai { get; set; }
+        public int SoLuongDaBan { get; set; }
+    }
     public class HomeController : Controller
     {
         shopdb db = new shopdb();
         public ActionResult Index()
         {
             DateTime now = DateTime.Now;
+            db.Configuration.ProxyCreationEnabled = false;
 
-            // 1. Sản phẩm khuyến mãi (Giữ nguyên như cũ, đã làm xong)
-            // 1. Sản phẩm khuyến mãi (ĐÃ FIX: Trả về List<Sanpham> thay vì List<SanPhamKhuyenMai>)
-            var activeKMs = db.SanPhamKhuyenMais
-                    .Include(k => k.KhuyenMai)
-                    .Where(k => k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= now && k.KhuyenMai.NgayKetThuc >= now)
-                    .ToList();
+            // =======================================================
+            // 1. XỬ LÝ HOT SALE (TÁCH RIÊNG CẤU HÌNH, SO SÁNH % CHUNG/RIÊNG)
+            // =======================================================
 
-            // Nhóm KM lại để dễ tra cứu. Key là Mã Sản Phẩm.
-            var kmGomNhomTheoSP = activeKMs.GroupBy(k => k.MaSP).ToDictionary(g => g.Key, g => g.ToList());
+            var activePromos = db.KhuyenMais
+                .Where(k => k.TrangThai == 1 && k.NgayBatDau <= now && k.NgayKetThuc >= now)
+                .OrderBy(k => k.NgayKetThuc)
+                .ToList();
+            ViewBag.ActivePromos = activePromos;
 
-            // Bước B: Lấy toàn bộ biến thể ra để xét duyệt
-            // Bước B: Lấy toàn bộ biến thể ra để xét duyệt
-            var tatCaBienThe = db.BienThes
-                .Include(b => b.Sanpham)
-                .Include(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh))
+            var spKhuyenMais = db.SanPhamKhuyenMais
+                .Where(sk => sk.KhuyenMai.TrangThai == 1 && sk.KhuyenMai.NgayBatDau <= now && sk.KhuyenMai.NgayKetThuc >= now)
                 .ToList();
 
-            // ĐÃ SỬA CHỖ NÀY: Dùng Tuple<BienThe, int> thay vì dynamic
-            var danhSachHotSale = new List<Tuple<BienThe, int>>();
+            // Lấy danh sách ID các sản phẩm đang có bất kỳ dòng khuyến mãi nào
+            var danhSachMaSP = spKhuyenMais.Select(sk => sk.MaSP).Distinct().ToList();
 
-            foreach (var bt in tatCaBienThe)
+            // Lấy TẤT CẢ Biến Thể của các SP đó lên
+            var cacBienTheHienTai = db.BienThes
+                .Include(b => b.Sanpham)
+                .Include(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh))
+                .Where(b => danhSachMaSP.Contains(b.MaSP)) // Không dùng .Value
+                .ToList();
+
+            var listHotSale = new List<HotSaleDTO>();
+
+            // VÒNG LẶP XÉT DUYỆT TỪNG CẤU HÌNH ĐỘC LẬP
+            // VÒNG LẶP XÉT DUYỆT TỪNG CẤU HÌNH ĐỘC LẬP
+            foreach (var bt in cacBienTheHienTai)
             {
-                if (kmGomNhomTheoSP.ContainsKey(bt.MaSP))
+                var kmApDungChung = spKhuyenMais.Where(sk => sk.MaSP == bt.MaSP && sk.MaBT == null).ToList();
+                var kmApDungRieng = spKhuyenMais.Where(sk => sk.MaSP == bt.MaSP && sk.MaBT == bt.MaBT).ToList();
+
+                int maxChung = kmApDungChung.Select(sk => sk.PhanTramGiam).DefaultIfEmpty(0).Max();
+                int maxRieng = kmApDungRieng.Select(sk => sk.PhanTramGiam).DefaultIfEmpty(0).Max();
+                int phanTramChot = Math.Max(maxChung, maxRieng);
+
+                if (phanTramChot > 0)
                 {
-                    var kmCuaSPNay = kmGomNhomTheoSP[bt.MaSP];
+                    // Lọc ra ĐÚNG cái bản ghi khuyến mãi đã tạo ra cái % to nhất này
+                    // Để lấy được cái Giới Hạn Flash Sale của nó
+                    var recordGiamNhieuNhat = kmApDungRieng.FirstOrDefault(k => k.PhanTramGiam == phanTramChot)
+                                           ?? kmApDungChung.FirstOrDefault(k => k.PhanTramGiam == phanTramChot);
 
-                    int maxRieng = kmCuaSPNay.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
-                    int maxChung = kmCuaSPNay.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
-                    int phanTramChot = Math.Max(maxRieng, maxChung);
+                    var thuocCacCT = spKhuyenMais
+                        .Where(sk => sk.MaSP == bt.MaSP && (sk.MaBT == null || sk.MaBT == bt.MaBT))
+                        .Where(sk => sk.MaKM.HasValue).Select(sk => sk.MaKM.Value).Distinct().ToList();
 
-                    if (phanTramChot > 0)
+                    listHotSale.Add(new HotSaleDTO
                     {
-                        // ĐÃ SỬA CHỖ NÀY: Khởi tạo Tuple (Item1 là Biến thể, Item2 là Phần trăm)
-                        danhSachHotSale.Add(new Tuple<BienThe, int>(bt, phanTramChot));
-                    }
+                        BienThe = bt,
+                        PhanTramMax = phanTramChot,
+                        ThuocCacChuyenTrinh = thuocCacCT,
+                        // BỔ SUNG DỮ LIỆU
+                        SoLuongKhuyenMai = recordGiamNhieuNhat?.SoLuongKhuyenMai,
+                        SoLuongDaBan = recordGiamNhieuNhat?.SoLuongDaBan ?? 0
+                    });
                 }
             }
 
-            // ĐÃ SỬA CHỖ NÀY: Gọi x.Item2 (chính là PhanTramGiam) để sắp xếp
-            ViewBag.HotSale = danhSachHotSale.OrderByDescending(x => x.Item2).Take(20).ToList();
+            // Gửi dữ liệu ra View (Lấy 20 cấu hình giảm sâu nhất)
+            ViewBag.HotSaleItems = listHotSale.OrderByDescending(x => x.PhanTramMax).Take(20).ToList();
 
             // 2. Sản phẩm mới
             var sanPhamMoi = db.Sanphams
@@ -184,19 +217,54 @@ namespace Maison.Controllers
 
 
         }
-        [HttpGet]
-        public ActionResult LiveSearch(string keyword)
+        // =======================================================
+        // COMPONENT: TIN TỨC (HIỂN THỊ GẦN FOOTER)
+        // =======================================================
+        [ChildActionOnly]
+        public ActionResult NewsPartial()
         {
-            if (string.IsNullOrEmpty(keyword)) return Content("");
+            // Lấy 4 bài viết mới nhất có trạng thái hiển thị (1)
+            var tinTucList = db.TinTucs
+                .Where(t => t.TrangThai == 1)
+                .OrderByDescending(t => t.NgayDang)
+                .Take(4)
+                .ToList();
 
-            // Thêm .Include(sp => sp.DanhMuc) để lôi tên Danh mục ra
+            return PartialView("_NewsPartial", tinTucList);
+        }
+        [HttpGet]
+        public JsonResult LiveSearch(string keyword) // Đổi ActionResult thành JsonResult
+        {
+            if (string.IsNullOrEmpty(keyword)) return Json(new List<object>(), JsonRequestBehavior.AllowGet);
+
+            db.Configuration.ProxyCreationEnabled = false;
+            DateTime now = DateTime.Now;
+
+            // 1. Lấy dữ liệu thô lên RAM
             var sanPhams = db.Sanphams
-                             .Include(sp => sp.DanhMuc) // <-- THÊM DÒNG NÀY LÀ XONG
-                             .Where(sp => sp.TenSP.ToLower().Contains(keyword.ToLower()))
-                             .Take(5)
-                             .ToList();
+                .Include(sp => sp.DanhMuc)
+                .Include(sp => sp.BienThes)
+                .Include(sp => sp.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
+                .Where(sp => sp.TenSP.ToLower().Contains(keyword.ToLower()) && sp.BienThes.Any())
+                .Take(5)
+                .ToList();
 
-            return PartialView("_LiveSearchResults", sanPhams);
+            // 2. Tính toán và ném thẳng ra dạng JSON (Không sợ lỗi bảo mật Anonymous Type nữa)
+            var results = sanPhams.Select(sp => new
+            {
+                MaSP = sp.MaSP,
+                TenSP = sp.TenSP,
+                HinhAnh = sp.HinhAnh,
+                TenDM = sp.DanhMuc != null ? sp.DanhMuc.TenDM : "Đang cập nhật",
+                GiaGoc = sp.BienThes.Min(b => b.GiaBan), // Lấy Min giá
+                PhanTramGiam = sp.SanPhamKhuyenMais
+                    .Where(k => k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= now && k.KhuyenMai.NgayKetThuc >= now)
+                    .Select(k => (int?)k.PhanTramGiam)
+                    .Max() ?? 0 // Lấy Max Khuyến mãi
+            }).ToList();
+
+            // Trả về JSON cho Javascript tự xử
+            return Json(results, JsonRequestBehavior.AllowGet);
         }
         [ChildActionOnly]
         public ActionResult CartCount()

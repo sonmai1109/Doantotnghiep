@@ -17,25 +17,36 @@ namespace Maison.Areas.Admin.Controllers
         public ActionResult Index(string timkiem, int? locMaDM, int page = 1, int pagesize = 7)
         {
             ViewBag.timkiem = timkiem;
-            ViewBag.locMaDM = locMaDM; // Giữ lại giá trị lọc để gán vào Dropdown
+            ViewBag.locMaDM = locMaDM;
 
             var thuoctinhs = db.ThuocTinhs.Include(t => t.DanhMuc).AsQueryable();
 
-            // 1. Lọc theo Tên (Tìm kiếm)
             if (!string.IsNullOrEmpty(timkiem))
             {
                 thuoctinhs = thuoctinhs.Where(t => t.TenTT.Contains(timkiem));
             }
 
-            // 2. Lọc theo Danh mục (Dropdown)
             if (locMaDM != null && locMaDM != 0)
             {
                 thuoctinhs = thuoctinhs.Where(t => t.MaDM == locMaDM);
             }
 
-            ViewBag.MaDM = new SelectList(db.Danhmucs, "MaDM", "TenDM");
+            // --- VẼ CÂY DANH MỤC CHO DROPDOWN THUỘC TÍNH (Được chọn cả Cha lẫn Con) ---
+            var danhMucs = db.Danhmucs.ToList();
+            var selectListDM = new List<SelectListItem>();
 
-            // Sắp xếp ưu tiên theo Danh mục -> Thứ tự hiển thị -> ID
+            foreach (var cha in danhMucs.Where(d => d.MaDMCha == null))
+            {
+                selectListDM.Add(new SelectListItem { Value = cha.MaDM.ToString(), Text = "📁 " + cha.TenDM.ToUpper() });
+
+                foreach (var con in danhMucs.Where(d => d.MaDMCha == cha.MaDM))
+                {
+                    selectListDM.Add(new SelectListItem { Value = con.MaDM.ToString(), Text = "   --- " + con.TenDM });
+                }
+            }
+            ViewBag.MaDM = selectListDM;
+            // --------------------------------------------------------------------------
+
             return View(thuoctinhs.OrderBy(t => t.MaDM).ThenBy(t => t.ThuTuHienThi).ThenByDescending(t => t.MaTT).ToPagedList(page, pagesize));
         }
 
@@ -67,7 +78,32 @@ namespace Maison.Areas.Admin.Controllers
                 return Json(new { status = false, message = "Lỗi: " + ex.Message });
             }
         }
+        [HttpGet]
+        public JsonResult GetThuocTinhTheoDanhMuc(int maDM)
+        {
+            db.Configuration.ProxyCreationEnabled = false;
 
+            var dmHienTai = db.Danhmucs.FirstOrDefault(x => x.MaDM == maDM);
+            if (dmHienTai == null) return Json(new List<object>(), JsonRequestBehavior.AllowGet);
+
+            // 1. Đổi List<int> thành List<int?>
+            List<int?> danhSachID = new List<int?> { dmHienTai.MaDM }; // Lấy ID của Con
+
+            if (dmHienTai.MaDMCha != null)
+            {
+                // 2. Không cần dùng .Value nữa vì List giờ đã nhận int?
+                danhSachID.Add(dmHienTai.MaDMCha);
+            }
+
+            // Lấy tất cả thuộc tính (chung + riêng)
+            var thuocTinhs = db.ThuocTinhs
+                .Where(tt => danhSachID.Contains(tt.MaDM) || tt.MaDM == null) // null là dùng chung toàn hệ thống
+                .OrderByDescending(tt => tt.LaThuocTinhChinh)
+                .ThenBy(tt => tt.ThuTuHienThi)
+                .Select(tt => new { tt.MaTT, tt.TenTT, tt.LaThuocTinhChinh })
+                .ToList();
+            return Json(thuocTinhs, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public JsonResult Loaddata(int id)
         {

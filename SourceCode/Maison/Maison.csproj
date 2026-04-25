@@ -148,13 +148,16 @@
     <Compile Include="Areas\Admin\Controllers\LoginController.cs" />
     <Compile Include="Areas\Admin\Controllers\SanphamsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ThuocTinhsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\TinTucsController.cs" />
     <Compile Include="Areas\Admin\Data\LoginAccount.cs" />
+    <Compile Include="Controllers\AccountUserController.cs" />
     <Compile Include="Controllers\BaoHanhController.cs" />
     <Compile Include="Controllers\BillController.cs" />
     <Compile Include="Controllers\CartController.cs" />
     <Compile Include="Controllers\DanhGiaController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\WebhookController.cs" />
     <Compile Include="Global.asax.cs">
@@ -271,6 +274,14 @@
     <Compile Include="Migrations\202604241311253_themcotthanhtoanvaohoadon.cs" />
     <Compile Include="Migrations\202604241311253_themcotthanhtoanvaohoadon.Designer.cs">
       <DependentUpon>202604241311253_themcotthanhtoanvaohoadon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604250131138_themmadanhmuccha.cs" />
+    <Compile Include="Migrations\202604250131138_themmadanhmuccha.Designer.cs">
+      <DependentUpon>202604250131138_themmadanhmuccha.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202604250611449_themcotbangsanphamjkm.cs" />
+    <Compile Include="Migrations\202604250611449_themcotbangsanphamjkm.Designer.cs">
+      <DependentUpon>202604250611449_themcotbangsanphamjkm.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Baohanh.cs" />
@@ -2248,7 +2259,10 @@
     <Content Include="Content\client\img\6.png" />
     <Content Include="Content\client\img\7.png" />
     <Content Include="Content\client\img\lg.png" />
+    <Content Include="Content\client\img\logo-bct.png" />
     <Content Include="Content\client\img\logotk.png" />
+    <Content Include="Content\client\img\ship_1.png" />
+    <Content Include="Content\client\img\ship_2.png" />
     <Content Include="Content\client\JS\ajax-mail.js" />
     <Content Include="Content\client\JS\bootstrap.min.js" />
     <Content Include="Content\client\JS\common.js" />
@@ -2387,6 +2401,9 @@
     <Content Include="Areas\Admin\Views\BaoHanh\Create.cshtml" />
     <Content Include="Areas\Admin\Views\ClientUser\Index.cshtml" />
     <Content Include="Areas\Admin\Views\DanhGia\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TinTucs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\TinTucs\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\TinTucs\Edit.cshtml" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -2425,8 +2442,12 @@
     <Content Include="Views\BaoHanh\MyWarranties.cshtml" />
     <Content Include="Views\BaoHanh\Details.cshtml" />
     <Content Include="Views\DanhGia\_DanhSachDanhGia.cshtml" />
-    <Content Include="Views\Home\_LiveSearchResults.cshtml" />
     <Content Include="Views\Bill\PaymentQR.cshtml" />
+    <Content Include="Views\Home\_NewsPartial.cshtml" />
+    <Content Include="Views\News\Details.cshtml" />
+    <Content Include="Views\News\Index.cshtml" />
+    <Content Include="Views\AccountUser\UserInfor.cshtml" />
+    <Content Include="Views\AccountUser\ChangePassWord.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -2546,6 +2567,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202604241311253_themcotthanhtoanvaohoadon.resx">
       <DependentUpon>202604241311253_themcotthanhtoanvaohoadon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604250131138_themmadanhmuccha.resx">
+      <DependentUpon>202604250131138_themmadanhmuccha.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202604250611449_themcotbangsanphamjkm.resx">
+      <DependentUpon>202604250611449_themcotbangsanphamjkm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

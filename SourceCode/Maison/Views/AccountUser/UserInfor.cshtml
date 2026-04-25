@@ -1,0 +1,85 @@
+﻿@model Maison.Models.TaiKhoanNguoiDung
+@{
+    ViewBag.Title = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="breadcrumb-area mt-30 mb-30">
+    <div class="container">
+        <div class="breadcrumb">
+            <ul class="d-flex align-items-center">
+                <li>@Html.ActionLink("Trang chủ", "Index", "Home")</li>
+                <li class="active">@Html.ActionLink("Thông tin tài khoản", "UserInfor", "AccountUser")</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white py-3 border-bottom-0">
+                    <h4 class="mb-0 font-weight-bold text-danger"><i class="fas fa-user-circle mr-2"></i> Thông Tin Cá Nhân</h4>
+                </div>
+                <div class="card-body px-5 pb-5">
+
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle mr-2"></i> @TempData["SuccessMessage"]
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+
+                    @Html.ValidationMessage("ErrorUpdate", new { @class = "alert alert-danger d-block p-2" })
+
+                    @using (Html.BeginForm("UserInfor", "AccountUser", FormMethod.Post, new { @id = "submit-form" }))
+                    {
+                        <input type="hidden" value="@Model.MaTK" name="MaTK" />
+                        <input type="hidden" name="TrangThai" value="@Model.TrangThai" />
+
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold text-dark">Họ và tên <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control bg-light" name="HoTen" placeholder="Nhập họ và tên..." value="@Model.HoTen" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold text-dark">Số điện thoại <span class="text-danger">*</span></label>
+                            <input type="tel" class="form-control bg-light" name="SoDienThoai" placeholder="Nhập số điện thoại..." value="@Model.SoDienThoai" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold text-dark">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control bg-light" name="Email" placeholder="Nhập địa chỉ email..." value="@Model.Email" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold text-dark">Ngày sinh</label>
+                            <input type="date" class="form-control bg-light" name="NgaySinh" value="@Model.NgaySinh.ToString("yyyy-MM-dd")">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold text-dark d-block">Giới tính</label>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="Male" name="GioiTinh" class="custom-control-input" value="1" @(Model.GioiTinh == 1 ? "checked" : "")>
+                                <label class="custom-control-label" for="Male">Nam</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="Female" name="GioiTinh" class="custom-control-input" value="0" @(Model.GioiTinh == 0 ? "checked" : "")>
+                                <label class="custom-control-label" for="Female">Nữ</label>
+                            </div>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="font-weight-bold text-dark">Địa chỉ nhận hàng <span class="text-danger">*</span></label>
+                            <textarea class="form-control bg-light" name="DiaChi" rows="2" placeholder="Ví dụ: Số 1, Đường Trần Phú, Hà Nội" required>@Model.DiaChi</textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-danger btn-block font-weight-bold py-2 rounded-pill shadow-sm">CẬP NHẬT THÔNG TIN</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

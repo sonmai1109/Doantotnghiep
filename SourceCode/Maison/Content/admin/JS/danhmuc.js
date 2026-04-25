@@ -43,9 +43,8 @@
     return false;
 }
 function loaddata(id) {
-    $("#update-mess")
-        .removeClass("text-warning text-danger")
-        .html("");
+    $("#update-mess").removeClass("text-warning text-danger").html("");
+
     $.ajax({
         type: 'POST',
         data: { "id": id },
@@ -54,17 +53,15 @@ function loaddata(id) {
             $("#madm").val(respone.MaDM);
             $("#tendm").val(respone.TenDM);
 
+            // DÒNG MỚI THÊM: Đổ dữ liệu MaDMCha vào ô Select
+            // Nếu respone.MaDMCha bị null, nó sẽ gán rỗng (chọn option: Danh mục gốc)
+            $("#update-madmcha").val(respone.MaDMCha || "");
         },
-        error: function (respone) {
-            console.log(xhr.respone);
-            alert("errorr...");
-
-
+        error: function (xhr) {
+            console.log(xhr.responseText);
+            alert("Lỗi tải dữ liệu...");
         }
-
-
     });
-
 }
 function suadanhmuc() {
     let data = {};

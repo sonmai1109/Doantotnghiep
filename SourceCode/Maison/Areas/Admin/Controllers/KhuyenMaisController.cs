@@ -164,57 +164,55 @@ namespace Maison.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public JsonResult AssignProduct(int maKM, int maSP, int? maBT, int phanTramGiam)
+        // ĐÃ THÊM: int? soLuongKhuyenMai
+        public JsonResult AssignProduct(int maKM, int maSP, int? maBT, int phanTramGiam, int? soLuongKhuyenMai)
         {
-            // SỬA LỖI 2 & 3: Xử lý triệt để logic Xung đột giữa "Toàn bộ" và "Từng cấu hình"
-
             if (maBT == null)
             {
                 // Kịch bản A: Chọn giảm giá "TOÀN BỘ CẤU HÌNH"
-                // -> Xóa sạch mọi cấu hình lẻ đang được giảm của sản phẩm này đi (để tránh đè/trùng lặp)
                 var oldLinks = db.SanPhamKhuyenMais.Where(x => x.MaKM == maKM && x.MaSP == maSP).ToList();
                 if (oldLinks.Any())
                 {
                     db.SanPhamKhuyenMais.RemoveRange(oldLinks);
                 }
 
-                // Thêm 1 dòng duy nhất đại diện cho TOÀN BỘ
                 db.SanPhamKhuyenMais.Add(new SanPhamKhuyenMai
                 {
                     MaKM = maKM,
                     MaSP = maSP,
                     MaBT = null,
-                    PhanTramGiam = phanTramGiam
+                    PhanTramGiam = phanTramGiam,
+                    SoLuongKhuyenMai = soLuongKhuyenMai, // Lưu Số lượng
+                    SoLuongDaBan = 0 // Khởi tạo ban đầu = 0
                 });
             }
             else
             {
                 // Kịch bản B: Chọn giảm giá "1 CẤU HÌNH CỤ THỂ"
-
-                // Bước 1: Nếu trước đó sản phẩm đang được gán "Toàn bộ cấu hình" (MaBT = null)
-                // -> Phải xóa cái "Toàn bộ" đó đi, vì giờ Admin muốn set giá giảm riêng cho từng thằng.
                 var allLink = db.SanPhamKhuyenMais.FirstOrDefault(x => x.MaKM == maKM && x.MaSP == maSP && x.MaBT == null);
                 if (allLink != null)
                 {
                     db.SanPhamKhuyenMais.Remove(allLink);
                 }
 
-                // Bước 2: Kiểm tra xem cấu hình cụ thể này đã được gán chưa?
                 var exist = db.SanPhamKhuyenMais.FirstOrDefault(x => x.MaKM == maKM && x.MaSP == maSP && x.MaBT == maBT);
                 if (exist != null)
                 {
-                    // Nếu gán rồi thì chỉ cập nhật %
+                    // Đã gán rồi thì cập nhật % và Số lượng
                     exist.PhanTramGiam = phanTramGiam;
+                    exist.SoLuongKhuyenMai = soLuongKhuyenMai;
                 }
                 else
                 {
-                    // Nếu chưa thì thêm mới 1 dòng cho cấu hình này
+                    // Chưa thì tạo mới
                     db.SanPhamKhuyenMais.Add(new SanPhamKhuyenMai
                     {
                         MaKM = maKM,
                         MaSP = maSP,
                         MaBT = maBT,
-                        PhanTramGiam = phanTramGiam
+                        PhanTramGiam = phanTramGiam,
+                        SoLuongKhuyenMai = soLuongKhuyenMai, // Lưu số lượng
+                        SoLuongDaBan = 0
                     });
                 }
             }
@@ -223,20 +221,20 @@ namespace Maison.Areas.Admin.Controllers
             return Json(new { status = true });
         }
         // Hàm cập nhật % giảm giá khi bấm nút Sửa trong bảng
+        // ĐÃ THÊM: int? soLuongKhuyenMai
         [HttpPost]
-        public JsonResult UpdateDiscount(int id, int phanTramGiam)
+        public JsonResult UpdateDiscount(int id, int phanTramGiam, int? soLuongKhuyenMai)
         {
             try
             {
-                // Tìm bản ghi liên kết Sản phẩm - Khuyến mãi theo ID
                 var spkm = db.SanPhamKhuyenMais.Find(id);
                 if (spkm == null)
                     return Json(new { status = false, message = "Không tìm thấy dữ liệu!" });
 
-                // Cập nhật lại phần trăm
                 spkm.PhanTramGiam = phanTramGiam;
-                db.SaveChanges();
+                spkm.SoLuongKhuyenMai = soLuongKhuyenMai; // Cập nhật số lượng mới
 
+                db.SaveChanges();
                 return Json(new { status = true });
             }
             catch (Exception ex)

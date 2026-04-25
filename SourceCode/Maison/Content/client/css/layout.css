@@ -39,7 +39,7 @@ main {
 .dropmenu {
     position: absolute;
     top: 164%;
-    right: 30px;
+    right: 35px;
     width: 160px;
     padding-right: 30px;
     list-style: none;
@@ -237,51 +237,90 @@ body {
         }
 
 /* ================= BẢNG LOGO HIỆN RA BÊN PHẢI ================= */
+/* ================= BẢNG MEGA MENU ================= */
 .mega-menu-brands {
-    display: none; /* Mặc định ẩn đi */
+    display: none;
     position: absolute;
-    left: 100%; /* Đẩy sang sát mép bên phải của cột danh mục */
-    top: 0; /* Canh bằng mép trên cùng của cột danh mục */
-    width: 500px; /* Độ rộng của bảng chứa logo */
-    min-height: 100%; /* Cao ít nhất bằng cái cột menu trái */
+    left: 100%;
+    top: 0;
+    width: 850px; /* Tăng độ rộng ra 850px để Logo to và thoáng như cũ */
+    min-height: 100%;
     background: #fff;
-    padding: 20px;
-    border-radius: 0 8px 8px 0; /* Bo tròn góc bên phải */
+    padding: 25px;
+    border-radius: 0 10px 10px 0;
     z-index: 1000;
 }
 
-/* KÍCH HOẠT HIỂN THỊ KHI HOVER VÀO THẺ LI */
 .cat-item:hover .mega-menu-brands {
     display: block;
-    animation: fadeIn 0.3s ease-in-out; /* Thêm hiệu ứng mờ dần cho mượt */
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-/* ================= LƯỚI CHỨA LOGO (GRID) ================= */
+/* ================= LƯỚI LOGO BRAND (BÊN TRÁI) ================= */
 .brand-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* Xếp 4 logo trên 1 hàng ngang */
-    gap: 15px; /* Khoảng cách giữa các ô logo */
+    grid-template-columns: repeat(3, 1fr); /* 3 ô 1 hàng */
+    gap: 15px;
 }
 
 .brand-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 50px; /* Chiều cao cố định của ô chứa logo */
-    padding: 5px;
+    height: 65px; /* Tăng từ 50px lên 65px để ô to ra, Logo to hơn */
+    padding: 10px;
     background: #fff;
-    transition: all 0.2s;
+    border: 1px solid #eaeaea; /* Thêm viền mờ cho giống ô vuông */
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
     .brand-item:hover {
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Hiệu ứng nổi bọt khi hover vào logo */
-        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12); /* Hiệu ứng đổ bóng */
+        transform: translateY(-3px); /* Nổi bọt bay lên */
+        border-color: #f53f3f; /* Viền đỏ khi hover */
     }
 
     .brand-item img {
         max-width: 100%;
         max-height: 100%;
-        object-fit: contain; /* Ép logo vừa vặn không bị méo */
+        object-fit: contain;
+    }
+
+/* ================= LƯỚI DANH MỤC CẤP 2 (BÊN PHẢI) ================= */
+.subcategory-grid {
+    display: grid; /* Đổi thành Grid y hệt Brand */
+    grid-template-columns: repeat(3, 1fr); /* 3 ô 1 hàng y hệt bên trái */
+    gap: 15px;
+}
+
+/* Thiết kế ô vuông chứa chữ y hệt ô chứa Logo */
+.subcat-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 65px; /* Chiều cao bằng đúng cột bên trái */
+    padding: 5px 10px;
+    background-color: #fff;
+    border: 1px solid #eaeaea; /* Viền mờ */
+    border-radius: 8px;
+    color: #333 !important;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: all 0.3s ease;
+    /* Ép chữ nếu dài quá sẽ tự xuống dòng nhưng canh giữa */
+    white-space: normal;
+    line-height: 1.4;
+}
+
+    /* Hiệu ứng hover y hệt Brand-item */
+    .subcat-item:hover {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12); /* Đổ bóng */
+        transform: translateY(-3px); /* Nổi bọt bay lên */
+        border-color: #f53f3f; /* Viền đỏ */
+        color: #e30019 !important; /* Chữ đỏ */
     }
 
 /* Hiệu ứng làm mượt */
@@ -296,3 +335,42 @@ body {
         transform: translateX(0);
     }
 }
+/* ================= FOOTER STYLE (TỐI GIẢN) ================= */
+.footer-area {
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+    .footer-area h6 {
+        font-size: 15px;
+        color: #333;
+        letter-spacing: 0.5px;
+    }
+
+/* Các đường link dạng chữ */
+.footer-link {
+    transition: color 0.2s ease; /* Chỉ giữ hiệu ứng chuyển màu mượt */
+}
+
+    .footer-link:hover {
+        color: #f53f3f !important; /* Di chuột vào chuyển màu đỏ */
+        text-decoration: none;
+    }
+
+/* Các Icon thanh toán */
+.footer-area .fa-2x {
+    font-size: 24px;
+    width: 40px;
+    text-align: center;
+    background-color: #f8f9fa;
+}
+
+/* Nút Icon Mạng Xã Hội */
+.footer-icon {
+    transition: color 0.2s ease;
+}
+
+    .footer-icon:hover {
+        color: #f53f3f !important; /* Di chuột vào đổi màu đỏ */
+        text-decoration: none;
+    }

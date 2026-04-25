@@ -15,19 +15,51 @@ namespace Maison.Areas.Admin.Controllers // Nhớ sửa namespace
     {
         shopdb db = new shopdb();
 
-        public ActionResult Index(string timkiem,int page = 1, int pagesize = 4)
+        public ActionResult Index(string timkiem, int? locMaDM, int? locMaBrand, int page = 1, int pagesize = 4)
         {
-            ViewBag.timkiem = timkiem; 
-            // Dùng Include để lấy tên Danh mục và tên Hãng
+            ViewBag.timkiem = timkiem;
+            ViewBag.locMaDM = locMaDM;
+            ViewBag.locMaBrand = locMaBrand;
+
             var sanphams = db.Sanphams.Include(s => s.DanhMuc).Include(s => s.Brand).AsQueryable();
 
+            // --- 1. XỬ LÝ BỘ LỌC TÌM KIẾM NÂNG CAO ---
             if (!string.IsNullOrEmpty(timkiem))
             {
                 sanphams = sanphams.Where(s => s.TenSP.Contains(timkiem));
             }
+            if (locMaDM.HasValue)
+            {
+                // Lọc: Nếu chọn danh mục Cha, lấy cả danh mục Cha lẫn các danh mục Con của nó
+                var danhSachIdLoc = db.Danhmucs.Where(d => d.MaDM == locMaDM || d.MaDMCha == locMaDM).Select(d => d.MaDM).ToList();
+                sanphams = sanphams.Where(s => danhSachIdLoc.Contains(s.MaDM));
+            }
+            if (locMaBrand.HasValue)
+            {
+                sanphams = sanphams.Where(s => s.MaBrand == locMaBrand);
+            }
 
-            // Đẩy dữ liệu ra ViewBag để làm thẻ <select> trong Popup
-            ViewBag.MaDM = new SelectList(db.Danhmucs, "MaDM", "TenDM");
+            // --- 2. TẠO CÂY DANH MỤC CHO POPUP THÊM/SỬA (KHÓA THẺ CHA) ---
+            var danhMucs = db.Danhmucs.ToList();
+            var selectListPopup = new List<SelectListItem>();
+            var selectListFilter = new List<SelectListItem>(); // Dùng cho bộ lọc
+
+            foreach (var cha in danhMucs.Where(x => x.MaDMCha == null))
+            {
+                // Thêm vào Popup (Bị khóa)
+                selectListPopup.Add(new SelectListItem { Value = "", Text = "--- " + cha.TenDM.ToUpper() + " ---", Disabled = true });
+                // Thêm vào Filter (Cho phép chọn để lọc tất cả con)
+                selectListFilter.Add(new SelectListItem { Value = cha.MaDM.ToString(), Text = "📁 " + cha.TenDM.ToUpper() });
+
+                foreach (var con in danhMucs.Where(x => x.MaDMCha == cha.MaDM))
+                {
+                    selectListPopup.Add(new SelectListItem { Value = con.MaDM.ToString(), Text = "\xA0\xA0\xA0\xA0" + con.TenDM });
+                    selectListFilter.Add(new SelectListItem { Value = con.MaDM.ToString(), Text = "   --- " + con.TenDM });
+                }
+            }
+
+            ViewBag.MaDMList = selectListPopup; // Dành cho Add/Edit
+            ViewBag.FilterDM = selectListFilter; // Dành cho Thanh tìm kiếm
             ViewBag.MaBrand = new SelectList(db.Brands, "MaBrand", "TenBrand");
 
             return View(sanphams.OrderByDescending(s => s.MaSP).ToPagedList(page, pagesize));

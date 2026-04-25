@@ -1,0 +1,73 @@
+﻿@model Maison.Models.TinTuc
+@{
+    ViewBag.Title = "Viết bài mới";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3">
+            <h5 class="mb-0 font-weight-bold text-primary">VIẾT BÀI TIN TỨC MỚI</h5>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Create", "TinTucs", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold">Tiêu đề bài viết</label>
+                            @Html.TextBoxFor(m => m.TieuDe, new { @class = "form-control", required = "required", placeholder = "Nhập tiêu đề..." })
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold">Tóm tắt ngắn (Hiện ở ngoài danh sách)</label>
+                            @Html.TextAreaFor(m => m.TomTat, new { @class = "form-control", rows = "3", required = "required" })
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold">Nội dung chi tiết</label>
+                            @Html.TextAreaFor(m => m.NoiDung, new { @id = "txtNoiDung" })
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold">Ảnh đại diện (Thumbnail)</label>
+                            <input type="file" name="ImageUpload" id="ImageUpload" class="form-control-file mb-2" accept="image/*" required>
+                            <img id="previewImg" src="#" class="w-100 rounded border d-none" style="max-height: 200px; object-fit: cover;">
+                        </div>
+                        <div class="form-group mb-3">
+                            <label class="font-weight-bold">Trạng thái hiển thị</label>
+                            @Html.DropDownListFor(m => m.TrangThai, new List<SelectListItem> {
+                                new SelectListItem { Text = "Công khai bài viết", Value = "1" },
+                                new SelectListItem { Text = "Lưu nháp (Ẩn)", Value = "0" }
+                            }, new { @class = "form-control" })
+                        </div>
+                        <hr />
+                        <button type="submit" class="btn btn-success btn-block font-weight-bold py-2">ĐĂNG BÀI VIẾT</button>
+                        <a href="@Url.Action("Index")" class="btn btn-light btn-block">Hủy bỏ</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Script {
+    <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
+    <script>
+        // Kích hoạt CKEditor
+        CKEDITOR.replace('txtNoiDung', {
+            height: 400
+        });
+
+        // Xem trước ảnh khi dán Link
+        $('#ImageUpload').on('change', function () {
+            var file = this.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#previewImg').attr('src', e.target.result).removeClass('d-none');
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}

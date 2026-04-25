@@ -30,7 +30,27 @@
         overflow: hidden;
     }
 </style>
-
+<div class="card card-body border-light shadow-sm mb-4">
+    <form action="@Url.Action("Index")" method="get">
+        <div class="row align-items-center">
+            <div class="col-md-4 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" name="timkiem" value="@ViewBag.timkiem" class="form-control" placeholder="Tìm theo tên sản phẩm..." onchange="this.form.submit()">
+                </div>
+            </div>
+            <div class="col-md-3 mb-2">
+                @Html.DropDownList("locMaDM", (IEnumerable<SelectListItem>)ViewBag.FilterDM, "-- Tất cả danh mục --", new { @class = "form-control", @onchange = "this.form.submit()" })
+            </div>
+            <div class="col-md-3 mb-2">
+                @Html.DropDownList("locMaBrand", ViewBag.MaBrand as SelectList, "-- Tất cả thương hiệu --", new { @class = "form-control", @onchange = "this.form.submit()" })
+            </div>
+            <div class="col-md-2 mb-2">
+                <a href="@Url.Action("Index")" class="btn btn-block btn-outline-secondary">Xóa lọc</a>
+            </div>
+        </div>
+    </form>
+</div>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
     <div class="d-block mb-4 mb-md-0">
         <h2 class="h4 font-weight-bold"><i class="fas fa-boxes mr-2"></i> Danh sách Sản phẩm</h2>
@@ -119,7 +139,7 @@
                 @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) / @Model.PageCount
 
                 @Html.PagedListPager(Model, page => Url.Action("Index",
-                    new { page, pageSize = Model.PageSize, searchString = ViewBag.searchString }))
+       new { page, pageSize = Model.PageSize, timkiem = ViewBag.timkiem, locMaDM = ViewBag.locMaDM, locMaBrand = ViewBag.locMaBrand }))
             </ul>
         </nav>
     </div>
@@ -142,7 +162,7 @@
                 <div class="row">
                     <div class="col-md-6 form-group mb-3">
                         <label class="font-weight-bold">Danh mục <span class="text-danger">*</span></label>
-                        @Html.DropDownList("MaDM", null, "--- Chọn danh mục ---", htmlAttributes: new { @class = "form-control", @required = "required" })
+                        @Html.DropDownList("MaDM", (IEnumerable<SelectListItem>)ViewBag.MaDMList, "--- Chọn danh mục ---", htmlAttributes: new { @class = "form-control", @required = "required" })
                     </div>
                     <div class="col-md-6 form-group mb-3">
                         <label class="font-weight-bold">Thương hiệu <span class="text-danger">*</span></label>
@@ -197,7 +217,7 @@
                 <div class="row">
                     <div class="col-md-6 form-group mb-3">
                         <label class="font-weight-bold">Danh mục <span class="text-danger">*</span></label>
-                        @Html.DropDownList("MaDM", null, "--- Chọn danh mục ---", htmlAttributes: new { @class = "form-control", @id = "madm", @required = "required" })
+                        @Html.DropDownList("MaDM", (IEnumerable<SelectListItem>)ViewBag.MaDMList, "--- Chọn danh mục ---", htmlAttributes: new { @class = "form-control", @id = "madm", @required = "required" })
                     </div>
                     <div class="col-md-6 form-group mb-3">
                         <label class="font-weight-bold">Thương hiệu <span class="text-danger">*</span></label>

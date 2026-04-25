@@ -147,7 +147,7 @@
             let newValue = currentValue + delta;
 
             if (delta < 0 && currentValue <= 1) {
-                xoaGioHang(mabt); // Đảm bảo bạn đã viết hàm xoaGioHang gọi AJAX đến /Cart/DeleteFromCart
+                xoaGioHang(mabt);
                 return;
             }
 
@@ -167,12 +167,15 @@
                 url: '/Cart/UpdateFromCart',
                 success: function (response) {
                     if (!response.status) {
-                        swal("Lỗi!", response.message ? response.message : "Cập nhật thất bại", "error");
+                        // NẾU BỊ CHẶN BỞI FLASH SALE
+                        if (response.isFlashSaleLimit) {
+                            swal("Cảnh báo Flash Sale", response.message, "warning");
+                        } else {
+                            swal("Lỗi!", response.message ? response.message : "Cập nhật thất bại", "error");
+                        }
                     } else {
                         input.value = newValue;
                         updateCartUI();
-                        // Controller UpdateFromCart của bạn không trả về cartCount,
-                        // và việc tăng/giảm SL không làm thay đổi số đầu mục sp, nên không cần update số đỏ ở Header chỗ này.
                     }
                 },
                 error: function () {

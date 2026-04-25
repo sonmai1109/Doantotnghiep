@@ -46,18 +46,35 @@ namespace Maison.Areas.Admin.Controllers // Đổi namespace nếu cần
         // ==========================================
         // 2. API: LẤY THUỘC TÍNH (KÈM PHÂN BIỆT CHÍNH/PHỤ VÀ SẮP XẾP)
         // ==========================================
+        // ==========================================
+        // 2. API: LẤY THUỘC TÍNH (KÈM PHÂN BIỆT CHÍNH/PHỤ VÀ SẮP XẾP) - ĐÃ CẬP NHẬT KẾ THỪA
+        // ==========================================
         [HttpPost]
         public JsonResult LoadThuocTinhTheoDanhMuc(int maDM)
         {
             db.Configuration.ProxyCreationEnabled = false;
 
+            // 1. Tìm danh mục hiện tại để lấy MaDMCha
+            var dmHienTai = db.Danhmucs.FirstOrDefault(x => x.MaDM == maDM);
+            if (dmHienTai == null) return Json(new List<object>(), JsonRequestBehavior.AllowGet);
+
+            // 2. Tạo danh sách ID cần lấy (Bao gồm Con + Cha)
+            List<int?> danhSachID = new List<int?> { dmHienTai.MaDM };
+
+            if (dmHienTai.MaDMCha != null)
+            {
+                danhSachID.Add(dmHienTai.MaDMCha); // Thêm ID của danh mục Cha
+            }
+
+            // 3. Lọc thuộc tính dựa trên danhSachID
             var data = db.ThuocTinhs
-                         .Where(t => t.MaDM == maDM || t.MaDM == null)
-                         .OrderBy(t => t.ThuTuHienThi) // Sắp xếp theo thứ tự Admin đã cấu hình
+                         .Where(t => danhSachID.Contains(t.MaDM) || t.MaDM == null)
+                         .OrderByDescending(t => t.LaThuocTinhChinh) // Đưa thuộc tính chính lên đầu
+                         .ThenBy(t => t.ThuTuHienThi)
                          .Select(t => new {
                              MaTT = t.MaTT,
                              TenTT = t.TenTT,
-                             LaThuocTinhChinh = t.LaThuocTinhChinh, // Bổ sung cờ này để JS nhận biết
+                             LaThuocTinhChinh = t.LaThuocTinhChinh,
                              GiaTris = t.GiaTriTTs.Select(g => new { g.MaGT, g.GiaTri }).ToList()
                          }).ToList();
 

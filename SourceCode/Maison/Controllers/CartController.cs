@@ -18,10 +18,8 @@ namespace Maison.Controllers
         public ActionResult Orders()
         {
             TaiKhoanNguoiDung tk = (TaiKhoanNguoiDung)Session[ConstaintUser.USER_SESSION];
-            // Ép đăng nhập: Chưa đăng nhập thì đá về trang Login
             if (tk == null) return RedirectToAction("Login", "Home");
 
-            // Lôi giỏ hàng của user này từ Database lên
             var cartItems = db.GioHangs
                 .Include(g => g.BienThe)
                 .Include(g => g.BienThe.Sanpham)
@@ -31,18 +29,33 @@ namespace Maison.Controllers
                 .OrderByDescending(g => g.NgayThem)
                 .ToList();
 
-            // Tính giá thực tế sau Khuyến mãi cho từng sản phẩm
+            // Tính giá thực tế sau Khuyến mãi (CÓ CHECK FLASH SALE)
             Dictionary<int, decimal> dicGia = new Dictionary<int, decimal>();
             foreach (var item in cartItems)
             {
                 var bt = item.BienThe;
-                var activeKMs = bt.Sanpham.SanPhamKhuyenMais.Where(x => x.KhuyenMai.TrangThai == 1 && x.KhuyenMai.NgayBatDau <= DateTime.Now && x.KhuyenMai.NgayKetThuc >= DateTime.Now).ToList();
-                var kmRieng = activeKMs.FirstOrDefault(k => k.MaBT == bt.MaBT);
-                var kmChung = activeKMs.FirstOrDefault(k => k.MaBT == null);
+                var activeKMs = bt.Sanpham.SanPhamKhuyenMais
+                    .Where(x => x.KhuyenMai.TrangThai == 1 && x.KhuyenMai.NgayBatDau <= DateTime.Now && x.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                    .ToList();
 
-                int phanTram = kmRieng?.PhanTramGiam ?? kmChung?.PhanTramGiam ?? 0;
-                decimal giaBan = phanTram > 0 ? Math.Round(bt.GiaBan * (1 - (decimal)phanTram / 100), 0) : bt.GiaBan;
+                // Lấy tất cả KM áp dụng cho cấu hình này (Chung + Riêng)
+                var kmApDung = activeKMs.Where(k => k.MaBT == null || k.MaBT == bt.MaBT).ToList();
 
+                int phanTramChot = 0;
+
+                // Lọc bỏ những chương trình Flash Sale đã BÁN HẾT SUẤT
+                // ÉP LUẬT MỚI: Số suất CÒN LẠI phải LỚN HƠN HOẶC BẰNG Số lượng khách mua (item.SoLuong)
+                var kmConSuat = kmApDung.Where(k =>
+                    k.SoLuongKhuyenMai == null ||
+                    (k.SoLuongKhuyenMai.Value - k.SoLuongDaBan) >= item.SoLuong // <--- CHÌA KHÓA NẰM Ở ĐÂY
+                ).ToList();
+
+                if (kmConSuat.Any())
+                {
+                    phanTramChot = kmConSuat.Max(k => k.PhanTramGiam);
+                }
+
+                decimal giaBan = phanTramChot > 0 ? Math.Round(bt.GiaBan * (1 - (decimal)phanTramChot / 100), 0) : bt.GiaBan;
                 dicGia.Add(item.MaGH, giaBan);
             }
 
@@ -50,7 +63,7 @@ namespace Maison.Controllers
             return View(cartItems);
         }
 
-        // 2. THÊM VÀO GIỎ HÀNG
+        // 2. THÊM VÀO GIỎ HÀNG (Giữ nguyên)
         [HttpPost]
         public JsonResult AddToCart(int mabt, int soluongmua)
         {
@@ -60,7 +73,6 @@ namespace Maison.Controllers
             var bt = db.BienThes.Find(mabt);
             if (bt == null) return Json(new { status = false, message = "Không tìm thấy sản phẩm." });
 
-            // Kiểm tra trong DB xem khách đã từng thêm cấu hình này vào giỏ chưa?
             var existItem = db.GioHangs.FirstOrDefault(g => g.MaTK == tk.MaTK && g.MaBT == mabt);
             int soLuongDaCo = existItem != null ? existItem.SoLuong : 0;
             int tongYeuCau = soLuongDaCo + soluongmua;
@@ -70,11 +82,10 @@ namespace Maison.Controllers
 
             if (existItem != null)
             {
-                existItem.SoLuong = tongYeuCau; // Có rồi thì cộng dồn số lượng
+                existItem.SoLuong = tongYeuCau;
             }
             else
             {
-                // Chưa có thì tạo mới
                 db.GioHangs.Add(new GioHang { MaTK = tk.MaTK, MaBT = mabt, SoLuong = soluongmua });
             }
 
@@ -84,7 +95,8 @@ namespace Maison.Controllers
             return Json(new { status = true, cartCount = cartCount }, JsonRequestBehavior.AllowGet);
         }
 
-        // 3. ĐỔI SỐ LƯỢNG TRỰC TIẾP
+        // 3. ĐỔI SỐ LƯỢNG TRỰC TIẾP (Giữ nguyên)
+        // 3. ĐỔI SỐ LƯỢNG TRỰC TIẾP TRONG GIỎ HÀNG
         [HttpPost]
         public JsonResult UpdateFromCart(int MaBT, int SoLuongMua)
         {
@@ -95,15 +107,41 @@ namespace Maison.Controllers
             if (item == null) return Json(new { status = false, message = "Sản phẩm không có trong giỏ." });
 
             if (SoLuongMua > item.BienThe.SoLuongTon)
-                return Json(new { status = false, message = $"Chỉ còn tối đa {item.BienThe.SoLuongTon} sản phẩm." });
+                return Json(new { status = false, message = $"Chỉ còn tối đa {item.BienThe.SoLuongTon} sản phẩm trong kho." });
+
+            // KIỂM TRA FLASH SALE CÒN SUẤT KHÔNG
+            var activeKMs = db.SanPhamKhuyenMais
+                .Where(x => x.MaSP == item.BienThe.MaSP && (x.MaBT == null || x.MaBT == MaBT))
+                .Where(x => x.KhuyenMai.TrangThai == 1 && x.KhuyenMai.NgayBatDau <= DateTime.Now && x.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                .ToList();
+
+            int phanTramChot = 0;
+            var kmConSuat = activeKMs.Where(k => k.SoLuongKhuyenMai == null || k.SoLuongDaBan < k.SoLuongKhuyenMai).ToList();
+
+            if (kmConSuat.Any())
+            {
+                phanTramChot = kmConSuat.Max(k => k.PhanTramGiam);
+                var flashSaleDangApDung = kmConSuat.FirstOrDefault(k => k.PhanTramGiam == phanTramChot);
+
+                // Nếu KM này có giới hạn số lượng
+                if (flashSaleDangApDung != null && flashSaleDangApDung.SoLuongKhuyenMai.HasValue)
+                {
+                    int soSuatConLai = flashSaleDangApDung.SoLuongKhuyenMai.Value - flashSaleDangApDung.SoLuongDaBan;
+
+                    // CHẶN NGAY NẾU MUA LỐ SUẤT
+                    if (SoLuongMua > soSuatConLai)
+                    {
+                        return Json(new { status = false, isFlashSaleLimit = true, message = $"Sản phẩm này chỉ còn {soSuatConLai} suất giảm giá. Vui lòng giảm số lượng để tiếp tục." });
+                    }
+                }
+            }
 
             item.SoLuong = SoLuongMua;
             db.SaveChanges();
 
             return Json(new { status = true }, JsonRequestBehavior.AllowGet);
         }
-
-        // 4. XÓA SẢN PHẨM KHỎI GIỎ
+        // 4. XÓA SẢN PHẨM KHỎI GIỎ (Giữ nguyên)
         [HttpPost]
         public JsonResult DeleteFromCart(int mabt)
         {
@@ -131,18 +169,40 @@ namespace Maison.Controllers
             if (tk == null) return RedirectToAction("Login", "Home");
 
             ViewBag.TaiKhoan = tk;
-            // Dùng nguyên logic gọi dữ liệu như trang Orders
-            var cartItems = db.GioHangs.Include(g => g.BienThe).Include(g => g.BienThe.Sanpham).Include(g => g.BienThe.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)).Include(g => g.BienThe.Sanpham.SanPhamKhuyenMais.Select(k => k.KhuyenMai)).Where(g => g.MaTK == tk.MaTK).ToList();
 
+            var cartItems = db.GioHangs
+                .Include(g => g.BienThe)
+                .Include(g => g.BienThe.Sanpham)
+                .Include(g => g.BienThe.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh))
+                .Include(g => g.BienThe.Sanpham.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
+                .Where(g => g.MaTK == tk.MaTK)
+                .ToList();
+
+            // Tính giá thực tế (CÓ CHECK FLASH SALE) y chang hàm Orders
             Dictionary<int, decimal> dicGia = new Dictionary<int, decimal>();
             foreach (var item in cartItems)
             {
                 var bt = item.BienThe;
-                var activeKMs = bt.Sanpham.SanPhamKhuyenMais.Where(x => x.KhuyenMai.TrangThai == 1 && x.KhuyenMai.NgayBatDau <= DateTime.Now && x.KhuyenMai.NgayKetThuc >= DateTime.Now).ToList();
-                var kmRieng = activeKMs.FirstOrDefault(k => k.MaBT == bt.MaBT);
-                var kmChung = activeKMs.FirstOrDefault(k => k.MaBT == null);
-                int phanTram = kmRieng?.PhanTramGiam ?? kmChung?.PhanTramGiam ?? 0;
-                dicGia.Add(item.MaGH, phanTram > 0 ? Math.Round(bt.GiaBan * (1 - (decimal)phanTram / 100), 0) : bt.GiaBan);
+                var activeKMs = bt.Sanpham.SanPhamKhuyenMais
+                    .Where(x => x.KhuyenMai.TrangThai == 1 && x.KhuyenMai.NgayBatDau <= DateTime.Now && x.KhuyenMai.NgayKetThuc >= DateTime.Now)
+                    .ToList();
+
+                var kmApDung = activeKMs.Where(k => k.MaBT == null || k.MaBT == bt.MaBT).ToList();
+
+                int phanTramChot = 0;
+                // ÉP LUẬT MỚI: Số suất CÒN LẠI phải LỚN HƠN HOẶC BẰNG Số lượng khách mua (item.SoLuong)
+                var kmConSuat = kmApDung.Where(k =>
+                    k.SoLuongKhuyenMai == null ||
+                    (k.SoLuongKhuyenMai.Value - k.SoLuongDaBan) >= item.SoLuong // <--- CHÌA KHÓA NẰM Ở ĐÂY
+                ).ToList();
+
+                if (kmConSuat.Any())
+                {
+                    phanTramChot = kmConSuat.Max(k => k.PhanTramGiam);
+                }
+
+                decimal giaBan = phanTramChot > 0 ? Math.Round(bt.GiaBan * (1 - (decimal)phanTramChot / 100), 0) : bt.GiaBan;
+                dicGia.Add(item.MaGH, giaBan);
             }
             ViewBag.DicGia = dicGia;
 

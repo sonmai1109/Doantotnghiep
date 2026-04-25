@@ -127,6 +127,8 @@
 
                                 <div class="card text-center rounded-4 shadow checktk2" id="checktk2">
                                     @Html.ActionLink("Đơn Hàng Của Bạn", "ListBills", "Bill", null, new { @class = "text-dark text-decoration-none d-block p-2" })
+                                    @Html.ActionLink("Đổi Mật Khẩu", "ChangePassWord", "AccountUser", null, new { @class = "text-dark text-decoration-none d-block p-2" })
+                                    @Html.ActionLink("Thông Tin Tài Khoản", "UserInfor", "AccountUser", null, new { @class = "text-dark text-decoration-none d-block p-2" })
                                     @Html.ActionLink("Tra cứu bảo hành", "MyWarranties", "BaoHanh", null, new { @class = "text-dark text-decoration-none d-block p-2" })
                                     @Html.ActionLink("Đăng Xuất", "Logout", "Home", null, new { @class = "text-dark text-decoration-none d-block p-2" })
 
@@ -158,9 +160,75 @@
 
 
     </main>
+    @{ Html.RenderAction("NewsPartial", "Home"); }
+    <footer class="footer-area bg-white pt-5 pb-3 border-top mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">VỀ MTS</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-dark text-decoration-none footer-link">Giới thiệu</a></li>
+                        <li class="mb-2"><a href="#" class="text-dark text-decoration-none footer-link">Tuyển dụng</a></li>
+                        <li class="mb-2"><a href="#" class="text-dark text-decoration-none footer-link">Liên hệ</a></li>
+                    </ul>
+                </div>
 
-    <footer>
-    </footer>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">CHÍNH SÁCH</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-dark text-decoration-none footer-link">Chính sách bảo hành</a></li>
+                        <li class="mb-2"><a href="#" class="text-dark text-decoration-none footer-link">Chính sách giao hàng</a></li>
+                        <li class="mb-2"><a href="#" class="text-dark text-decoration-none footer-link">Chính sách bảo mật</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">TỔNG ĐÀI HỖ TRỢ (8:00 - 21:00)</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">Mua hàng: <a href="tel:1900xxxx" class="text-primary text-decoration-none fw-bold">1900.xxxx</a></li>
+                        <li class="mb-2">Bảo hành: <a href="tel:1900xxxx" class="text-primary text-decoration-none fw-bold">1900.xxxx</a></li>
+                        <li class="mb-2">Khiếu nại: <a href="tel:1800xxxx" class="text-primary text-decoration-none fw-bold">1800.xxxx</a></li>
+                        <li class="mb-2">Email: <a href="mailto:cskh@maison.com" class="text-primary text-decoration-none">cskh@maison.com</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h6 class="text-uppercase fw-bold mb-4">ĐƠN VỊ VẬN CHUYỂN</h6>
+                    <div class="d-flex flex-wrap gap-2 mb-4">
+                        <img src="~/Content/client/img/ship_1.png" height="25" alt="GHN" class="border p-1 rounded">
+                        <img src="~/Content/client/img/ship_2.png" height="25" alt="ViettelPost" class="border p-1 rounded">
+                    </div>
+
+                    <h6 class="text-uppercase fw-bold mb-4">CÁCH THỨC THANH TOÁN</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <i class="fab fa-cc-visa fa-2x text-primary border p-1 rounded"></i>
+                        <i class="fab fa-cc-mastercard fa-2x text-danger border p-1 rounded"></i>
+                        <i class="fab fa-cc-jcb fa-2x text-success border p-1 rounded"></i>
+                        <i class="fas fa-qrcode fa-2x text-dark border p-1 rounded"></i>
+                        <i class="fas fa-money-bill-wave fa-2x text-success border p-1 rounded"></i>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <span class="fw-bold me-3">KẾT NỐI VỚI CHÚNG TÔI</span>
+                    <a href="#" class="text-primary fs-4 me-2 footer-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-danger fs-4 me-2 footer-icon"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="text-dark fs-4 footer-icon"><i class="fab fa-tiktok"></i></a>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <img src="~/Content/client/img/logo-bct.png" height="40" alt="Đã thông báo bộ công thương" />
+                </div>
+            </div>
+
+            <div class="text-center text-muted mt-4" style="font-size: 13px;">
+                © 2026 - Bản quyền thuộc về Công ty TNHH Maison. Đồ án môn học.
+            </div>
+        </div>
+    </footer>>
     <div class="overlay" id="overlay"></div>
     <script src="~/Content/client/JS/vendor/jquery-3.2.1.min.js"></script>
     <!-- Countdown js -->

@@ -21,8 +21,16 @@
     .popupprivate {
         display: none;
         position: fixed; /* hoặc absolute */
-        left: 40%;
-        bottom: 35%;
+        left: 43%;
+        bottom: 25%;
+        border-radius: 15px;
+        z-index: 1050;
+    }
+    .popupprivate2 {
+        display: none;
+        position: fixed; /* hoặc absolute */
+        left: 41%;
+        bottom: 33%;
         border-radius: 15px;
         z-index: 1050;
     }
@@ -33,11 +41,12 @@
         <tr>
 
             <th>Tên danh mục</th>
+            <th>Danh mục cha</th>
             <th>Ngày tạo</th>
             <th>Người Tạo</th>
             <th>Ngày Sửa</th>
             <th>Người Sửa</th>
-            
+
             <th>Tùy chọn</th>
         </tr>
 
@@ -51,6 +60,11 @@
             <tr class="row-@a.MaDM">
 
                 <td>@a.TenDM</td>
+                <td>
+                    <span class="font-weight-bold text-danger">
+                        @(a.DanhMucCha != null ? a.DanhMucCha.TenDM : "(Danh mục gốc)")
+                    </span>
+                </td>
                 <td><span class="font-weight-normal">@a.NgayTao</span></td>
                 <td><span class="font-weight-bold">@a.NguoiTao</span></td>
                 <td><span class="font-weight-normal">@a.NgaySua</span></td>
@@ -89,66 +103,69 @@
 </div>
 @section popup{
     <div class="popup popupprivate  border p-5  bg-white shadow-soft " id="popup">
-
-        <div>
-            <form id="add-form" onsubmit="return themdanhmuc()">
-                <div>
-                    <p id="add-mess"></p>
-                    <br />
-                    <h1>Tạo danh mục</h1>
-                    <br />
-                    <input type="text" name="TenDM" class="form-control" placeholder="Tên danh mục" id="danhmucs" />
-                </div>
+        <form id="add-form" onsubmit="return themdanhmuc()">
+            <div>
+                <p id="add-mess"></p>
+                <h4 class="font-weight-bold ">Tạo danh mục mới</h4>
                 <br />
-                <button type="submit" class="btn btn-block btn-primary">Thêm danh muc</button>
-                <div class="btn btn-block border-primary cancelPopup" id="cancel">Hủy </div>
-            </form>
+                <label>Trực thuộc danh mục:</label>
+                <select name="MaDMCha" class="form-control mb-3" id="add-madmcha">
+                    <option value="">--- Đây là Danh Mục Gốc ---</option>
+                    @foreach (var cha in ViewBag.ListCha)
+                    {
+                        <option value="@cha.MaDM">@cha.TenDM</option>
+                    }
+                </select>
 
-
-        </div>
+                <label>Tên danh mục mới:</label>
+                <input type="text" name="TenDM" class="form-control" placeholder="Tên danh mục" id="danhmucs" required />
+            </div>
+            <br />
+            <button type="submit" class="btn btn-block btn-primary">Thêm danh muc</button>
+            <div class="btn btn-block border-primary cancelPopup" id="cancel">Hủy</div>
+        </form>
     </div>
-
 }
 @section changepopup{
-    <div class="changepopup popupprivate  border p-5  bg-white shadow-soft " id="changepopup">
+    <div class="changepopup popupprivate  border p-5  bg-white shadow-soft  " id="changepopup">
+        <form id="update-form" onsubmit="return suadanhmuc()">
+            <div>
+                <p id="update-mess"></p>
+                <h4 class="text-danger font-weight-bold">Sửa danh mục</h4>
+          <br />
+                <input class="hidden-text" type="hidden" id="madm" name="MaDM" />
 
-        <div>
-            <form id="update-form" onsubmit="return suadanhmuc()">
-                <div>
-                    <p id="update-mess"></p>
-                    <br />
-                    <h1 class="text-danger">Sửa danh mục</h1>
-                    <br />
-                    <input class="hidden-text" type="hidden" id="madm" name="MaDM" />
-                    <input type="text" name="TenDM" class="form-control" placeholder="Tên danh mục" id="tendm" autofocus required />
-                </div>
-                <br />
-                <button type="submit" class="btn btn-block btn-primary">Sửa danh muc</button>
-                <div class="btn btn-block border-primary cancelPopup" id="cancelPopupDel">Hủy </div>
-            </form>
+                <label>Trực thuộc danh mục:</label>
+                <select name="MaDMCha" class="form-control mb-3" id="update-madmcha">
+                    <option value="">--- Đây là Danh Mục Gốc ---</option>
+                    @foreach (var cha in ViewBag.ListCha)
+                    {
+                        <option value="@cha.MaDM">@cha.TenDM</option>
+                    }
+                </select>
 
-
+                <label>Tên danh mục:</label>
+                <input type="text" name="TenDM" class="form-control" placeholder="Tên danh mục" id="tendm" required />
+            </div>
+            <br />
+            <button type="submit" class="btn btn-block btn-primary">Sửa danh mục</button>
+            <div class="btn btn-block border-primary cancelPopup" id="cancelPopupDel">Hủy</div>
+        </form>
         </div>
-    </div>
-
 }
 @section deletepopup{
-    <div class="changepopup popupprivate  border p-5  bg-white shadow-soft " id="deletepopup">
+    <div class="changepopup popupprivate2  border p-5  bg-white shadow-soft " id="deletepopup">
 
         <div>
-         
-                <div>
-                    <h1 class="text-warning text-center">Xóa danh mục</h1>
-                    <br />
-                    <input class="hidden-text" type="hidden" id="delete-madm" name="MaDM" />
-                   <h5 class="text-center fw-bold">Bạn có chắc chắn muốn xóa không?</h5>
-                </div>
-                <br />
-                <button type="submit" class="btn btn-block btn-primary" onclick="xoadanhmuc()" >Chắn chắn</button>
-                <div class="btn btn-block border-primary cancelPopup" id="cancelPopupDel">Hủy </div>
-            
-
-
+            <div>
+                <h1 class="text-danger text-center ">Xóa Danh Mục</h1>
+              
+                <input class="hidden-text" type="hidden" id="delete-madm" name="MaDM" />
+                <h5 class="text-center fw-bold">Bạn có chắc chắn muốn xóa không?</h5>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-block btn-primary" onclick="xoadanhmuc()">Chắn chắn</button>
+            <div class="btn btn-block border-primary cancelPopup" id="cancelPopupDel">Hủy </div>
         </div>
     </div>
 
