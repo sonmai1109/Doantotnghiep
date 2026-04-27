@@ -47,12 +47,22 @@ namespace Maison.Areas.Admin.Controllers
                 query = query.Where(hd => DbFunctions.TruncateTime(hd.NgayDat) == dateToSearch);
             }
             // --- 2. THÊM BỘ LỌC TÌM KIẾM THEO SĐT KHÁCH HÀNG ---
-            // --- 2. THÊM BỘ LỌC TÌM KIẾM THEO SĐT KHÁCH HÀNG ---
+            // --- 2. TÌM KIẾM GỘP: THEO MÃ ĐƠN HÀNG HOẶC SĐT KHÁCH ---
             if (!string.IsNullOrEmpty(sdt))
             {
-                // THÊM: x.SoDienThoaiNhan != null để chống sập web khi gặp đơn cũ thiếu SĐT
-                query = query.Where(x => x.SoDienThoaiNhan != null && x.SoDienThoaiNhan.Contains(sdt));
-                ViewBag.Sdt = sdt;
+                // Kiểm tra xem chuỗi tìm kiếm có phải là số (Mã Đơn Hàng) không
+                int maTimKiem = -1;
+                bool isNumber = int.TryParse(sdt, out maTimKiem);
+
+                query = query.Where(x =>
+                    // Nếu là số, tìm chính xác Mã Hóa Đơn
+                    (isNumber && x.MaHD == maTimKiem)
+                    ||
+                    // Hoặc tìm gần đúng trong Số điện thoại
+                    (x.SoDienThoaiNhan != null && x.SoDienThoaiNhan.Contains(sdt))
+                );
+
+                ViewBag.Sdt = sdt; // Vẫn giữ biến tên là Sdt cho tiện truyền dữ liệu
             }
 
             return View(query.OrderByDescending(hd => hd.NgayDat).ToPagedList(page, pageSize));

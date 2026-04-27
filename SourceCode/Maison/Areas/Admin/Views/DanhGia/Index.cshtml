@@ -47,8 +47,10 @@
             {
                 <tr id="row-@item.MaDanhGia">
                     <td class="text-left">
-                        <span class="d-block font-weight-bold text-primary text-truncate" style="max-width: 180px;" title="@item.BienThe.Sanpham.TenSP">@item.BienThe.Sanpham.TenSP</span>
-                        <small class="text-muted">ID: #@item.MaBT</small>
+                        <a href="@Url.Action("ProductDetail", "Product", new { id = item.BienThe.Sanpham.MaSP, area = "" })" target="_blank" class="d-block font-weight-bold text-primary text-truncate" style="max-width: 180px;" title="@item.BienThe.Sanpham.TenSP">
+                            <i class="fas fa-external-link-alt mr-1" style="font-size: 10px;"></i> @item.BienThe.Sanpham.TenSP
+                        </a>
+                        <small class="text-muted">Mã Biến Thể: #@item.MaBT</small>
                     </td>
 
                     <td class="text-left">
@@ -80,16 +82,16 @@
                         }
                     </td>
 
-                    <td>
+                    <td class="text-center" style="width: 200px;">
                         @if (string.IsNullOrEmpty(item.PhanHoiCuaAdmin))
                         {
-                            <span class="badge badge-light text-muted border"><i class="fas fa-reply"></i> Chưa phản hồi</span>
+                            <span class="badge badge-light text-muted border py-2 px-3"><i class="fas fa-reply mr-1"></i> Chưa phản hồi</span>
                         }
                         else
                         {
-                            <span class="badge badge-info px-2 py-1 cursor-pointer" title="@item.PhanHoiCuaAdmin" onclick="swal('Nội dung phản hồi:', '@item.PhanHoiCuaAdmin', 'info')">
-                                <i class="fas fa-check"></i> Đã phản hồi
-                            </span>
+                            <button type="button" class="btn btn-sm btn-info font-weight-bold shadow-sm" onclick="xemPhanHoiAdmin(`@item.PhanHoiCuaAdmin`)">
+                                <i class="fas fa-check-circle mr-1"></i> Đã phản hồi (Xem)
+                            </button>
                         }
                     </td>
 
@@ -227,6 +229,23 @@
                         }
                     });
                 }
+            });
+        }
+        // 4. HÀM XEM LẠI PHẢN HỒI (Dùng SweetAlert để chứa nội dung siêu dài)
+        function xemPhanHoiAdmin(noiDung) {
+            swal({
+                title: "Nội dung đã phản hồi",
+                text: noiDung, // Nội dung siêu dài sẽ nằm ở đây
+                icon: "info",
+                button: "Đóng",
+            });
+
+            // Xử lý một chút CSS nhỏ của SweetAlert để nó tự sinh thanh cuộn nếu văn bản quá dài
+            $('.swal-text').css({
+                'max-height': '300px',
+                'overflow-y': 'auto',
+                'text-align': 'justify',
+                'padding': '10px'
             });
         }
     </script>

@@ -40,7 +40,7 @@
                                 @foreach (var item in Model)
                                 {
                                     // Tự động ghép nối cấu hình biến thể
-                                    string cauHinh = item.BienThe.ChiTietBTs.Any() ? string.Join(" | ", item.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn";
+                                    string cauHinh = item.BienThe.ChiTietBTs.Any() ? string.Join(" | ", item.BienThe.ChiTietBTs.OrderBy(cb => cb.GiaTriTT.ThuocTinh.ThuTuHienThi).Select(cb => cb.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn";
 
                                     <tr>
                                         <td class="font-weight-bold">#@item.MaPhieu</td>

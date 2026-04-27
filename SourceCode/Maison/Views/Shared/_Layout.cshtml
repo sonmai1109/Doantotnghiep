@@ -160,6 +160,7 @@
 
 
     </main>
+
     @{ Html.RenderAction("NewsPartial", "Home"); }
     <footer class="footer-area bg-white pt-5 pb-3 border-top mt-5">
         <div class="container">
@@ -261,7 +262,26 @@
     <script src="~/Content/client/JS/search.js"></script>
 
     @RenderSection("Script", required: false)
+<div id="btn-chat-floating" onclick="toggleChat()">
+    <i class="fas fa-comments"></i>
+</div>
 
+<div id="chat-window">
+    <div class="chat-header">
+        <span><i class="fas fa-robot mr-2"></i> Trợ lý MTS Shop</span>
+        <i class="fas fa-times" onclick="toggleChat()"></i>
+    </div>
+
+    <div class="chat-body" id="chat-body">
+        <div class="msg-box msg-bot">Dạ chào anh/chị, em là trợ lý ảo của MTS Shop. Em có thể giúp gì cho anh/chị ạ?</div>
+    </div>
+
+    <div class="chat-footer">
+        <input type="text" id="txtChatInput" placeholder="Nhập câu hỏi của bạn..." onkeypress="handleEnter(event)">
+        <button onclick="sendChatMessage()"><i class="fas fa-paper-plane"></i></button>
+    </div>
+</div>
+    <script src="~/Content/client/JS/chatbot.js"></script>
 </body>
 
 </html>

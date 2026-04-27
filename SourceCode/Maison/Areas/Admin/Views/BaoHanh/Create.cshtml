@@ -47,7 +47,12 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        string cauHinh = item.BienThe.ChiTietBTs.Any() ? string.Join(" | ", item.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.GiaTri)) : "Tiêu chuẩn";
+                        string cauHinh = item.BienThe.ChiTietBTs.Any()
+    ? string.Join(" | ", item.BienThe.ChiTietBTs
+        .Where(cb => cb.GiaTriTT != null && cb.GiaTriTT.ThuocTinh != null && cb.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+        .OrderBy(cb => cb.GiaTriTT.ThuocTinh.ThuTuHienThi)
+        .Select(cb => cb.GiaTriTT.GiaTri))
+    : "Bản tiêu chuẩn";
                         <tr>
                             <td class="font-weight-bold">#@item.MaHD</td>
                             <td>@item.HoaDon.NgayDat.ToString("dd/MM/yyyy")</td>

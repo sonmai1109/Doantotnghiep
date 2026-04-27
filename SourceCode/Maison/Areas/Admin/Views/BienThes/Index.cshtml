@@ -33,6 +33,7 @@
     .gallery-img-wrapper:hover img {
         transform: scale(1.1);
     }
+  
 </style>
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
@@ -183,11 +184,15 @@
                 <input type="hidden" id="current_MaDM" value="@ViewBag.MaDM" />
 
                 <div class="row">
-                    <div class="col-md-6 form-group mb-3">
+                    <div class="col-md-4 form-group mb-3">
                         <label class="font-weight-bold">Giá bán (VNĐ) <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="GiaBan" required autofocus min="0">
                     </div>
-                    <div class="col-md-6 form-group mb-3">
+                    <div class="col-md-4 form-group mb-3">
+                        <label class="font-weight-bold text-success">Giá nhập (VNĐ)</label>
+                        <input type="number" class="form-control" name="GiaNhap" required min="0" placeholder="0">
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
                         <label class="font-weight-bold">Số lượng kho <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="SoLuongTon" required min="0">
                     </div>
@@ -235,16 +240,19 @@
                 <input type="hidden" id="mabt" name="MaBT" />
 
                 <div class="row">
-                    <div class="col-md-6 form-group mb-3">
+                    <div class="col-md-4 form-group mb-3">
                         <label class="font-weight-bold">Giá bán (VNĐ) <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="GiaBan" id="giaban" required min="0">
                     </div>
-                    <div class="col-md-6 form-group mb-3">
+                    <div class="col-md-4 form-group mb-3">
+                        <label class="font-weight-bold text-success">Giá nhập (VNĐ)</label>
+                        <input type="number" class="form-control" name="GiaNhap" id="gianhap" required min="0" placeholder="0">
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
                         <label class="font-weight-bold">Số lượng kho <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="SoLuongTon" id="soluongton" required min="0">
                     </div>
                 </div>
-
                 <div class="form-group mb-3">
                     <label class="font-weight-bold">Đổi ảnh chính <small class="text-muted">(Bỏ trống nếu giữ cũ)</small></label>
                     <input type="file" class="form-control-file border p-2 rounded w-100" name="ImageFile" accept="image/*">
@@ -311,12 +319,15 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6 form-group mb-3">
+                    <div class="col-md-4 form-group mb-3">
                         <label class="font-weight-bold">Giá bán chung (VNĐ) <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="BulkGiaBan" id="bulk_giaban" required min="0">
-                        <small class="text-muted">Bạn có thể sửa lại giá từng bản sau.</small>
                     </div>
-                    <div class="col-md-6 form-group mb-3">
+                    <div class="col-md-4 form-group mb-3">
+                        <label class="font-weight-bold text-success">Giá nhập chung (VNĐ)</label>
+                        <input type="number" class="form-control" id="bulk_gianhap" required min="0"  placeholder="0">
+                    </div>
+                    <div class="col-md-4 form-group mb-3">
                         <label class="font-weight-bold">Số lượng kho chung <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" name="BulkSoLuongTon" id="bulk_soluongton" required min="0" value="10">
                     </div>

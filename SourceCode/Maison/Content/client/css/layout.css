@@ -38,12 +38,12 @@ main {
     }
 .dropmenu {
     position: absolute;
-    top: 164%;
+    top: 160%;
     right: 35px;
     width: 160px;
     padding-right: 30px;
     list-style: none;
-    text-decoration: none;
+    text-decoration: none;  
     display:none;
 }
     .dropmenu li a {
@@ -373,4 +373,225 @@ body {
     .footer-icon:hover {
         color: #f53f3f !important; /* Di chuột vào đổi màu đỏ */
         text-decoration: none;
+    }
+
+/* Nút mở chat lơ lửng */
+#btn-chat-floating {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #d70018;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    z-index: 9999;
+    transition: transform 0.3s;
+}
+
+    #btn-chat-floating:hover {
+        transform: scale(1.1);
+    }
+
+/* ================= HỘP CHAT UI ================= */
+
+/* Khung cửa sổ chat */
+#chat-window {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 350px;
+    height: 480px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    /* BẮT BUỘC PHẢI LÀ FLEX */
+    display: flex;
+    flex-direction: column;
+    /* Thay vì display:none, ta dùng thuộc tính này để ẩn hộp chat đi */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px); /* Kéo tụt xuống 1 chút để làm hiệu ứng trượt lên */
+    transition: all 0.3s ease;
+    overflow: hidden;
+    z-index: 9999;
+    border: 1px solid #ddd;
+}
+    #chat-window.show-chat {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+/* Tiêu đề hộp chat */
+.chat-header {
+    background: #d70018;
+    color: white;
+    padding: 15px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Căn giữa icon x theo chiều dọc */
+    z-index: 2; /* Đảm bảo luôn nằm trên cùng */
+}
+
+    .chat-header i {
+        cursor: pointer;
+        font-size: 18px;
+        transition: 0.2s;
+    }
+
+        .chat-header i:hover {
+            transform: scale(1.2);
+        }
+
+/* Phần thân chứa tin nhắn (Có thanh cuộn) */
+.chat-body {
+    flex: 1; /* Tự động chiếm phần diện tích còn lại */
+    padding: 15px;
+    overflow-y: auto; /* Bật thanh cuộn dọc khi đầy */
+    background: #f4f7f6;
+    display: flex;
+    flex-direction: column; /* Xếp tin nhắn từ trên xuống dưới */
+    gap: 10px; /* Tạo khoảng cách đều nhau giữa các đoạn chat */
+}
+
+    /* Tùy chỉnh thanh cuộn cho đẹp */
+    .chat-body::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .chat-body::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 10px;
+    }
+
+/* Cấu trúc tin nhắn chung */
+.msg-box {
+    max-width: 85%; /* Giới hạn độ dài để không bị tràn sát viền */
+    padding: 10px 15px;
+    border-radius: 15px;
+    font-size: 14px;
+    line-height: 1.5;
+    word-wrap: break-word; /* Tự động xuống dòng nếu chữ quá dài */
+}
+
+/* Tin nhắn của Khách Hàng (Đẩy sang phải) */
+.msg-user {
+    background: #007bff;
+    color: white;
+    align-self: flex-end; /* Ép nó dính sát cạnh phải */
+    border-bottom-right-radius: 2px; /* Vát vuông góc chỉ định để tạo hình đuôi hội thoại */
+}
+
+/* Tin nhắn của Bot (Đẩy sang trái) */
+.msg-bot {
+    background: #fff;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    align-self: flex-start; /* Ép nó dính sát cạnh trái */
+    border-bottom-left-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+/* Gỡ bỏ class .clearfix vì Flexbox không cần tới nó nữa */
+
+/* Phần chân chứa ô nhập liệu */
+.chat-footer {
+    padding: 12px;
+    background: #fff;
+    border-top: 1px solid #eee;
+    display: flex;
+    align-items: center; /* Căn giữa ô nhập và nút gửi */
+    gap: 10px; /* Tách nút gửi ra khỏi ô nhập một chút */
+    z-index: 2;
+}
+
+    .chat-footer input {
+        flex: 1; /* Ô nhập giãn dài ra hết mức có thể */
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 10px 15px;
+        outline: none;
+        transition: 0.3s;
+    }
+
+        .chat-footer input:focus {
+            border-color: #d70018; /* Viền đỏ khi đang gõ */
+        }
+
+    .chat-footer button {
+        background: #d70018;
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+        .chat-footer button:hover {
+            background: #a80012;
+            transform: scale(1.05);
+        }
+
+/* ================= CSS THẺ SẢN PHẨM TRONG KHUNG CHAT ================= */
+.product-chat-card {
+    background: #fff;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+    max-width: 220px; /* Giới hạn độ rộng để không bị tràn khung chat */
+    display: inline-block;
+}
+
+    .product-chat-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(215, 0, 24, 0.2);
+        border-color: #d70018;
+    }
+
+    .product-chat-card img {
+        width: 100%;
+        height: 120px;
+        object-fit: contain;
+        border-radius: 5px;
+        margin-bottom: 8px;
+    }
+
+    .product-chat-card a {
+        text-decoration: none !important;
+        color: #333;
+        display: block;
+    }
+
+    .product-chat-card p {
+        font-size: 13px;
+        font-weight: 600;
+        margin: 0 0 5px 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* Cắt ngắn tên SP nếu quá dài */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.3;
+    }
+
+    .product-chat-card a:hover p {
+        color: #d70018;
     }

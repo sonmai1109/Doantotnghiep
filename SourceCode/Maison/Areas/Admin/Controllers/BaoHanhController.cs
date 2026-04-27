@@ -45,14 +45,38 @@ namespace Maison.Areas.Admin.Controllers
             try
             {
                 var bh = db.Baohanhs
-                    .Include(b => b.TaiKhoanNguoiDung)
-                    .Include(b => b.BienThe.Sanpham)
-                    .Include(b => b.BienThe.ChiTietBTs.Select(c => c.GiaTriTT))
-                    .FirstOrDefault(b => b.MaPhieu == id);
+                      .Include(b => b.TaiKhoanNguoiDung)
+                      .Include(b => b.BienThe.Sanpham)
+                      // Kéo sâu thêm 1 tầng xuống bảng ThuocTinh
+                      .Include(b => b.BienThe.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh))
+                      .FirstOrDefault(b => b.MaPhieu == id);
 
                 if (bh == null) return Json(new { error = "Không tìm thấy phiếu bảo hành" });
 
-                string cauHinh = bh.BienThe.ChiTietBTs.Any() ? string.Join(" | ", bh.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn";
+                // --- TRONG BAOHANHCONTROLLER.CS ---
+
+                string cauHinh = "Bản tiêu chuẩn";
+                if (bh.BienThe.ChiTietBTs.Any())
+                {
+                    // Lọc: Chỉ lấy những giá trị thuộc về Thuộc Tính Chính
+                    var dsChinh = bh.BienThe.ChiTietBTs
+                        .Where(cb => cb.GiaTriTT != null &&
+                                     cb.GiaTriTT.ThuocTinh != null &&
+                                     cb.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true) // LỌC Ở ĐÂY
+                        .OrderBy(cb => cb.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                        .Select(cb => cb.GiaTriTT.GiaTri)
+                        .ToList();
+
+                    if (dsChinh.Any())
+                    {
+                        cauHinh = string.Join(" | ", dsChinh);
+                    }
+                    else
+                    {
+                        // Nếu không có cái nào là chính thì hiện 3 cái đầu tiên cho gọn
+                        cauHinh = string.Join(" | ", bh.BienThe.ChiTietBTs.Take(3).Select(cb => cb.GiaTriTT.GiaTri));
+                    }
+                }
 
                 var result = new
                 {
@@ -126,12 +150,13 @@ namespace Maison.Areas.Admin.Controllers
 
                     // Lấy ra danh sách CÁC SẢN PHẨM KHÁCH ĐÃ MUA (Hóa đơn trạng thái 3 hoặc 4)
                     var dsDaMua = db.ChiTietHoaDons
-                        .Include(c => c.HoaDon)
-                        .Include(c => c.BienThe.Sanpham)
-                        .Include(c => c.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT))
-                        .Where(c => c.HoaDon.MaTK == khach.MaTK && c.HoaDon.TrangThai == 3) // Trạng thái 3 là Đã thanh toán/Hoàn thành
-                        .OrderByDescending(c => c.HoaDon.NgayDat)
-                        .ToList();
+                          .Include(c => c.HoaDon)
+                          .Include(c => c.BienThe.Sanpham)
+                          // Kéo sâu thêm 1 tầng xuống bảng ThuocTinh
+                          .Include(c => c.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.ThuocTinh))
+                          .Where(c => c.HoaDon.MaTK == khach.MaTK && c.HoaDon.TrangThai == 3)
+                          .OrderByDescending(c => c.HoaDon.NgayDat)
+                          .ToList();
 
                     return View(dsDaMua);
                 }

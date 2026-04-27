@@ -1,0 +1,166 @@
+﻿@{
+    ViewBag.Title = "Báo Cáo Kinh Doanh";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<div class="py-4">
+    <h2 class="h4 font-weight-bold"><i class="fas fa-chart-pie mr-2 text-primary"></i> Phân Tích Kết Quả Kinh Doanh</h2>
+</div>
+
+<div class="card card-body border-light shadow-sm mb-4">
+    <div class="row align-items-end">
+        <div class="col-md-3 mb-2">
+            <label class="font-weight-bold">Từ ngày</label>
+            <input type="date" class="form-control" id="txtTuNgay" value="@ViewBag.TuNgay" onchange="taiDuLieuThongKe()">
+        </div>
+        <div class="col-md-3 mb-2">
+            <label class="font-weight-bold">Đến ngày</label>
+            <input type="date" class="form-control" id="txtDenNgay" value="@ViewBag.DenNgay" onchange="taiDuLieuThongKe()">
+        </div>
+        <div class="col-md-3 mb-2">
+            <label class="font-weight-bold text-primary">Xem theo đơn vị</label>
+            <select class="form-control border-primary" id="ddlLoai" onchange="taiDuLieuThongKe()">
+                <option value="ngay">Từng ngày</option>
+                <option value="thang">Từng tháng</option>
+                <option value="nam">Từng năm</option>
+            </select>
+        </div>
+        <div class="col-md-3 mb-2">
+            <button class="btn btn-dark btn-block font-weight-bold" onclick="taiDuLieuThongKe()">
+                <i class="fas fa-sync-alt mr-1"></i> Làm mới dữ liệu
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4" id="box-tongket" style="display:none;">
+    <div class="col-12 col-md-4 mb-3">
+        <div class="card border-0 shadow-sm bg-primary text-white">
+            <div class="card-body">
+                <h6 class="text-uppercase opacity-80">Tổng Doanh Thu</h6>
+                <h3 class="font-weight-bold" id="lbl-tong-doanhthu">0 ₫</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 mb-3">
+        <div class="card border-0 shadow-sm bg-success text-white">
+            <div class="card-body">
+                <h6 class="text-uppercase opacity-80">Lợi Nhuận Gộp (Ước tính)</h6>
+                <h3 class="font-weight-bold" id="lbl-tong-loinhuan">0 ₫</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-4 mb-3">
+        <div class="card border-0 shadow-sm bg-info text-white">
+            <div class="card-body">
+                <h6 class="text-uppercase opacity-80">Số Đơn Hoàn Thành</h6>
+                <h3 class="font-weight-bold" id="lbl-tong-sodon">0 đơn</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body border-light shadow-sm pt-4">
+    <div style="position: relative; height:55vh; width:100%">
+        <canvas id="businessChart"></canvas>
+    </div>
+</div>
+
+@section Script{
+    <script>
+        let myChart = null;
+        const formatter = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' });
+
+        $(document).ready(function () {
+            taiDuLieuThongKe();
+        });
+
+        function taiDuLieuThongKe() {
+            let tuNgay = $("#txtTuNgay").val();
+            let denNgay = $("#txtDenNgay").val();
+            let loai = $("#ddlLoai").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDoanhThuTongHop", "ThongKe")',
+                data: { tuNgay: tuNgay, denNgay: denNgay, loai: loai },
+                success: function (res) {
+                    if (res.status) {
+                        $("#box-tongket").fadeIn();
+                        $("#lbl-tong-doanhthu").text(formatter.format(res.tongDoanhThu));
+                        $("#lbl-tong-loinhuan").text(formatter.format(res.tongLoiNhuan));
+                        $("#lbl-tong-sodon").text(res.tongSoDon + " đơn");
+
+                        veBieuDo(res.labels, res.doanhThu, res.loiNhuan, res.soDon);
+                    } else {
+                        swal("Thông báo", res.message, "warning");
+                    }
+                }
+            });
+        }
+
+        function veBieuDo(labels, doanhThu, loiNhuan, soDon) {
+            const ctx = document.getElementById('businessChart').getContext('2d');
+            if (myChart) myChart.destroy();
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Lợi Nhuận (VNĐ)',
+                            type: 'line',
+                            data: loiNhuan,
+                            borderColor: '#10B981', // Xanh lá
+                            backgroundColor: '#10B981',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.3, // Làm mượt đường kẻ
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Doanh Thu (VNĐ)',
+                            data: doanhThu,
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)', // Xanh biển nhạt
+                            borderColor: 'rgb(54, 162, 235)',
+                            borderWidth: 1,
+                            borderRadius: 5,
+                            yAxisID: 'y'
+                        },
+                        {
+                            label: 'Số lượng đơn',
+                            type: 'line',
+                            data: soDon,
+                            borderColor: '#F59E0B', // Màu cam
+                            backgroundColor: '#F59E0B',
+                            borderWidth: 2,
+                            borderDash: [5, 5], // Đường đứt nét cho số đơn
+                            yAxisID: 'y1'
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            type: 'linear', position: 'left',
+                            title: { display: true, text: 'Tiền (VNĐ)' },
+                            ticks: { callback: v => v.toLocaleString('vi-VN') }
+                        },
+                        y1: {
+                            type: 'linear', position: 'right',
+                            title: { display: true, text: 'Số đơn hàng' },
+                            grid: { drawOnChartArea: false },
+                            ticks: { stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+}

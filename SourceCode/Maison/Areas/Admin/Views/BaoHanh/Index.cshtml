@@ -134,6 +134,7 @@
                         <p class="mb-1"><strong>Sản phẩm:</strong> <span id="m-tensp"></span></p>
                         <p class="mb-1"><strong>Cấu hình:</strong> <span id="m-cauhinh" class="text-muted"></span></p>
                         <p class="mb-0"><strong>Ngày nhận máy:</strong> <span id="m-ngaynhan"></span></p>
+                        <p class="mb-0"><strong>Mua từ hóa đơn: #</strong><span id="m-hienhd"></span></p>
                     </div>
                 </div>
 
@@ -211,6 +212,7 @@
                     $("#m-cauhinh").text(res.CauHinh);
                     $("#m-loikhach").text(res.TinhTrangLoi);
                     $("#m-ngaynhan").text(res.NgayTiepNhan ? res.NgayTiepNhan : "Chưa cập nhật");
+                    $("#m-hienhd").text(res.MaHD);
 
                     // Gán Data form nhập liệu
                     $("#selTrangThai").val(res.TrangThai);

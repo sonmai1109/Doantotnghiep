@@ -302,3 +302,4 @@ D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.t
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.themcotthanhtoanvaohoadon.resources
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.themmadanhmuccha.resources
 D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.themcotbangsanphamjkm.resources
+D:\Download\Du_an_ca_nhan\Maison\SourceCode\Maison\obj\Debug\Maison.Migrations.themgianhapvaonbienthe.resources

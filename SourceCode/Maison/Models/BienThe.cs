@@ -16,12 +16,13 @@ namespace Maison.Models
 
         [Column(TypeName = "money")]
         public decimal GiaBan { get; set; }
+        public decimal? GiaNhap { get; set; }
 
         public int SoLuongTon { get; set; }
 
         [StringLength(150)]
         public string HinhAnh { get; set; }
-
+      
         public bool TrangThai { get; set; }
         public DateTime? NgayTao { get; set; }
 

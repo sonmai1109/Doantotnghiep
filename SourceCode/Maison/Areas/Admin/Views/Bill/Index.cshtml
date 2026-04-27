@@ -24,7 +24,7 @@
             <div class="col-md-3 mb-2">
                 <div class="input-group">
                     <span class="input-group-text"><i class="fas fa-phone"></i></span>
-                    <input type="text" class="form-control" name="sdt" value="@ViewBag.Sdt" placeholder="Nhập SĐT khách hàng..." onchange="this.form.submit()">
+                    <input type="text" class="form-control" name="sdt" value="@ViewBag.Sdt" placeholder="Nhập Mã đơn hoặc SĐT..." onchange="this.form.submit()">
                 </div>
             </div>
             <div class="col-md-3 mb-2">
@@ -60,11 +60,13 @@
     <table class="table table-hover">
         <thead>
             <tr>
+                <th>Mã Đơn</th>
                 <th>Tên khách hàng</th>
                 <th>Người nhận</th>
                 <th>Ngày đặt</th>
                 <th>Địa chỉ nhận</th>
                 <th>Trạng thái</th>
+                
                 <th>Tùy chọn</th>
             </tr>
         </thead>
@@ -72,10 +74,16 @@
             @foreach (var item in Model)
             {
                 <tr>
+                    <td class="font-weight-bold text-danger">#@item.MaHD</td>
+
                     <td>@item.TaiKhoanNguoiDung.HoTen</td>
                     <td><span class="font-weight-bold">@item.HoTenNguoiNhan</span></td>
                     <td>@item.NgayDat.ToString("dd/MM/yyyy HH:mm")</td>
-                    <td>@item.DiaChiNhan</td>
+
+                    <td class="text-truncate" style="max-width: 150px;" title="@item.DiaChiNhan">
+                        @item.DiaChiNhan
+                    </td>
+
                     <td>
                         @if (item.TrangThai == 0)
                         {
@@ -92,7 +100,7 @@
                             </select>
                         }
                     </td>
-
+              
                     <td>
                         <button class="btn btn-sm btn-info text-white mr-2" onclick="loadDuLieuChiTiet(@item.MaHD)">
                             <i class="fas fa-eye"></i> Chi tiết

@@ -66,7 +66,8 @@ namespace Maison.Areas.Admin.Controllers // Nhớ sửa namespace
         }
 
         [HttpPost]
-      
+        [ValidateInput(false)]
+
         public JsonResult Create(Sanpham sp, HttpPostedFileBase ImageFile)
         {
             try
@@ -113,6 +114,7 @@ namespace Maison.Areas.Admin.Controllers // Nhớ sửa namespace
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         public JsonResult Update(Sanpham sp, HttpPostedFileBase ImageFile)
         {
             try

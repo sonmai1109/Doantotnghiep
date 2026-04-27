@@ -51,6 +51,7 @@
             <th>Tên Thuộc Tính</th>
             <th>Phân loại</th>
             <th>Danh mục áp dụng</th>
+            <th>Thứ tự </th>
             <th>Tùy chọn</th>
         </tr>
     </thead>
@@ -76,6 +77,9 @@
                     <span class="font-weight-normal badge @(item.MaDM == null ? "badge-secondary" : "badge-info")">
                         @(item.MaDM == null ? "Dùng chung" : item.DanhMuc.TenDM)
                     </span>
+                </td>
+                <td>
+                    <span class="font-weight-bold">@item.ThuTuHienThi</span>
                 </td>
                 <td>
                     <div class="btn-group">

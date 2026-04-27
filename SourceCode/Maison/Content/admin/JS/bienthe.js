@@ -181,6 +181,7 @@ function loaddata(id) {
         success: function (bt) {
             $("#mabt").val(bt.MaBT);
             $("#giaban").val(bt.GiaBan);
+            $("#gianhap").val(bt.GiaNhap);
             $("#soluongton").val(bt.SoLuongTon);
             loadGallery(id);
             // 2. Lấy bộ khung Thuộc Tính và lồng ghép mảng thông số biến thể đang có vào
@@ -468,14 +469,23 @@ document.getElementById('btnBulkCreate').addEventListener('click', function () {
 // 2. Submit form Tạo hàng loạt
 // 2. Submit form Tạo hàng loạt
 // 2. Submit form Tạo hàng loạt
+// ========================================================
+// 2. Submit form Tạo hàng loạt
+// ========================================================
+// ========================================================
+// 2. Submit form Tạo hàng loạt
+// ========================================================
 function taoHangLoat() {
     let maSP = parseInt($("#current_MaSP").val());
     let giaBan = parseFloat($("#bulk_giaban").val());
+    let giaNhap = parseFloat($("#bulk_gianhap").val());
     let soLuong = parseInt($("#bulk_soluongton").val());
 
-    // 1. Kiểm tra Admin đã nhập Giá và Tồn kho chưa
-    if (!giaBan || isNaN(giaBan) || !soLuong || isNaN(soLuong)) {
-        Swal.fire('Chú ý', 'Vui lòng nhập giá bán và số lượng kho chung!', 'warning');
+    // ĐÃ XÓA DÒNG GÁN = 0.
+
+    // KIỂM TRA NGẶT NGHÈO CẢ 3 THÔNG SỐ (GIÁ BÁN, GIÁ NHẬP, TỒN KHO)
+    if (isNaN(giaBan) || isNaN(giaNhap) || isNaN(soLuong)) {
+        Swal.fire('Cảnh báo', 'Vui lòng nhập đầy đủ Giá Bán, GIÁ NHẬP và Số Lượng.', 'warning');
         return false;
     }
 
@@ -497,7 +507,6 @@ function taoHangLoat() {
         didOpen: () => { Swal.showLoading() }
     });
 
-    // 3. Ép mảng thành chuỗi (VD: "1,4,7") để gửi xuống Backend không bị lỗi
     let chuoiID = selectedMaGTs.join(',');
 
     // Gửi AJAX
@@ -507,13 +516,13 @@ function taoHangLoat() {
         data: {
             maSP: maSP,
             giaBan: giaBan,
+            giaNhap: giaNhap,
             soLuong: soLuong,
             chuoiMaGT: chuoiID
         },
         success: function (res) {
             if (res.status == true) {
                 Swal.fire('Thành công', res.message, 'success').then(() => {
-                    // Dùng window.location.href để ép reload trang hiện tại, chống văng về danh sách SP
                     window.location.href = "/Admin/BienThes/Index?maSP=" + maSP;
                 });
             } else {

@@ -88,15 +88,13 @@ namespace Maison.Areas.Admin.Controllers // Đổi namespace nếu cần
         public JsonResult Loaddata(int id)
         {
             db.Configuration.ProxyCreationEnabled = false;
-
             var bt = db.BienThes.Where(a => a.MaBT == id).Select(b => new {
                 b.MaBT,
                 b.GiaBan,
+                b.GiaNhap, // THÊM DÒNG NÀY
                 b.SoLuongTon,
-                // Lấy mảng các ID Giá Trị (MaGT) đang được cấu hình cho biến thể này
                 CacThuocTinhDangChon = b.ChiTietBTs.Select(c => new { c.GiaTriTT.MaTT, c.MaGT }).ToList()
             }).FirstOrDefault();
-
             return Json(bt, JsonRequestBehavior.AllowGet);
         }
 
@@ -256,10 +254,10 @@ namespace Maison.Areas.Admin.Controllers // Đổi namespace nếu cần
                 try
                 {
                     var doi = db.BienThes.FirstOrDefault(a => a.MaBT == bt.MaBT);
-                    if (doi == null) return Json(new { status = false, message = "Không tìm thấy dữ liệu cấu hình!" });
+                    if (doi == null) return Json(new { status = false, message = "Không tìm thấy!" });
 
-                    // 1. Cập nhật thông tin cơ bản
                     doi.GiaBan = bt.GiaBan;
+                    doi.GiaNhap = bt.GiaNhap; // THÊM DÒNG NÀY
                     doi.SoLuongTon = bt.SoLuongTon;
 
                     TaiKhoanQuanTri tk = (TaiKhoanQuanTri)Session[Maison.Session.ConstaintUser.ADMIN_SESSION];
@@ -469,7 +467,7 @@ namespace Maison.Areas.Admin.Controllers // Đổi namespace nếu cần
         // API: TẠO BIẾN THỂ HÀNG LOẠT (BULK CREATE)
         // ==========================================
         [HttpPost]
-        public JsonResult BulkCreate(int maSP, decimal giaBan, int soLuong, string chuoiMaGT)
+        public JsonResult BulkCreate(int maSP, decimal giaBan, decimal giaNhap, int soLuong, string chuoiMaGT)
         {
             // Kiểm tra xem chuỗi có rỗng không
             if (string.IsNullOrEmpty(chuoiMaGT))
@@ -510,6 +508,7 @@ namespace Maison.Areas.Admin.Controllers // Đổi namespace nếu cần
                         {
                             MaSP = maSP,
                             GiaBan = giaBan,
+                            GiaNhap = giaNhap,
                             SoLuongTon = soLuong,
                             NgayTao = DateTime.Now,
                             NguoiTao = adminName,

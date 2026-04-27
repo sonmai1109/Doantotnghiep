@@ -19,10 +19,10 @@ namespace Maison.Controllers
             TaiKhoanNguoiDung tk = (TaiKhoanNguoiDung)Session[ConstaintUser.USER_SESSION];
             if (tk == null) return RedirectToAction("Login", "Home");
 
-            // Kéo dữ liệu Bảo Hành kèm theo Cấu Hình (ChiTietBTs -> GiaTriTT)
+            // Kéo sâu xuống bảng ThuocTinh để lấy ThuTuHienThi
             var listBH = db.Baohanhs
                 .Include(b => b.BienThe.Sanpham)
-                .Include(b => b.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT))
+                .Include(b => b.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.ThuocTinh)) // ĐÃ SỬA DÒNG NÀY
                 .Where(b => b.MaTK == tk.MaTK)
                 .OrderByDescending(b => b.NgayTiepNhan)
                 .ToList();
@@ -37,10 +37,11 @@ namespace Maison.Controllers
             TaiKhoanNguoiDung tk = (TaiKhoanNguoiDung)Session[ConstaintUser.USER_SESSION];
             if (tk == null) return RedirectToAction("Login", "Home");
 
+            // Tương tự, kéo sâu xuống bảng ThuocTinh
             var bh = db.Baohanhs
                 .Include(b => b.BienThe.Sanpham)
-                .Include(b => b.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT))
-                .FirstOrDefault(b => b.MaPhieu == id && b.MaTK == tk.MaTK); // Bảo mật: Chỉ xem được phiếu của mình
+                .Include(b => b.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.ThuocTinh)) // ĐÃ SỬA DÒNG NÀY
+                .FirstOrDefault(b => b.MaPhieu == id && b.MaTK == tk.MaTK);
 
             if (bh == null) return RedirectToAction("PageNotFound", "Error");
 
