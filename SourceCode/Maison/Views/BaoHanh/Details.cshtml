@@ -2,7 +2,22 @@
 @{
     ViewBag.Title = "Chi tiết Phiếu bảo hành #" + Model.MaPhieu;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string cauHinh = Model.BienThe.ChiTietBTs.Any() ? string.Join(" | ", Model.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.GiaTri)) : "Bản tiêu chuẩn";
+    string cauHinh = "Bản tiêu chuẩn";
+    if (Model.BienThe.ChiTietBTs.Any())
+    {
+        var dsThuocTinhChinh = Model.BienThe.ChiTietBTs
+            .Where(cb => cb.GiaTriTT != null &&
+                         cb.GiaTriTT.ThuocTinh != null &&
+                         cb.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true) // LỌC CHÍNH
+            .OrderBy(cb => cb.GiaTriTT.ThuocTinh.ThuTuHienThi)           // SẮP XẾP
+            .Select(cb => cb.GiaTriTT.GiaTri)
+            .ToList();
+
+        if (dsThuocTinhChinh.Any())
+        {
+            cauHinh = string.Join(" | ", dsThuocTinhChinh);
+        }
+    }
 }
 
 <div class="breadcrumb-area mt-30 mb-30">

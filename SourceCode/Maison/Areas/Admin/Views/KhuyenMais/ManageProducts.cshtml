@@ -43,9 +43,24 @@
                             }
                             else
                             {
+                                // Tìm biến thể tương ứng
                                 var bt = a.Sanpham.BienThes.FirstOrDefault(b => b.MaBT == a.MaBT);
-                                var ts = (bt != null && bt.ChiTietBTs.Any()) ? string.Join(" - ", bt.ChiTietBTs.Select(c => c.GiaTriTT.GiaTri)) : "Bản mặc định";
-                                <span class="badge badge-warning text-dark mt-1">👉 Chỉ bản: @ts</span>
+
+                                // Kiểm tra an toàn null để tránh lỗi sập trang
+                                if (bt != null && bt.ChiTietBTs != null)
+                                {
+                                    var dsChinh = bt.ChiTietBTs
+                                        .Where(c => c.GiaTriTT != null && c.GiaTriTT.ThuocTinh != null && c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                        .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                                        .Select(c => c.GiaTriTT.GiaTri).ToList();
+
+                                    var ts = dsChinh.Any() ? string.Join(" - ", dsChinh) : "Bản mặc định";
+                                    <span class="badge badge-warning text-dark mt-1">👉 Chỉ bản: @ts</span>
+                                }
+                                else
+                                {
+                                    <span class="badge badge-secondary mt-1">👉 Không xác định cấu hình</span>
+                                }
                             }
                         </td>
                         <td>
@@ -121,12 +136,13 @@
                         var html = '';
                         if(!data || data.length === 0) html = '<div class="alert alert-light border text-center">Không tìm thấy sản phẩm!</div>';
                         else {
-                            data.forEach(function(p){
+                            data.forEach(function (p) {
                                 let opt = `<option value="ALL" class="text-danger font-weight-bold">🌟 Áp dụng TOÀN BỘ cấu hình</option>`;
                                 if (p.BienThes && p.BienThes.length > 0) {
-                                    p.BienThes.forEach(function(bt) {
+                                    p.BienThes.forEach(function (bt) {
+                                        // Dữ liệu ThuocTinhs bây giờ đã sạch (chỉ có i5, 8GB, SSD...) và đúng thứ tự
                                         let tenCauHinh = bt.ThuocTinhs.length > 0 ? bt.ThuocTinhs.join(' - ') : "Bản mặc định";
-                                        opt += `<option value="${bt.MaBT}">👉 Chỉ giảm riêng bản: ${tenCauHinh}</option>`;
+                                        opt += `<option value="${bt.MaBT}">👉 Cấu hình chính: ${tenCauHinh}</option>`;
                                     });
                                 }
 

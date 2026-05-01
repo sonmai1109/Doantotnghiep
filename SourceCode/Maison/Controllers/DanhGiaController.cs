@@ -16,12 +16,12 @@ namespace Maison.Controllers
         // 1. Partial: Danh sách đánh giá 
         public PartialViewResult DanhSachTheoSP(int maSP)
         {
-            // Móc qua bảng BienThe để tìm các đánh giá thuộc về Sản phẩm này
             var ds = db.DanhGias
                        .Where(d => d.BienThe.MaSP == maSP && d.TrangThai == 1)
                        .OrderByDescending(d => d.NgayTao)
                        .Include(d => d.TaiKhoanNguoiDung)
-                       .Include(d => d.BienThe) // Gọi thêm Biến thể để tí nữa hiện Cấu hình lên View nếu cần
+                       // NẠP SÂU VÀO ĐỂ LẤY THÔNG SỐ (BẮT BUỘC PHẢI CÓ DÒNG NÀY)
+                       .Include(d => d.BienThe.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh))
                        .ToList();
             return PartialView("_DanhSachDanhGia", ds);
         }

@@ -20,9 +20,11 @@ namespace Maison.Controllers
             if (tk == null) return RedirectToAction("Login", "Home");
 
             // Kéo sâu xuống bảng ThuocTinh để lấy ThuTuHienThi
+            // Trong BaoHanhController.cs (Front-end)
+            // Không thay đổi gì nhiều ở đây, chỉ cần đảm bảo dòng Include đã kéo đến ThuocTinh
             var listBH = db.Baohanhs
                 .Include(b => b.BienThe.Sanpham)
-                .Include(b => b.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.ThuocTinh)) // ĐÃ SỬA DÒNG NÀY
+                .Include(b => b.BienThe.ChiTietBTs.Select(cb => cb.GiaTriTT.ThuocTinh))
                 .Where(b => b.MaTK == tk.MaTK)
                 .OrderByDescending(b => b.NgayTiepNhan)
                 .ToList();

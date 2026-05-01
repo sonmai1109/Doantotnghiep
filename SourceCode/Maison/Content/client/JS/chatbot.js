@@ -1,53 +1,5 @@
-﻿function toggleChat() {
-    // Đổi lệnh này: Tự động thêm/xóa class show-chat
-    $('#chat-window').toggleClass('show-chat');
-}
-function handleEnter(e) {
-    if (e.keyCode === 13) { sendChatMessage(); }
-}
-
-function sendChatMessage() {
-    let inputField = $('#txtChatInput');
-    let msg = inputField.val().trim();
-    if (msg === "") return;
-
-    let chatBody = $('#chat-body');
-
-    // 1. In tin nhắn của User lên màn hình (KHÔNG DÙNG .clearfix NỮA)
-    chatBody.append(`<div class="msg-box msg-user">${msg}</div>`);
-    inputField.val(''); // Xóa ô nhập
-    chatBody.scrollTop(chatBody[0].scrollHeight); // Cuộn xuống dưới cùng
-
-    // Hiển thị trạng thái "Bot đang gõ..."
-    let typingId = "typing_" + Date.now();
-    chatBody.append(`<div class="msg-box msg-bot font-italic text-muted" id="${typingId}">Đang gõ chữ...</div>`);
-    chatBody.scrollTop(chatBody[0].scrollHeight);
-
-    // 2. Gửi AJAX lên C#
-    $.ajax({
-        url: '/Chatbot/GiaoTiepGemini',
-        type: 'POST',
-        data: { tinNhanKhachHang: msg },
-        success: function (res) {
-            $('#' + typingId).remove(); // Xóa chữ Đang gõ
-
-            if (res.status) {
-                // In tin nhắn của Bot
-                chatBody.append(`<div class="msg-box msg-bot">${res.reply}</div>`);
-            } else {
-                chatBody.append(`<div class="msg-box msg-bot text-danger">⚠️ ${res.message}</div>`);
-            }
-            chatBody.scrollTop(chatBody[0].scrollHeight);
-        },
-        error: function () {
-            $('#' + typingId).remove();
-            chatBody.append(`<div class="msg-box msg-bot text-danger">⚠️ Mất kết nối tới máy chủ.</div>`);
-            chatBody.scrollTop(chatBody[0].scrollHeight);
-        }
-    });
-}
-// CHẠY NGAY KHI LOAD TRANG
-$(document).ready(function () {
+﻿$(document).ready(function () {
+    // Chạy ngay khi load trang để khôi phục lịch sử chat
     loadChatHistory();
 });
 
@@ -75,6 +27,7 @@ function loadChatHistory() {
 }
 
 function toggleChat() {
+    // Tự động thêm/xóa class show-chat
     $('#chat-window').toggleClass('show-chat');
 }
 
@@ -89,24 +42,26 @@ function sendChatMessage() {
 
     let chatBody = $('#chat-body');
 
-    // In tin nhắn User
+    // 1. In tin nhắn của User lên màn hình
     chatBody.append(`<div class="msg-box msg-user">${msg}</div>`);
-    inputField.val('');
-    chatBody.scrollTop(chatBody[0].scrollHeight);
+    inputField.val(''); // Xóa ô nhập
+    chatBody.scrollTop(chatBody[0].scrollHeight); // Cuộn xuống dưới cùng
 
     // Hiển thị trạng thái "Bot đang gõ..."
     let typingId = "typing_" + Date.now();
     chatBody.append(`<div class="msg-box msg-bot font-italic text-muted" id="${typingId}">Đang gõ chữ...</div>`);
     chatBody.scrollTop(chatBody[0].scrollHeight);
 
-    // Gửi AJAX
+    // 2. Gửi AJAX lên C#
     $.ajax({
         url: '/Chatbot/GiaoTiepGemini',
         type: 'POST',
         data: { tinNhanKhachHang: msg },
         success: function (res) {
-            $('#' + typingId).remove();
+            $('#' + typingId).remove(); // Xóa chữ Đang gõ
+
             if (res.status) {
+                // In tin nhắn của Bot
                 chatBody.append(`<div class="msg-box msg-bot">${res.reply}</div>`);
             } else {
                 chatBody.append(`<div class="msg-box msg-bot text-danger">⚠️ ${res.message}</div>`);

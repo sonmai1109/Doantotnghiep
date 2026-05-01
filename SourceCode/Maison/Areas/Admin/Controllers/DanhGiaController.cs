@@ -17,15 +17,15 @@ namespace Maison.Areas.Admin.Controllers
         {
             ViewBag.searchString = searchString;
 
-            // Lấy danh sách đánh giá kèm thông tin Khách hàng và Sản phẩm
             var danhGias = db.DanhGias
                 .Include(d => d.TaiKhoanNguoiDung)
                 .Include(d => d.BienThe.Sanpham)
+                // NẠP SÂU VÀO ĐỂ LẤY THÔNG SỐ CẤU HÌNH
+                .Include(d => d.BienThe.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh))
                 .AsQueryable();
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                // Tìm kiếm theo tên khách hàng hoặc tên sản phẩm
                 danhGias = danhGias.Where(d => d.TaiKhoanNguoiDung.HoTen.Contains(searchString)
                                             || d.BienThe.Sanpham.TenSP.Contains(searchString));
             }

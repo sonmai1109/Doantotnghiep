@@ -125,15 +125,16 @@ namespace Maison.Areas.Admin.Controllers
         // KHU VỰC GÁN SẢN PHẨM VÀO KHUYẾN MÃI
         // ========================================================
 
+        // 1. Trang quản lý sản phẩm đã gán
         public ActionResult ManageProducts(int id)
         {
             var km = db.KhuyenMais.Find(id);
             if (km == null) return HttpNotFound();
 
-            // SỬA LỖI 1: Include sâu vào Biến Thể và Chi Tiết để View hiển thị được tên cấu hình (Ram, CPU...)
+            // Nạp đủ dữ liệu sâu đến tận bảng ThuocTinh để lọc ở View không bị lỗi Null
             var assigned = db.SanPhamKhuyenMais
                 .Include(s => s.Sanpham)
-                .Include(s => s.Sanpham.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT)))
+                .Include(s => s.Sanpham.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .Where(s => s.MaKM == id)
                 .ToList();
 
@@ -141,21 +142,25 @@ namespace Maison.Areas.Admin.Controllers
             return View(assigned);
         }
 
-        // API Tìm kiếm Sản phẩm (Dùng cho ô Search gõ tên)
+        // 2. API Tìm kiếm Sản phẩm (Lọc thuộc tính chính và Sắp xếp)
         [HttpGet]
         public JsonResult SearchSanPham(string q)
         {
             db.Configuration.ProxyCreationEnabled = false;
-            var data = db.Sanphams.Where(s => s.TenSP.Contains(q))
+
+            var data = db.Sanphams
+                .Where(s => s.TenSP.Contains(q))
                 .Select(s => new {
                     s.MaSP,
                     s.TenSP,
                     s.HinhAnh,
-                    // Lôi thêm danh sách Biến thể ra để JavaScript vẽ Dropdown
                     BienThes = s.BienThes.Select(bt => new {
                         bt.MaBT,
-                        // Lấy các thông số (Đen, 8GB...) ghép lại
-                        ThuocTinhs = bt.ChiTietBTs.Select(ct => ct.GiaTriTT.GiaTri).ToList()
+                        // CHỈ lấy các thuộc tính được tích 'LaThuocTinhChinh' và sắp xếp theo 'ThuTuHienThi'
+                        ThuocTinhs = bt.ChiTietBTs
+                            .Where(ct => ct.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                            .OrderBy(ct => ct.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                            .Select(ct => ct.GiaTriTT.GiaTri).ToList()
                     }).ToList()
                 })
                 .Take(10).ToList();

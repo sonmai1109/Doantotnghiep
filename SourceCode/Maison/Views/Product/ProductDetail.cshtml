@@ -634,6 +634,7 @@
         }
     }
 </div>
+
 <div class="text-center mt-5 mb-4">
     <button id="btn-show-form" class="btn" style="background: #28a745; color: white; font-weight: bold; padding: 10px 25px; border-radius: 30px; box-shadow: 0 4px 6px rgba(40,167,69,0.3); transition: 0.3s;">
         <i class="fas fa-pencil-alt mr-2"></i> Viết đánh giá của bạn
@@ -951,5 +952,58 @@
         }
         $("#btn-prev-img").click(() => loadSlide(currentIndex - 1));
         $("#btn-next-img").click(() => loadSlide(currentIndex + 1));
+
+
+        // XỬ LÝ GỬI ĐÁNH GIÁ
+    $('#btnGuiDanhGia').click(function (e) {
+        e.preventDefault();
+
+        var maBT = selectedMaBT;
+        if (!maBT) {
+            Swal.fire('Chú ý', 'Vui lòng chọn một cấu hình sản phẩm ở trên trước khi đánh giá.', 'warning');
+            return;
+        }
+
+        var binhLuan = $('#dg-binhLuan').val().trim();
+        var xepHang = $('input[name="dg-xepHang"]:checked').val();
+        var fileAnh = $('#dg-hinhanh')[0].files[0];
+
+        if (binhLuan.length === 0) {
+            Swal.fire('Thiếu thông tin', 'Vui lòng nhập nội dung đánh giá của bạn.', 'warning');
+            $('#dg-binhLuan').focus();
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append("maBT", maBT);
+        formData.append("xepHang", xepHang);
+        formData.append("binhLuan", binhLuan);
+        if (fileAnh) {
+            formData.append("imageFile", fileAnh);
+        }
+
+        Swal.fire({ title: 'Đang tải lên...', allowOutsideClick: false, didOpen: () => { Swal.showLoading() } });
+
+        $.ajax({
+            url: '/DanhGia/ThemDanhGia',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.success) {
+                    Swal.fire('Thành công', res.message, 'success').then(() => {
+                        window.location.reload();
+                    });
+                } else {
+                    Swal.fire('Lỗi', res.message, 'error');
+                }
+            },
+            error: function () {
+                Swal.fire('Lỗi', 'Mất kết nối mạng, vui lòng thử lại.', 'error');
+            }
+        });
+    });
+
     </script>
 }

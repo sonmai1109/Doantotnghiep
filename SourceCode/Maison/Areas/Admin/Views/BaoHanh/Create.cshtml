@@ -41,18 +41,30 @@
                         <th>Mã HĐ</th>
                         <th>Ngày mua</th>
                         <th>Sản phẩm & Cấu hình</th>
+                        <th>Thời hạn BH</th>
+                        <th>Tình trạng</th>
                         <th>Thao tác</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
+                        // 1. Lấy số tháng bảo hành từ bảng SanPham
+                        int soThangBH = item.BienThe.Sanpham.ThoiHanBaoHanh;
+
+                        // 2. Tính ngày hết hạn = Ngày mua + số tháng bảo hành
+                        DateTime ngayHetHan = item.HoaDon.NgayDat.AddMonths(soThangBH);
+
+                        // 3. Kiểm tra xem hiện tại đã quá hạn chưa
+                        bool conHan = ngayHetHan >= DateTime.Now;
+
                         string cauHinh = item.BienThe.ChiTietBTs.Any()
-    ? string.Join(" | ", item.BienThe.ChiTietBTs
-        .Where(cb => cb.GiaTriTT != null && cb.GiaTriTT.ThuocTinh != null && cb.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
-        .OrderBy(cb => cb.GiaTriTT.ThuocTinh.ThuTuHienThi)
-        .Select(cb => cb.GiaTriTT.GiaTri))
-    : "Bản tiêu chuẩn";
+                            ? string.Join(" | ", item.BienThe.ChiTietBTs
+                                .Where(cb => cb.GiaTriTT != null && cb.GiaTriTT.ThuocTinh != null && cb.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                .OrderBy(cb => cb.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                                .Select(cb => cb.GiaTriTT.GiaTri))
+                            : "Bản tiêu chuẩn";
+
                         <tr>
                             <td class="font-weight-bold">#@item.MaHD</td>
                             <td>@item.HoaDon.NgayDat.ToString("dd/MM/yyyy")</td>
@@ -60,9 +72,23 @@
                                 <strong>@item.BienThe.Sanpham.TenSP</strong><br />
                                 <small class="text-muted">@cauHinh</small>
                             </td>
+                            <td><span class="badge badge-info">@soThangBH tháng</span></td>
                             <td>
-                                <button class="btn btn-sm btn-primary" onclick="moFormTaoPhieu(@item.MaHD, @item.MaBT, @kh.MaTK, '@item.BienThe.Sanpham.TenSP')">
-                                    <i class="fas fa-tools"></i> Chọn máy này
+                                @if (conHan)
+                                {
+                                    <span class="text-success font-weight-bold"><i class="fas fa-check-circle"></i> Còn BH</span>
+                                    <br /><small class="text-muted">Hết hạn: @ngayHetHan.ToString("dd/MM/yyyy")</small>
+                                }
+                                else
+                                {
+                                    <span class="text-danger font-weight-bold"><i class="fas fa-exclamation-triangle"></i> Hết hạn</span>
+                                    <br /><small class="text-muted">Đã hết ngày: @ngayHetHan.ToString("dd/MM/yyyy")</small>
+                                }
+                            </td>
+                            <td>
+                                <button class="btn btn-sm @(conHan ? "btn-primary" : "btn-outline-danger")"
+                                        onclick="moFormTaoPhieu(@item.MaHD, @item.MaBT, @kh.MaTK, '@item.BienThe.Sanpham.TenSP')">
+                                    <i class="fas fa-tools"></i> @(conHan ? "Tiếp nhận" : "Sửa dịch vụ")
                                 </button>
                             </td>
                         </tr>

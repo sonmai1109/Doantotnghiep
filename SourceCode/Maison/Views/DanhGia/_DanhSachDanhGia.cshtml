@@ -270,6 +270,22 @@
                         </div>
 
                         <div class="review-comment">
+                            @if (item.BienThe != null && item.BienThe.ChiTietBTs != null)
+                            {
+                                var dsChinh = item.BienThe.ChiTietBTs
+                                    .Where(c => c.GiaTriTT != null && c.GiaTriTT.ThuocTinh != null && c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                    .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                                    .Select(c => c.GiaTriTT.GiaTri).ToList();
+
+                                if (dsChinh.Any())
+                                {
+                                    <div style="margin-bottom: 5px;">
+                                        <small class="text-muted">
+                                            <i class="fas fa-microchip mr-1"></i> Phân loại: <strong>@string.Join(" - ", dsChinh)</strong>
+                                        </small>
+                                    </div>
+                                }
+                            }
                             @Html.Raw(System.Web.HttpUtility.HtmlEncode(item.BinhLuan).Replace("\n", "<br/>"))
                         </div>
 

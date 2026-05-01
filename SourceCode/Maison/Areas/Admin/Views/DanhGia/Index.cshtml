@@ -50,7 +50,29 @@
                         <a href="@Url.Action("ProductDetail", "Product", new { id = item.BienThe.Sanpham.MaSP, area = "" })" target="_blank" class="d-block font-weight-bold text-primary text-truncate" style="max-width: 180px;" title="@item.BienThe.Sanpham.TenSP">
                             <i class="fas fa-external-link-alt mr-1" style="font-size: 10px;"></i> @item.BienThe.Sanpham.TenSP
                         </a>
-                        <small class="text-muted">Mã Biến Thể: #@item.MaBT</small>
+
+                        @if (item.BienThe != null && item.BienThe.ChiTietBTs != null)
+                        {
+                            var dsChinh = item.BienThe.ChiTietBTs
+                                .Where(c => c.GiaTriTT != null && c.GiaTriTT.ThuocTinh != null && c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
+                                .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi)
+                                .Select(c => c.GiaTriTT.GiaTri).ToList();
+
+                            if (dsChinh.Any())
+                            {
+                                <small class="text-info d-block" style="font-weight: 500;">
+                                    <i class="fas fa-cog"></i> @string.Join(" - ", dsChinh)
+                                </small>
+                            }
+                            else
+                            {
+                                <small class="text-muted">Mã Biến Thể: #@item.MaBT</small>
+                            }
+                        }
+                        else
+                        {
+                            <small class="text-muted">Không có thông tin cấu hình</small>
+                        }
                     </td>
 
                     <td class="text-left">
