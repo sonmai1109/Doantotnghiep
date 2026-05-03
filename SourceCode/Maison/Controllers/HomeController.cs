@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Web.Mvc;
 using Maison.Models;
 using Maison.Session;
+using System.Text.RegularExpressions;
 using Maison.Areas.Admin.Data;
 
 namespace Maison.Controllers
@@ -130,38 +131,74 @@ namespace Maison.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult SignUp(TaiKhoanNguoiDung tk)// gọi 1 tài khoản người dùng sẽ nhận thông tin từ view 
+        // THÊM: Biến string XacNhanMatKhau để hứng giá trị từ input HTML thuần ở View
+        public ActionResult SignUp(TaiKhoanNguoiDung tk, string XacNhanMatKhau, string CityId, string DistrictId, string WardId, string SoNha)
+
         {
-            // kiểm tra validation trước
+
+            ViewBag.CityId = CityId;
+            ViewBag.DistrictId = DistrictId;
+            ViewBag.WardId = WardId;
+            ViewBag.SoNha = SoNha;
             if (!ModelState.IsValid)
             {
                 return View(tk);
             }
-            //check xem nó đã có trong database chưa 
-            TaiKhoanNguoiDung check = db.TaiKhoanNguoiDungs.Where(a => a.TenDangNhap.Equals(tk.TenDangNhap)).FirstOrDefault();
-            if (check != null)
+
+            // 1. Kiểm tra độ mạnh của mật khẩu (Ít nhất 6 ký tự, có chữ, số, và ký tự đặc biệt)
+            var regexMk = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$");
+            if (!regexMk.IsMatch(tk.MatKhau))
             {
-                //nếu chưa báo lỗi 
-                //ModelState.AddModelError("TenDangNhap", "Tên đăng nhập đã tồn tại !");
-                ViewBag.mess= "Tên đăng nhập đã tồn tại";
-                 return View(tk);
+                ModelState.AddModelError("MatKhau", "Mật khẩu phải từ 6 ký tự, gồm chữ, số và ký tự đặc biệt (@, $, !, %, *, ?, &)");
+                return View(tk);
             }
-            else
+
+            // 2. Kiểm tra xác nhận mật khẩu
+            if (tk.MatKhau != XacNhanMatKhau)
             {
-                try
-                {
-                    tk.TrangThai = true;
-                    db.TaiKhoanNguoiDungs.Add(tk);
-                    db.SaveChanges();
-                    TaiKhoanNguoiDung session = db.TaiKhoanNguoiDungs.Where(a => a.TenDangNhap.Equals(tk.TenDangNhap)).FirstOrDefault();
-                    Session[Maison.Session.ConstaintUser.USER_SESSION] = session;
-                    return RedirectToAction("Index", "Home");
-                }
-                catch (Exception)
-                {
-                    ModelState.AddModelError("ErrorSignUp", "Đăng ký không thành công. Thử lại sau !");
-                }
+                ViewBag.LoiXacNhan = "Mật khẩu nhập lại không khớp!";
+                return View(tk);
             }
+
+            // 3. Kiểm tra trùng Tên đăng nhập
+            TaiKhoanNguoiDung checkTen = db.TaiKhoanNguoiDungs.FirstOrDefault(a => a.TenDangNhap.Equals(tk.TenDangNhap));
+            if (checkTen != null)
+            {
+                ViewBag.mess = "Tên đăng nhập đã tồn tại!";
+                return View(tk);
+            }
+
+            // 4. Kiểm tra trùng Email
+            var checkEmail = db.TaiKhoanNguoiDungs.FirstOrDefault(a => a.Email.Equals(tk.Email));
+            if (checkEmail != null)
+            {
+                ModelState.AddModelError("Email", "Email này đã được sử dụng!");
+                return View(tk);
+            }
+
+            // 5. Kiểm tra trùng Số điện thoại
+            var checkSDT = db.TaiKhoanNguoiDungs.FirstOrDefault(a => a.SoDienThoai.Equals(tk.SoDienThoai));
+            if (checkSDT != null)
+            {
+                ModelState.AddModelError("SoDienThoai", "Số điện thoại này đã được sử dụng!");
+                return View(tk);
+            }
+
+            // 6. Lưu vào Database nếu qua hết các bài kiểm tra
+            try
+            {
+                tk.TrangThai = true;
+                db.TaiKhoanNguoiDungs.Add(tk);
+                db.SaveChanges();
+                TaiKhoanNguoiDung session = db.TaiKhoanNguoiDungs.FirstOrDefault(a => a.TenDangNhap.Equals(tk.TenDangNhap));
+                Session[Maison.Session.ConstaintUser.USER_SESSION] = session;
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception)
+            {
+                ModelState.AddModelError("ErrorSignUp", "Đăng ký không thành công. Thử lại sau !");
+            }
+
             return View(tk);
         }
 

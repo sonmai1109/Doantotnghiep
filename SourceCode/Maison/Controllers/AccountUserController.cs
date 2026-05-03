@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Maison.Models;
 using Maison.Session;
+using System.Text.RegularExpressions;
 
 namespace Maison.Controllers
 {
@@ -26,7 +27,6 @@ namespace Maison.Controllers
             TaiKhoanNguoiDung tk = (TaiKhoanNguoiDung)Session[ConstaintUser.USER_SESSION];
             if (tk == null) return RedirectToAction("Login", "Home");
 
-            // Lấy dữ liệu mới nhất từ CSDL thay vì tin tưởng Session (vì session có thể bị cũ)
             var currentTk = db.TaiKhoanNguoiDungs.FirstOrDefault(a => a.MaTK == tk.MaTK);
 
             if (currentTk == null || currentTk.MatKhau != oldpassword)
@@ -35,13 +35,18 @@ namespace Maison.Controllers
             }
             else
             {
+                // THÊM: Kiểm tra độ mạnh của mật khẩu mới
+                var regexMk = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$");
+                if (!regexMk.IsMatch(password))
+                {
+                    ModelState.AddModelError("ErrorUpdate", "Mật khẩu mới phải từ 6 ký tự, gồm chữ, số và ký tự đặc biệt (@, $, !, %, *, ?, &)");
+                    return View();
+                }
+
                 currentTk.MatKhau = password;
                 db.SaveChanges();
-                
-                // Cập nhật lại Session sau khi đổi thành công
+
                 Session[ConstaintUser.USER_SESSION] = currentTk;
-                
-                // Dùng TempData để show thông báo màu xanh bên View thay vì Error
                 TempData["SuccessMessage"] = "Đổi mật khẩu thành công!";
                 return RedirectToAction("ChangePassWord");
             }
@@ -75,6 +80,22 @@ namespace Maison.Controllers
             TaiKhoanNguoiDung session = (TaiKhoanNguoiDung)Session[ConstaintUser.USER_SESSION];
             if (session == null || tk.MaTK != session.MaTK) return RedirectToAction("Login", "Home");
 
+            // 1. Kiểm tra Email có bị trùng với người KHÁC không (Loại trừ MaTK của mình)
+            var checkEmail = db.TaiKhoanNguoiDungs.FirstOrDefault(a => a.Email == tk.Email && a.MaTK != tk.MaTK);
+            if (checkEmail != null)
+            {
+                ModelState.AddModelError("ErrorUpdate", "Email này đã được tài khoản khác sử dụng!");
+                return View(tk);
+            }
+
+            // 2. Kiểm tra SĐT có bị trùng với người KHÁC không
+            var checkSDT = db.TaiKhoanNguoiDungs.FirstOrDefault(a => a.SoDienThoai == tk.SoDienThoai && a.MaTK != tk.MaTK);
+            if (checkSDT != null)
+            {
+                ModelState.AddModelError("ErrorUpdate", "Số điện thoại này đã được tài khoản khác sử dụng!");
+                return View(tk);
+            }
+
             TaiKhoanNguoiDung edit = db.TaiKhoanNguoiDungs.FirstOrDefault(a => a.MaTK == tk.MaTK);
             if (edit != null)
             {
@@ -84,14 +105,10 @@ namespace Maison.Controllers
                     edit.DiaChi = tk.DiaChi;
                     edit.Email = tk.Email;
                     edit.SoDienThoai = tk.SoDienThoai;
-
-                    // Xử lý Ngày Sinh (Đảm bảo không bị lỗi Null Reference)
-                    // Gán trực tiếp luôn vì kiểu DateTime của bạn không Null được
                     edit.NgaySinh = tk.NgaySinh;
-
                     edit.GioiTinh = tk.GioiTinh;
                     db.SaveChanges();
-                    
+
                     Session[ConstaintUser.USER_SESSION] = edit;
                     TempData["SuccessMessage"] = "Cập nhật thông tin thành công!";
                 }

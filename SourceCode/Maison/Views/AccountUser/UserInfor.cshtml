@@ -3,7 +3,7 @@
     ViewBag.Title = "Thông tin cá nhân";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <div class="breadcrumb-area mt-30 mb-30">
     <div class="container">
         <div class="breadcrumb">
@@ -72,8 +72,32 @@
                             </div>
                         </div>
                         <div class="form-group mb-4">
-                            <label class="font-weight-bold text-dark">Địa chỉ nhận hàng <span class="text-danger">*</span></label>
-                            <textarea class="form-control bg-light" name="DiaChi" rows="2" placeholder="Ví dụ: Số 1, Đường Trần Phú, Hà Nội" required>@Model.DiaChi</textarea>
+                            <label class="font-weight-bold text-dark">Địa chỉ hiện tại</label>
+                            <input type="text" class="form-control bg-light text-muted" value="@Model.DiaChi" readonly />
+
+                            <label class="font-weight-bold text-primary mt-3"><i class="fas fa-map-marker-alt"></i> Cập nhật địa chỉ mới (Bỏ qua nếu không đổi)</label>
+                            <input type="text" id="diaChiNha" class="form-control mb-2" placeholder="Số nhà, tên đường..." autocomplete="off">
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select class="form-control mb-3" id="city">
+                                        <option value="" selected>Chọn tỉnh thành</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control mb-3" id="district">
+                                        <option value="" selected>Chọn quận huyện</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control mb-3" id="ward">
+                                        <option value="" selected>Chọn phường xã</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Ô ẩn này sẽ chứa giá trị @Model.DiaChi ban đầu. Nếu khách chọn địa chỉ mới, JS sẽ ghi đè vào đây -->
+                            <input type="hidden" name="DiaChi" id="DiaChi_Hidden" value="@Model.DiaChi" />
                         </div>
 
                         <button type="submit" class="btn btn-danger btn-block font-weight-bold py-2 rounded-pill shadow-sm">CẬP NHẬT THÔNG TIN</button>
@@ -83,3 +107,71 @@
         </div>
     </div>
 </div>
+@section Script {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var citis = document.getElementById("city");
+            var districts = document.getElementById("district");
+            var wards = document.getElementById("ward");
+            var diaChiGoc = document.getElementById("DiaChi_Hidden");
+            var diaChiNha = document.getElementById("diaChiNha");
+
+            var promise = axios({
+                url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+                method: "GET",
+                responseType: "application/json",
+            });
+
+            promise.then(function (result) {
+                renderCity(result.data);
+            });
+
+            function renderCity(data) {
+                for (const x of data) {
+                    citis.options[citis.options.length] = new Option(x.Name, x.Id);
+                }
+                citis.onchange = function () {
+                    districts.length = 1; wards.length = 1;
+                    if (this.value != "") {
+                        const result = data.filter(n => n.Id === this.value);
+                        for (const k of result[0].Districts) {
+                            districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                        }
+                    }
+                    updateDiaChi();
+                };
+                districts.onchange = function () {
+                    wards.length = 1;
+                    const dataCity = data.filter((n) => n.Id === citis.value);
+                    if (this.value != "") {
+                        const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+                        for (const w of dataWards) {
+                            wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                        }
+                    }
+                    updateDiaChi();
+                };
+                wards.onchange = function () { updateDiaChi(); };
+                diaChiNha.oninput = function () { updateDiaChi(); }
+            }
+
+            function updateDiaChi() {
+                var nha = diaChiNha.value.trim();
+                var tenXa = wards.selectedIndex > 0 ? wards.options[wards.selectedIndex].text : "";
+                var tenHuyen = districts.selectedIndex > 0 ? districts.options[districts.selectedIndex].text : "";
+                var tenTinh = citis.selectedIndex > 0 ? citis.options[citis.selectedIndex].text : "";
+
+                // Chỉ khi khách hàng thực sự chọn Tỉnh/Thành phố mới thì mới ghi đè địa chỉ cũ
+                if (citis.value !== "") {
+                    var fullAddress = [];
+                    if (nha !== "") fullAddress.push(nha);
+                    if (tenXa !== "") fullAddress.push(tenXa);
+                    if (tenHuyen !== "") fullAddress.push(tenHuyen);
+                    if (tenTinh !== "") fullAddress.push(tenTinh);
+
+                    diaChiGoc.value = fullAddress.join(", ");
+                }
+            }
+        });
+    </script>
+}

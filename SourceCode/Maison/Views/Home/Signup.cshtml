@@ -4,7 +4,7 @@
     ViewBag.Title = "Đăng ký";
 }
 
-@*<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />*@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <div class="breadcrumb-area mt-30">
     <div class="container">
         <div class="breadcrumb">
@@ -42,8 +42,19 @@
 
                         <div class="mb-3">
                             <label>Mật khẩu</label>
-                            @Html.PasswordFor(m => m.MatKhau, new { @class = "form-control", placeholder = "Nhập mật khẩu" })
+                            <!-- Thêm autocomplete = "new-password" -->
+                            @Html.PasswordFor(m => m.MatKhau, new { @class = "form-control", placeholder = "Nhập mật khẩu (Ít nhất 6 ký tự...)", autocomplete = "new-password" })
                             @Html.ValidationMessageFor(m => m.MatKhau, "", new { @class = "text-danger" })
+                        </div>
+
+                        <div class="mb-3">
+                            <label>Nhập lại mật khẩu</label>
+                            <!-- Thêm autocomplete = "new-password" -->
+                            <input type="password" name="XacNhanMatKhau" class="form-control" placeholder="Xác nhận mật khẩu" autocomplete="new-password" required />
+                            @if (ViewBag.LoiXacNhan != null)
+                            {
+                                <span class="text-danger">@ViewBag.LoiXacNhan</span>
+                            }
                         </div>
 
                         <div class="mb-3">
@@ -60,14 +71,40 @@
 
                         <div class="mb-3">
                             <label>Email</label>
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Nhập email" })
+                            <!-- Thêm autocomplete = "off" -->
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Nhập email", autocomplete = "off" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                         </div>
 
+                        <!-- PHẦN ĐỊA CHỈ -->
                         <div class="mb-3">
                             <label>Địa chỉ</label>
-                            @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control", placeholder = "Nhập địa chỉ" })
-                            @Html.ValidationMessageFor(m => m.DiaChi, "", new { @class = "text-danger" })
+                            <input type="text" id="diaChiNha" class="form-control mb-2" placeholder="Số nhà, tên đường..." autocomplete="off">
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <select class="form-control mb-3" id="city" required>
+                                        <option value="" selected>Chọn tỉnh thành</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control mb-3" id="district" required>
+                                        <option value="" selected>Chọn quận huyện</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select class="form-control mb-3" id="ward" required>
+                                        <option value="" selected>Chọn phường xã</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- CÁC Ô ẨN DÙNG ĐỂ LƯU CHUYỂN DỮ LIỆU GIỮA VIEW VÀ CONTROLLER -->
+                            @Html.TextBoxFor(m => m.DiaChi, new { @class = "form-control", id = "DiaChi_Hidden", style = "display:none;" })
+                            <input type="hidden" id="hdnCity" name="CityId" value="@ViewBag.CityId" />
+                            <input type="hidden" id="hdnDistrict" name="DistrictId" value="@ViewBag.DistrictId" />
+                            <input type="hidden" id="hdnWard" name="WardId" value="@ViewBag.WardId" />
+                            <input type="hidden" id="hdnNha" name="SoNha" value="@ViewBag.SoNha" />
                         </div>
 
                         <div class="mb-3">
@@ -114,3 +151,103 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var citis = document.getElementById("city");
+        var districts = document.getElementById("district");
+        var wards = document.getElementById("ward");
+        var diaChiGoc = document.getElementById("DiaChi_Hidden");
+        var diaChiNha = document.getElementById("diaChiNha");
+
+        var hdnCity = document.getElementById("hdnCity");
+        var hdnDistrict = document.getElementById("hdnDistrict");
+        var hdnWard = document.getElementById("hdnWard");
+        var hdnNha = document.getElementById("hdnNha");
+
+        // FIX LỖI: Lấy giá trị khởi tạo lưu vào biến trước khi Javascript làm thay đổi DOM
+        var initCity = hdnCity.value;
+        var initDistrict = hdnDistrict.value;
+        var initWard = hdnWard.value;
+        var initNha = hdnNha.value;
+
+        var promise = axios({
+            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+            method: "GET",
+            responseType: "application/json",
+        });
+
+        promise.then(function (result) {
+            renderCity(result.data);
+
+            // TỰ ĐỘNG PHỤC HỒI DỮ LIỆU DỰA TRÊN BIẾN INIT (Chống bị đè)
+            if (initNha) { diaChiNha.value = initNha; }
+            if (initCity) {
+                citis.value = initCity;
+                citis.dispatchEvent(new Event('change')); // Tự động click gọi Quận/Huyện
+
+                if (initDistrict) {
+                    districts.value = initDistrict;
+                    districts.dispatchEvent(new Event('change')); // Tự động click gọi Phường/Xã
+
+                    if (initWard) {
+                        wards.value = initWard;
+                        updateDiaChi(); // Chốt lại chuỗi cuối cùng
+                    }
+                }
+            }
+        });
+
+        function renderCity(data) {
+            for (const x of data) {
+                citis.options[citis.options.length] = new Option(x.Name, x.Id);
+            }
+            citis.onchange = function () {
+                districts.length = 1;
+                wards.length = 1;
+                if (this.value != "") {
+                    const result = data.filter(n => n.Id === this.value);
+                    for (const k of result[0].Districts) {
+                        districts.options[districts.options.length] = new Option(k.Name, k.Id);
+                    }
+                }
+                updateDiaChi();
+            };
+            districts.onchange = function () {
+                wards.length = 1;
+                const dataCity = data.filter((n) => n.Id === citis.value);
+                if (this.value != "") {
+                    const dataWards = dataCity[0].Districts.filter(n => n.Id === this.value)[0].Wards;
+                    for (const w of dataWards) {
+                        wards.options[wards.options.length] = new Option(w.Name, w.Id);
+                    }
+                }
+                updateDiaChi();
+            };
+            wards.onchange = function () { updateDiaChi(); };
+            diaChiNha.oninput = function () { updateDiaChi(); }
+        }
+
+        function updateDiaChi() {
+            var nha = diaChiNha.value.trim();
+            // Lấy text của option đang chọn
+            var tenXa = wards.selectedIndex > 0 ? wards.options[wards.selectedIndex].text : "";
+            var tenHuyen = districts.selectedIndex > 0 ? districts.options[districts.selectedIndex].text : "";
+            var tenTinh = citis.selectedIndex > 0 ? citis.options[citis.selectedIndex].text : "";
+
+            var fullAddress = [];
+            if (nha !== "") fullAddress.push(nha);
+            if (tenXa !== "") fullAddress.push(tenXa);
+            if (tenHuyen !== "") fullAddress.push(tenHuyen);
+            if (tenTinh !== "") fullAddress.push(tenTinh);
+
+            // Ném chuỗi đầy đủ vào ô DiaChi_Hidden để gửi xuống Database
+            diaChiGoc.value = fullAddress.join(", ");
+
+            // Lưu lại ID vào ô ẩn để gửi lên Controller cho lần sau (nếu bị lỗi form)
+            hdnCity.value = citis.value;
+            hdnDistrict.value = districts.value;
+            hdnWard.value = wards.value;
+            hdnNha.value = nha;
+        }
+    });
+</script>
