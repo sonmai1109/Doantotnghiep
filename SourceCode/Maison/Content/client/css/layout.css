@@ -300,19 +300,20 @@ body {
     align-items: center;
     justify-content: center;
     text-align: center;
-    height: 65px; /* Chiều cao bằng đúng cột bên trái */
+    height: 65px;
     padding: 5px 10px;
     background-color: #fff;
-    border: 1px solid #eaeaea; /* Viền mờ */
+    border: 1px solid #eaeaea;
     border-radius: 8px;
     color: #333 !important;
     font-size: 14px;
     font-weight: 600;
     text-decoration: none !important;
     transition: all 0.3s ease;
-    /* Ép chữ nếu dài quá sẽ tự xuống dòng nhưng canh giữa */
-    white-space: normal;
+    /* THÊM !important VÀO ĐÂY ĐỂ CHỐNG LẠI THẰNG CHA CỦA NÓ */
+    white-space: normal !important;
     line-height: 1.4;
+    word-break: break-word;
 }
 
     /* Hiệu ứng hover y hệt Brand-item */

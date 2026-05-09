@@ -116,7 +116,9 @@ namespace Maison.Controllers
         }
         public ActionResult dropdanhmuc()
         {
-            IEnumerable<Danhmuc> danhmucs = db.Danhmucs.Select(p => p);
+            // CHỈ LẤY DANH MỤC CẤP 1 (MaDMCha bị null)
+            var danhmucs = db.Danhmucs.Where(p => p.MaDMCha == null).ToList();
+
             return PartialView(danhmucs);
         }
         [HttpGet]

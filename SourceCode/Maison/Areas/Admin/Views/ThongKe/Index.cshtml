@@ -68,7 +68,53 @@
         <canvas id="businessChart"></canvas>
     </div>
 </div>
+<div class="row mt-4">
+    <div class="col-md-6 mb-4">
+        <div class="card border-light shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-arrow-up mr-2"></i>Top 5 Bán Chạy Nhất</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th class="text-center">Đã bán</th>
+                                <th class="text-right">Doanh thu</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tb-ban-chay">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="col-md-6 mb-4">
+        <div class="card border-light shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-arrow-down mr-2"></i>Top 5 Bán Chậm Nhất</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th class="text-center">Đã bán</th>
+                                <th class="text-right">Doanh thu</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tb-ban-cham">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @section Script{
     <script>
         let myChart = null;
@@ -79,10 +125,14 @@
         });
 
         function taiDuLieuThongKe() {
-            let tuNgay = $("#txtTuNgay").val();
-            let denNgay = $("#txtDenNgay").val();
-            let loai = $("#ddlLoai").val();
+            let tuNgay = $('#txtTuNgay').val();
+            let denNgay = $('#txtDenNgay').val();
+            let loai = $('#ddlLoai').val()
 
+            if (tuNgay > denNgay) {
+                swal("Lỗi!", "Từ ngày không được lớn hơn Đến ngày!", "error");
+                return;
+            }
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("GetDoanhThuTongHop", "ThongKe")',
@@ -98,6 +148,64 @@
                     } else {
                         swal("Thông báo", res.message, "warning");
                     }
+                }
+            });
+            // 2. AJAX LẤY DỮ LIỆU TOP SẢN PHẨM (THÊM MỚI VÀO ĐÂY)
+            // Thêm đoạn này vào bên dưới đoạn Ajax vẽ biểu đồ cũ
+            // 2. AJAX LẤY DỮ LIỆU TOP SẢN PHẨM (THÊM MỚI VÀO ĐÂY)
+            $.ajax({
+                url: '/Admin/ThongKe/GetTopSanpham',
+                type: 'POST',
+                data: { tuNgay: tuNgay, denNgay: denNgay },
+                success: function (res) {
+                    if (res.status) {
+                        let htmlChay = '';
+                        let htmlCham = '';
+
+                        // Hàm tạo HTML cho 1 dòng dữ liệu
+                        // Tìm đoạn render trong success của Ajax và thay thế bằng đoạn này cho chuyên nghiệp
+                        const renderRow = (item, isTopChay) => {
+                            // Nếu bán chậm mà số lượng = 0 thì cho màu đỏ đậm, nếu có bán được ít thì màu cam
+                            let colorClass = isTopChay ? 'text-success' : (item.SoLuongBan === 0 ? 'text-danger font-weight-bolder' : 'text-warning');
+                            let labelSl = item.SoLuongBan === 0 ? '<span class="badge badge-danger">Chưa bán được</span>' : item.SoLuongBan;
+
+                            return `
+        <tr>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img src="${item.HinhAnh}" width="40" height="40" class="mr-2 rounded border" style="object-fit:cover;">
+                    <div>
+                        <div class="font-weight-bold text-dark" style="font-size:12px; line-height:1.2;">${item.TenSP}</div>
+                        <small class="text-muted" style="font-size:10px;">${item.CauHinh}</small>
+                    </div>
+                </div>
+            </td>
+            <td class="text-center font-weight-bold ${colorClass}">${isTopChay ? item.SoLuongBan : labelSl}</td>
+            <td class="text-right text-dark font-weight-bold" style="font-size:12px;">${item.DoanhThuMangLai.toLocaleString('vi-VN')} đ</td>
+        </tr>`;
+                        };
+
+                        // Render Top Bán Chạy
+                        if (res.topBanChay.length > 0) {
+                            res.topBanChay.forEach(item => htmlChay += renderRow(item, 'text-success'));
+                        } else {
+                            htmlChay = '<tr><td colspan="3" class="text-center py-4 text-muted">Không có dữ liệu bán hàng</td></tr>';
+                        }
+                        $('#tb-ban-chay').html(htmlChay);
+
+                        // Render Top Bán Chậm
+                        if (res.topBanCham.length > 0) {
+                            res.topBanCham.forEach(item => htmlCham += renderRow(item, 'text-warning'));
+                        } else {
+                            htmlCham = '<tr><td colspan="3" class="text-center py-4 text-muted">Không có dữ liệu bán hàng</td></tr>';
+                        }
+                        $('#tb-ban-cham').html(htmlCham);
+                    } else {
+                        console.error("Lỗi từ server: ", res.message);
+                    }
+                },
+                error: function (err) {
+                    console.error("Lỗi kết nối API Top sản phẩm", err);
                 }
             });
         }

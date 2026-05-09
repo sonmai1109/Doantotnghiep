@@ -104,20 +104,50 @@
     /* =======================================
        CSS ÉP LƯỚI 5 CỘT (TỰ RỚT DÒNG & GIÃN ĐỀU)
        ======================================= */
-    .grid-5-cols {
+    /* LƯỚI 4 CỘT DÀNH CHO BÊN CÓ THANH LỌC */
+    .grid-4-cols {
         display: flex;
-        flex-wrap: wrap; /* Lệnh quan trọng: Hết chỗ là bắt buộc rớt dòng */
+        flex-wrap: wrap;
         margin-left: -10px;
         margin-right: -10px;
     }
 
-        .grid-5-cols > .col-item {
-            flex: 0 0 20%; /* Lệnh quan trọng: Chiếm ĐÚNG 20% chiều ngang (100% / 5 = 20%) */
-            max-width: 20%;
+        .grid-4-cols > .col-item {
+            flex: 0 0 25%; /* 100% / 4 = 25% */
+            max-width: 25%;
             padding-left: 10px;
             padding-right: 10px;
-            margin-bottom: 20px; /* Khoảng cách giữa hàng trên và hàng dưới */
+            margin-bottom: 20px;
         }
+
+    /* CSS RIÊNG CHO THANH LỌC (SIDEBAR) */
+    .filter-sidebar {
+        background: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+
+    .filter-title {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 14px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #d70018;
+        padding-bottom: 5px;
+        display: inline-block;
+    }
+
+    .filter-group {
+        margin-bottom: 25px;
+    }
+
+    .custom-checkbox label {
+        cursor: pointer;
+        font-size: 14px;
+        color: #444;
+    }
 
     @*@media (max-width: 991px) {
         .grid-5-cols > .col-item { flex: 0 0 33.3333%; max-width: 33.3333%; }
@@ -125,6 +155,58 @@
     @media (max-width: 767px) {
         .grid-5-cols > .col-item { flex: 0 0 50%; max-width: 50%; }
     }*@
+    /* CSS CHO THANH TRƯỢT GIÁ KÉP */
+    .range-slider-wrapper {
+        position: relative;
+        width: 100%;
+        height: 30px;
+    }
+
+        .range-slider-wrapper input[type="range"] {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+            pointer-events: none;
+            background: transparent;
+            z-index: 2;
+            height: 100%;
+            margin: 0;
+        }
+
+            .range-slider-wrapper input[type="range"]::-webkit-slider-thumb {
+                pointer-events: all;
+                width: 18px;
+                height: 18px;
+                background-color: #fff;
+                border: 2px solid #d70018;
+                border-radius: 50%;
+                cursor: pointer;
+                -webkit-appearance: none;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            }
+
+    .range-track {
+        position: absolute;
+        bottom: 13px;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: #e0e0e0;
+        border-radius: 4px;
+        z-index: 1;
+    }
+
+    .range-fill {
+        position: absolute;
+        bottom: 13px;
+        height: 4px;
+        background: #d70018;
+        border-radius: 4px;
+        z-index: 1;
+    }
 </style>
 
 <div class="breadcrumb-area mt-30 mb-4">
@@ -146,134 +228,261 @@
 </div>
 
 <div class="container pb-100">
-   
-    @if (Model == null || !Model.Any())
-    {
-        <div class="text-center" style="margin: 80px 0; border: 1px dashed #ccc; padding: 50px; border-radius: 10px; background: #f9f9f9;">
-            @if (!string.IsNullOrEmpty(ViewBag.searchString as string))
+    <div class="row">
+        <div class="col-lg-3 col-md-4 mb-4">
+            <form action="@Url.Action("Shop", "Product")" method="get" id="frmFilter">
+                <input type="hidden" name="searchString" value="@ViewBag.searchString" />
+                <input type="hidden" name="madm" value="@ViewBag.madm" />
+                <input type="hidden" name="maBrand" value="@ViewBag.maBrand" />
+
+                <div class="filter-sidebar">
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
+                        <h5 class="font-weight-bold mb-0"><i class="fas fa-filter mr-2 text-danger"></i>Bộ Lọc</h5>
+                        <a href="@Url.Action("Shop", "Product", new { searchString = ViewBag.searchString, madm = ViewBag.madm })" class="text-secondary" style="font-size:13px; text-decoration:underline;">Xóa lọc</a>
+                    </div>
+
+                    <div class="filter-group">
+                        <div class="filter-title">Thương hiệu</div>
+                        <div style="max-height: 200px; overflow-y: auto;">
+                            @if (ViewBag.BrandsAll != null)
+                            {
+                                var listBrandChecked = ViewBag.listBrand as List<int>;
+                                foreach (var b in ViewBag.BrandsAll)
+                                {
+                                    bool isChecked = listBrandChecked.Contains(b.MaBrand);
+                                    <div class="custom-control custom-checkbox mb-2">
+                                        <input type="checkbox" class="custom-control-input filter-checkbox"
+                                               id="brand_@b.MaBrand" name="listBrand" value="@b.MaBrand" @(isChecked ? "checked" : "")
+                                               onchange="$('#frmFilter').submit()">
+                                        <label class="custom-control-label d-flex align-items-center" for="brand_@b.MaBrand">
+                                            @b.TenBrand
+                                        </label>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <div class="filter-title">Mức Giá</div>
+
+                        <div class="d-flex align-items-center mb-3">
+                            <input type="text" id="inputMinPrice" class="form-control form-control-sm text-center font-weight-bold text-danger" placeholder="0đ" onchange="updateSliderFromInputs()">
+                            <span class="mx-2 text-muted">-</span>
+                            <input type="text" id="inputMaxPrice" class="form-control form-control-sm text-center font-weight-bold text-danger" placeholder="MAX" onchange="updateSliderFromInputs()">
+
+                            <input type="hidden" name="minPrice" id="minPrice" value="@ViewBag.minPrice" />
+                            <input type="hidden" name="maxPrice" id="maxPrice" value="@ViewBag.maxPrice" />
+                        </div>
+
+                        <div class="range-slider-wrapper">
+                            <div class="range-track"></div>
+                            <div class="range-fill" id="rangeFill"></div>
+                            <input type="range" id="sliderMin" min="0" max="100000000" step="500000" value="@(ViewBag.minPrice ?? 0)" oninput="updateInputsFromSlider(this)" onchange="autoSubmit()">
+                            <input type="range" id="sliderMax" min="0" max="100000000" step="500000" value="@(ViewBag.maxPrice ?? 100000000)" oninput="updateInputsFromSlider(this)" onchange="autoSubmit()">
+                        </div>
+                    </div>
+
+                    @if (ViewBag.ThuocTinhBoLoc != null)
+                    {
+                        var listGiaTriChecked = ViewBag.listGiaTri as List<int>;
+                        foreach (var tt in ViewBag.ThuocTinhBoLoc)
+                        {
+                            <div class="filter-group mt-4">
+                                <div class="filter-title">@tt.TenTT</div>
+                                <div style="max-height: 200px; overflow-y: auto; overflow-x: hidden;">
+                                    @foreach (var gt in tt.GiaTriTTs)
+                                    {
+                                        bool isChecked = listGiaTriChecked.Contains(gt.MaGT);
+                                        <div class="custom-control custom-checkbox mb-2">
+                                            <input type="checkbox" class="custom-control-input filter-checkbox"
+                                                   id="chk_@gt.MaGT" name="listGiaTri" value="@gt.MaGT" @(isChecked ? "checked" : "")
+                                                   onchange="$('#frmFilter').submit()">
+                                            <label class="custom-control-label" for="chk_@gt.MaGT">@gt.GiaTri</label>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    }
+                    <a href="@Url.Action("Shop", "Product", new { searchString = ViewBag.searchString, madm = ViewBag.madm, maBrand = ViewBag.maBrand })"
+                       class="btn btn-outline-secondary btn-block mt-4 font-weight-bold"
+                       style="border-width: 2px;">
+                        <i class="fas fa-undo-alt mr-2"></i>Xóa hết bộ lọc
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-lg-9 col-md-8">
+            @if (Model == null || !Model.Any())
             {
-                <h4 style="color: gray;"><i class="fas fa-search mb-3" style="font-size:30px;"></i><br />Không tìm thấy sản phẩm nào cho từ khóa: <strong>@ViewBag.searchString</strong></h4>
-            }
-            else if (ViewBag.Brand != null && ViewBag.DanhMuc != null)
-            {
-                <h4 style="color: gray;"><i class="fas fa-box-open mb-3" style="font-size:30px;"></i><br />Chưa có sản phẩm "<strong>@ViewBag.Brand.TenBrand</strong>" trong danh mục "<strong>@ViewBag.DanhMuc.TenDanhMuc</strong>".</h4>
-            }
-            else if (ViewBag.DanhMuc != null)
-            {
-                <h4 style="color: gray;"><i class="fas fa-box-open mb-3" style="font-size:30px;"></i><br />Không có sản phẩm nào trong danh mục "<strong>@ViewBag.DanhMuc.TenDanhMuc</strong>".</h4>
+                <div class="text-center" style="margin: 40px 0; border: 1px dashed #ccc; padding: 50px; border-radius: 10px; background: #f9f9f9;">
+                    <h4 style="color: gray;"><i class="fas fa-box-open mb-3" style="font-size:30px;"></i><br />Không tìm thấy sản phẩm nào phù hợp với tiêu chí lọc.</h4>
+                </div>
             }
             else
             {
-                <h4 style="color: gray;">Không tìm thấy sản phẩm nào.</h4>
-            }
-        </div>
-    }
-    else
-    {
-<div class="grid-5-cols">
-    @foreach (var item in Model)
-    {
-        <div class="col-item">
-            <div class="cps-card">
-                @{
-                    // 1. THUẬT TOÁN: QUÉT TÌM BẢN CÓ GIÁ CUỐI CÙNG RẺ NHẤT LÀM MỒI NHỬ
-                    decimal minGiaSauGiam = decimal.MaxValue;
-                    decimal giaGocCuaBanReNhat = 0;
-                    int phanTramHienThi = 0;
-
-                    if (item.BienThes != null && item.BienThes.Any())
+                <div class="grid-4-cols">
+                    @foreach (var item in Model)
                     {
-                        foreach (var bt in item.BienThes)
-                        {
-                            var activeKMs = item.SanPhamKhuyenMais != null
-                                ? item.SanPhamKhuyenMais.Where(k => k.KhuyenMai != null && k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= DateTime.Now && k.KhuyenMai.NgayKetThuc >= DateTime.Now)
-                                : Enumerable.Empty<Maison.Models.SanPhamKhuyenMai>();
+                        <div class="col-item">
+                            <div class="cps-card">
+                                @{
+                                    decimal minGiaSauGiam = decimal.MaxValue;
+                                    decimal giaGocCuaBanReNhat = 0;
+                                    int phanTramHienThi = 0;
 
-                            int maxRieng = activeKMs.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
-                            int maxChung = activeKMs.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
-                            int phanTram = Math.Max(maxRieng, maxChung);
+                                    if (item.BienThes != null && item.BienThes.Any())
+                                    {
+                                        foreach (var bt in item.BienThes)
+                                        {
+                                            var activeKMs = item.SanPhamKhuyenMais != null ? item.SanPhamKhuyenMais.Where(k => k.KhuyenMai != null && k.KhuyenMai.TrangThai == 1 && k.KhuyenMai.NgayBatDau <= DateTime.Now && k.KhuyenMai.NgayKetThuc >= DateTime.Now) : Enumerable.Empty<Maison.Models.SanPhamKhuyenMai>();
+                                            int maxRieng = activeKMs.Where(k => k.MaBT == bt.MaBT).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                                            int maxChung = activeKMs.Where(k => k.MaBT == null).Select(k => k.PhanTramGiam).DefaultIfEmpty(0).Max();
+                                            int phanTram = Math.Max(maxRieng, maxChung);
 
-                            decimal giaSauGiam = bt.GiaBan * (1 - (decimal)phanTram / 100);
+                                            decimal giaSauGiam = bt.GiaBan * (1 - (decimal)phanTram / 100);
+                                            if (giaSauGiam < minGiaSauGiam)
+                                            {
+                                                minGiaSauGiam = giaSauGiam;
+                                                giaGocCuaBanReNhat = bt.GiaBan;
+                                                phanTramHienThi = phanTram;
+                                            }
+                                        }
+                                    }
 
-                            if (giaSauGiam < minGiaSauGiam)
-                            {
-                                minGiaSauGiam = giaSauGiam;
-                                giaGocCuaBanReNhat = bt.GiaBan;
-                                phanTramHienThi = phanTram;
-                            }
-                        }
-                    }
+                                    var cacTagThongSo = item.BienThes != null ? item.BienThes.SelectMany(b => b.ChiTietBTs).Where(c => c.GiaTriTT != null && c.GiaTriTT.ThuocTinh != null && c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true).GroupBy(c => c.GiaTriTT.GiaTri).Select(g => g.First()).OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi).Select(c => c.GiaTriTT.GiaTri).ToList() : new List<string>();
+                                }
 
-                    // ============================================================
-                    // 2. LỌC TAG THÔNG SỐ: Xóa trùng lặp và Xếp chuẩn từ 0, 1, 2...
-                    // ============================================================
-                    var cacTagThongSo = item.BienThes != null ? item.BienThes
-                        .SelectMany(b => b.ChiTietBTs)
-                        .Where(c => c.GiaTriTT != null && c.GiaTriTT.ThuocTinh != null && c.GiaTriTT.ThuocTinh.LaThuocTinhChinh == true)
-                        .GroupBy(c => c.GiaTriTT.GiaTri) // Gom nhóm để chống lặp chữ
-                        .Select(g => g.First())
-                        .OrderBy(c => c.GiaTriTT.ThuocTinh.ThuTuHienThi) // Xếp theo thứ tự Admin (0, 1, 2...)
-                        .Select(c => c.GiaTriTT.GiaTri)
-                        .ToList() : new List<string>();
-                }
+                                @if (phanTramHienThi > 0)
+                                {
+                                    <div class="discount-badge">Giảm @phanTramHienThi%</div>
+                                }
 
-                @if (phanTramHienThi > 0)
-                {
-                    <div class="discount-badge">Giảm @phanTramHienThi%</div>
-                }
+                                <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-img">
+                                    <img src="@item.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@item.TenSP" />
+                                </a>
 
-                <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-img">
-                    <img src="@item.HinhAnh" onerror="this.src='/Content/Images/no-image.png'" alt="@item.TenSP" />
-                </a>
+                                <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-title">
+                                    @item.TenSP
+                                </a>
 
-                <a href="@Url.Action("ProductDetail", "Product", new { id = item.MaSP })" class="cps-card-title">
-                    @item.TenSP
-                </a>
+                                <div class="cps-price-box">
+                                    @if (minGiaSauGiam != decimal.MaxValue)
+                                    {
+                                        <span class="cps-price-new">@string.Format(info, "{0:c0}", minGiaSauGiam)</span>
+                                        if (phanTramHienThi > 0)
+                                        {
+                                            <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGocCuaBanReNhat)</span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="cps-price-new text-muted" style="font-size:14px;">Đang cập nhật giá</span>
+                                    }
+                                </div>
 
-                <div class="cps-price-box">
-                    @if (minGiaSauGiam != decimal.MaxValue)
-                    {
-                        <span class="cps-price-new">@string.Format(info, "{0:c0}", minGiaSauGiam)</span>
-                        if (phanTramHienThi > 0)
-                        {
-                            <span class="cps-price-old">@string.Format(info, "{0:c0}", giaGocCuaBanReNhat)</span>
-                        }
-                    }
-                    else
-                    {
-                        <span class="cps-price-new text-muted" style="font-size:14px;">Đang cập nhật giá</span>
+                                @if (cacTagThongSo.Any())
+                                {
+                                    <div class="variant-tags mt-2" style="display: flex; flex-wrap: wrap; gap: 5px;">
+                                        @foreach (var tag in cacTagThongSo)
+                                        {
+                                            <span class="v-tag" style="font-size: 11px; color: #555; background: #f3f4f6; padding: 3px 6px; border: 1px solid #e5e7eb; border-radius: 4px;">@tag</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     }
                 </div>
 
-                @if (cacTagThongSo.Any())
-                {
-                    <div class="variant-tags mt-2" style="display: flex; flex-wrap: wrap; gap: 5px;">
-                        @foreach (var tag in cacTagThongSo)
-                        {
-                            <span class="v-tag" style="font-size: 11px; color: #555; background: #f3f4f6; padding: 3px 6px; border: 1px solid #e5e7eb; border-radius: 4px;">
-                                @tag
-                            </span>
-                        }
-                    </div>
-                }
-
-            </div>
+                <div class="pagination-container mt-4">
+                    <ul class="blog-pagination">
+                        @Html.PagedListPager(Model, page => "javascript:void(0);", new PagedListRenderOptions { FunctionToTransformEachPageLink = (liTag, aTag) => { aTag.Attributes.Add("onclick", "submitFilterWithPage(" + aTag.InnerHtml + ")"); return liTag; } })
+                    </ul>
+                </div>
+            }
         </div>
-    }
+    </div>
 </div>
 
-        <div class="pagination-container">
-            <ul class="blog-pagination">
-                @{
-                    string actionName = ViewBag.ActionName ?? "Shop";
-                    string searchString = ViewBag.searchString ?? "";
-                    int? madm = ViewBag.madm;
-                    int? maBrand = ViewBag.maBrand; // Lấy maBrand từ Controller
-                }
-                @* Nhét thêm maBrand vào Url.Action để phân trang không bị mất lọc *@
-                @Html.PagedListPager(Model, page => Url.Action(actionName, new { page, searchString, madm, maBrand }))
-            </ul>
-        </div>
+@section Script{
+    <script>
+        // Khi bấm vào nút Phân trang (Trang 1, 2, 3...)
+        function submitFilterWithPage(pageNumber) {
+            // Tự động tạo 1 input ẩn tên là "page" nhét vào form lọc
+            $('<input>').attr({ type: 'hidden', name: 'page', value: pageNumber }).appendTo('#frmFilter');
+            // Gửi form đi
+            $('#frmFilter').submit();
+        }
 
-    }
-</div>
+        // Tự động gửi form lọc khi khách hàng chọn Checkbox (Tùy chọn)
+        $('.filter-checkbox').on('change', function () {
+            // Nếu bạn muốn khách tích vào là web tự load lại, bỏ comment dòng dưới
+            // $('#frmFilter').submit();
+        });
+        // Fomart tiền tệ (VND)
+        function formatCurrency(val) {
+            return new Intl.NumberFormat('vi-VN').format(val) + 'đ';
+        }
+        // Xóa chữ đ và dấu phẩy để lấy số
+        function unformatCurrency(str) {
+            return str.replace(/[^0-9]/g, '');
+        }
+
+        const sliderMin = document.getElementById('sliderMin');
+        const sliderMax = document.getElementById('sliderMax');
+        const inputMin = document.getElementById('inputMinPrice');
+        const inputMax = document.getElementById('inputMaxPrice');
+        const hiddenMin = document.getElementById('minPrice');
+        const hiddenMax = document.getElementById('maxPrice');
+        const rangeFill = document.getElementById('rangeFill');
+
+        // Hàm chạy khi KÉO thanh trượt (Đổi số realtime, nhưng chưa gửi Form)
+        function updateInputsFromSlider(triggerElement) {
+            let minVal = parseInt(sliderMin.value);
+            let maxVal = parseInt(sliderMax.value);
+
+            // Chống trượt đè lên nhau
+            if (minVal > maxVal - 500000) {
+                if (triggerElement === sliderMin) sliderMin.value = maxVal - 500000;
+                else sliderMax.value = minVal + 500000;
+                minVal = parseInt(sliderMin.value);
+                maxVal = parseInt(sliderMax.value);
+            }
+
+            inputMin.value = formatCurrency(minVal);
+            inputMax.value = formatCurrency(maxVal);
+            hiddenMin.value = minVal;
+            hiddenMax.value = maxVal;
+
+            // Chỉnh thanh đỏ ở giữa
+            let percentMin = (minVal / sliderMin.max) * 100;
+            let percentMax = (maxVal / sliderMax.max) * 100;
+            rangeFill.style.left = percentMin + '%';
+            rangeFill.style.width = (percentMax - percentMin) + '%';
+        }
+
+        // Hàm chạy khi GÕ SỐ vào ô Input -> Cập nhật lại thanh trượt -> Gửi form
+        function updateSliderFromInputs() {
+            let minVal = parseInt(unformatCurrency(inputMin.value)) || 0;
+            let maxVal = parseInt(unformatCurrency(inputMax.value)) || parseInt(sliderMax.max);
+
+            sliderMin.value = minVal;
+            sliderMax.value = maxVal;
+            updateInputsFromSlider(null);
+            $('#frmFilter').submit(); // Tự động load lại trang
+        }
+
+        // Hàm chạy khi THẢ CHUỘT thanh trượt -> Gửi form
+        function autoSubmit() {
+            $('#frmFilter').submit();
+        }
+
+        // Chạy lần đầu khi load trang
+        $(document).ready(function () {
+            updateInputsFromSlider(null);
+        });
+    </script>
+}

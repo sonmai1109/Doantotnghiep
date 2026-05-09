@@ -68,15 +68,23 @@ namespace Maison.Areas.Admin.Controllers // Đổi namespace nếu cần
 
             // 3. Lọc thuộc tính dựa trên danhSachID
             var data = db.ThuocTinhs
-                         .Where(t => danhSachID.Contains(t.MaDM) || t.MaDM == null)
-                         .OrderByDescending(t => t.LaThuocTinhChinh) // Đưa thuộc tính chính lên đầu
-                         .ThenBy(t => t.ThuTuHienThi)
-                         .Select(t => new {
-                             MaTT = t.MaTT,
-                             TenTT = t.TenTT,
-                             LaThuocTinhChinh = t.LaThuocTinhChinh,
-                             GiaTris = t.GiaTriTTs.Select(g => new { g.MaGT, g.GiaTri }).ToList()
-                         }).ToList();
+      .Where(t => danhSachID.Contains(t.MaDM) || t.MaDM == null)
+
+      // TẦNG 1: CHIA KHỐI (Dùng chung -> Cha -> Con)
+      .OrderBy(t => t.MaDM == null ? 1 : (t.MaDM == dmHienTai.MaDMCha ? 2 : 3))
+
+      // TẦNG 2: Nhóm Cấu hình chính (Màu đỏ) lên trước Thông số phụ (Màu xám)
+      .ThenByDescending(t => t.LaThuocTinhChinh)
+
+      // TẦNG 3: Cuối cùng mới lấy STT của nội bộ từng danh mục ra để xếp
+      .ThenBy(t => t.ThuTuHienThi)
+
+      .Select(t => new {
+          MaTT = t.MaTT,
+          TenTT = t.TenTT,
+          LaThuocTinhChinh = t.LaThuocTinhChinh,
+          GiaTris = t.GiaTriTTs.Select(g => new { g.MaGT, g.GiaTri }).ToList()
+      }).ToList();
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }

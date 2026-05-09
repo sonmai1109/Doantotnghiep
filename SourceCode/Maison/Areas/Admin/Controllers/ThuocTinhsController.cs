@@ -55,13 +55,45 @@ namespace Maison.Areas.Admin.Controllers
         {
             try
             {
-                var check = db.ThuocTinhs.FirstOrDefault(x => x.TenTT.ToLower() == tt.TenTT.ToLower() && x.MaDM == tt.MaDM);
-                if (check != null) return Json(new { status = false, message = "Thuộc tính này đã tồn tại trong danh mục!" });
+                // === LỚP CẢNH VỆ 1: THUẬT TOÁN QUÉT TRÙNG LẶP THEO GIA PHẢ (CHA - CON - GLOBAL) ===
+                // Mặc định luôn quét nhóm Dùng chung (null) và chính Danh mục hiện tại
+                List<int?> giaPhaID = new List<int?> { null, tt.MaDM };
+
+                if (tt.MaDM != null)
+                {
+                    var dmHienTai = db.Danhmucs.FirstOrDefault(d => d.MaDM == tt.MaDM);
+                    if (dmHienTai != null)
+                    {
+                        // 1. Quét ngược lên Cha (nếu có)
+                        if (dmHienTai.MaDMCha != null)
+                            giaPhaID.Add(dmHienTai.MaDMCha);
+
+                        // 2. Quét xuôi xuống tất cả các danh mục Con (nếu nó là Cha)
+                        var dsCon = db.Danhmucs.Where(d => d.MaDMCha == tt.MaDM).Select(d => (int?)d.MaDM).ToList();
+                        giaPhaID.AddRange(dsCon);
+                    }
+                }
+
+                // Kiểm tra xem Tên Thuộc Tính đã tồn tại bất cứ đâu trong dòng họ (Gia phả) này chưa?
+                var checkTrungTen = db.ThuocTinhs.FirstOrDefault(x =>
+                    x.TenTT.ToLower() == tt.TenTT.ToLower() &&
+                    giaPhaID.Contains(x.MaDM));
+
+                if (checkTrungTen != null)
+                {
+                    string tenNoiTrung = checkTrungTen.MaDM == null ? "Dùng chung (Toàn hệ thống)" : checkTrungTen.DanhMuc.TenDM;
+                    return Json(new
+                    {
+                        status = false,
+                        message = $"Từ chối: Thuộc tính '{tt.TenTT}' đã được khai báo ở danh mục '{tenNoiTrung}'. Hệ thống sẽ tự kế thừa, bạn không được tạo trùng!"
+                    });
+                }
+                // ============================================================================
 
                 // Nếu không nhập thứ tự hiển thị, gán mặc định là 999 (Xếp bét)
                 tt.ThuTuHienThi = tt.ThuTuHienThi ?? 999;
 
-                // LỚP CẢNH VỆ: Kiểm tra trùng vị trí (Loại trừ số 999)
+                // LỚP CẢNH VỆ 2: Kiểm tra trùng vị trí (Loại trừ số 999)
                 if (tt.ThuTuHienThi != 999)
                 {
                     var checkViTri = db.ThuocTinhs.FirstOrDefault(x => x.ThuTuHienThi == tt.ThuTuHienThi && x.MaDM == tt.MaDM);
@@ -120,10 +152,41 @@ namespace Maison.Areas.Admin.Controllers
                 var doi = db.ThuocTinhs.FirstOrDefault(a => a.MaTT == tt.MaTT);
                 if (doi == null) return Json(new { status = false, message = "Không tìm thấy dữ liệu!" });
 
+                // === LỚP CẢNH VỆ 1: QUÉT TRÙNG LẶP KHI ĐỔI TÊN / ĐỔI DANH MỤC ===
+                List<int?> giaPhaID = new List<int?> { null, tt.MaDM };
+
+                if (tt.MaDM != null)
+                {
+                    var dmHienTai = db.Danhmucs.FirstOrDefault(d => d.MaDM == tt.MaDM);
+                    if (dmHienTai != null)
+                    {
+                        if (dmHienTai.MaDMCha != null) giaPhaID.Add(dmHienTai.MaDMCha);
+                        var dsCon = db.Danhmucs.Where(d => d.MaDMCha == tt.MaDM).Select(d => (int?)d.MaDM).ToList();
+                        giaPhaID.AddRange(dsCon);
+                    }
+                }
+
+                // Lưu ý: Phải loại trừ chính cái thuộc tính đang sửa ra khỏi việc kiểm tra (x.MaTT != tt.MaTT)
+                var checkTrungTen = db.ThuocTinhs.FirstOrDefault(x =>
+                    x.MaTT != tt.MaTT &&
+                    x.TenTT.ToLower() == tt.TenTT.ToLower() &&
+                    giaPhaID.Contains(x.MaDM));
+
+                if (checkTrungTen != null)
+                {
+                    string tenNoiTrung = checkTrungTen.MaDM == null ? "Dùng chung (Toàn hệ thống)" : checkTrungTen.DanhMuc.TenDM;
+                    return Json(new
+                    {
+                        status = false,
+                        message = $"Từ chối: Tên '{tt.TenTT}' đã bị trùng với danh mục '{tenNoiTrung}' trong cùng nhánh!"
+                    });
+                }
+                // =================================================================
+
                 // Gán mặc định nếu Admin xóa trống ô nhập
                 int viTriMoi = tt.ThuTuHienThi ?? 999;
 
-                // LỚP CẢNH VỆ: Check trùng Vị trí hiển thị (Loại trừ chính nó đang sửa và loại trừ số 999)
+                // LỚP CẢNH VỆ 2: Check trùng Vị trí hiển thị (Loại trừ chính nó đang sửa và loại trừ số 999)
                 if (viTriMoi != 999 && viTriMoi != doi.ThuTuHienThi)
                 {
                     var checkViTri = db.ThuocTinhs.FirstOrDefault(x => x.ThuTuHienThi == viTriMoi && x.MaDM == tt.MaDM && x.MaTT != tt.MaTT);

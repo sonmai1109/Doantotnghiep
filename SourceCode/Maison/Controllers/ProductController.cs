@@ -14,37 +14,94 @@ namespace Maison.Controllers
         shopdb db = new shopdb(); // Dùng đúng DbContext của bạn
 
         // GET: Product/Shop
-        public ActionResult Shop(string searchString, int? madm, int? maBrand, int page = 1, int pageSize = 9)
+        public ActionResult Shop(string searchString, int? madm, List<int> listBrand,
+                          decimal? minPrice, decimal? maxPrice, List<int> listGiaTri,
+                          int page = 1, int pageSize = 12)
         {
+            // 1. LƯU TRẠNG THÁI RA VIEW
             ViewBag.searchString = searchString;
             ViewBag.madm = madm;
-            ViewBag.maBrand = maBrand; // LƯU LẠI MABRAND ĐỂ VIEW CÒN DÙNG
+            ViewBag.listBrand = listBrand ?? new List<int>();
+            ViewBag.minPrice = minPrice;
+            ViewBag.maxPrice = maxPrice;
+            ViewBag.listGiaTri = listGiaTri ?? new List<int>();
 
-            // Lấy toàn bộ sản phẩm (kèm Biến Thể để tính giá)
+            // ==========================================================
+            // 2. LẤY DANH SÁCH BRAND THEO NGỮ CẢNH DANH MỤC (MỚI CẬP NHẬT)
+            // ==========================================================
+            var brandsQuery = db.Sanphams.AsQueryable();
+
+            if (madm != null && madm != 0)
+            {
+                // Lấy sản phẩm thuộc danh mục này hoặc danh mục con của nó
+                brandsQuery = brandsQuery.Where(sp => sp.MaDM == madm || sp.DanhMuc.MaDMCha == madm);
+            }
+
+            // Lấy danh sách Brand duy nhất từ tập sản phẩm đã lọc theo DM
+            ViewBag.BrandsAll = brandsQuery
+                .Where(sp => sp.Brand != null)
+                .Select(sp => sp.Brand)
+                .Distinct()
+                .ToList();
+
+            // 3. KHỞI TẠO TRUY VẤN SẢN PHẨM CHÍNH
             var sanphams = db.Sanphams
                 .Include(s => s.DanhMuc)
                 .Include(s => s.SanPhamKhuyenMais.Select(k => k.KhuyenMai))
                 .Include(s => s.BienThes.Select(b => b.ChiTietBTs.Select(c => c.GiaTriTT.ThuocTinh)))
                 .AsQueryable();
 
+            // 4. LỌC THEO TỪ KHÓA & DANH MỤC
             if (!string.IsNullOrEmpty(searchString))
                 sanphams = sanphams.Where(sp => sp.TenSP.Contains(searchString));
 
             if (madm != null && madm != 0)
             {
-                sanphams = sanphams.Where(sp => sp.MaDM == madm);
+                sanphams = sanphams.Where(sp => sp.MaDM == madm || sp.DanhMuc.MaDMCha == madm);
                 ViewBag.DanhMuc = db.Danhmucs.FirstOrDefault(d => d.MaDM == madm);
             }
 
-            // --- MỚI THÊM: LỌC THEO BRAND ---
-            if (maBrand != null && maBrand != 0)
+            // 5. LỌC THEO THƯƠNG HIỆU (Sửa lỗi int không dùng ?? 0)
+            if (listBrand != null && listBrand.Any())
             {
-                sanphams = sanphams.Where(sp => sp.MaBrand == maBrand);
-                ViewBag.Brand = db.Brands.FirstOrDefault(b => b.MaBrand == maBrand); // Lấy tên Brand truyền sang View
+                sanphams = sanphams.Where(sp => listBrand.Contains(sp.MaBrand));
             }
 
-            var result = sanphams.OrderByDescending(sp => sp.NgayTao).ToPagedList(page, pageSize);
+            // 6. LỌC THEO GIÁ (Giữ nguyên)
+            if (minPrice.HasValue)
+                sanphams = sanphams.Where(sp => sp.BienThes.Any(bt => bt.GiaBan >= minPrice.Value));
+            if (maxPrice.HasValue)
+                sanphams = sanphams.Where(sp => sp.BienThes.Any(bt => bt.GiaBan <= maxPrice.Value));
 
+            // 7. LỌC THEO CẤU HÌNH (AND Logic - Giữ nguyên)
+            if (listGiaTri != null && listGiaTri.Any())
+            {
+                var thuocTinhGroups = db.GiaTriTTs
+                                        .Where(g => listGiaTri.Contains(g.MaGT))
+                                        .GroupBy(g => g.MaTT)
+                                        .Select(g => g.Select(x => x.MaGT).ToList())
+                                        .ToList();
+
+                var validVariants = db.BienThes.Select(bt => bt.MaBT).AsQueryable();
+                foreach (var group in thuocTinhGroups)
+                {
+                    validVariants = validVariants.Where(id => db.ChiTietBTs.Any(ct => ct.MaBT == id && group.Contains(ct.MaGT)));
+                }
+                sanphams = sanphams.Where(sp => sp.BienThes.Any(bt => validVariants.Contains(bt.MaBT)));
+            }
+
+            // 8. LẤY THUỘC TÍNH BỘ LỌC (Hỗ trợ kế thừa cha-con - Giữ nguyên)
+            var thuocTinhs = db.ThuocTinhs.Include(t => t.GiaTriTTs).Where(t => t.LaThuocTinhChinh == true);
+            if (madm != null && madm != 0)
+            {
+                var currentCat = db.Danhmucs.FirstOrDefault(d => d.MaDM == madm);
+                int? parentId = currentCat != null ? currentCat.MaDMCha : null;
+                thuocTinhs = thuocTinhs.Where(t => t.MaDM == madm || (parentId != null && t.MaDM == parentId) || t.MaDM == null);
+            }
+            ViewBag.ThuocTinhBoLoc = thuocTinhs.OrderBy(t => t.ThuTuHienThi).ToList();
+
+            // 9. PHÂN TRANG
+            var result = sanphams.OrderByDescending(sp => sp.NgayTao).ToPagedList(page, pageSize);
             ViewBag.GiaSauKhuyenMai = TinhGiaSauKhuyenMai(result.ToList());
             ViewBag.ActionName = "Shop";
 

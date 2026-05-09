@@ -15,7 +15,7 @@ namespace Maison.Controllers
 {
     public class ChatbotController : Controller
     {
-        private readonly string _apiKey = "AIzaSyAuXnX5ozLyV27QTThdRNR2hg0BOl7v3kY";
+        private readonly string _apiKey = "AIzaSyCos3k0EFBOkLBuK5AM3pwq6KN9s6ubVc0";
         private readonly string _apiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=";
         private shopdb db = new shopdb();
 
