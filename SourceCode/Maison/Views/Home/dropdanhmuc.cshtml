@@ -25,7 +25,7 @@
                         {
                             foreach (var br in brands)
                             {
-                                <a href="@Url.Action("Shop", "Product", new { maBrand = br.MaBrand, madm = item.MaDM })" class="brand-item border rounded" title="@br.TenBrand">
+                                <a href="@Url.Action("Shop", "Product", new { listBrand = br.MaBrand, madm = item.MaDM })" class="brand-item border rounded" title="@br.TenBrand">
                                     <img src="@br.Logo" alt="@br.TenBrand" onerror="this.src='/Content/Images/no-image.png'" />
                                 </a>
                             }

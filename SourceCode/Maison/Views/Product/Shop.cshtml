@@ -278,8 +278,8 @@
                         <div class="range-slider-wrapper">
                             <div class="range-track"></div>
                             <div class="range-fill" id="rangeFill"></div>
-                            <input type="range" id="sliderMin" min="0" max="100000000" step="500000" value="@(ViewBag.minPrice ?? 0)" oninput="updateInputsFromSlider(this)" onchange="autoSubmit()">
-                            <input type="range" id="sliderMax" min="0" max="100000000" step="500000" value="@(ViewBag.maxPrice ?? 100000000)" oninput="updateInputsFromSlider(this)" onchange="autoSubmit()">
+                            <input type="range" id="sliderMin" min="0" max="500000000" step="500000" value="@(ViewBag.minPrice ?? 0)" oninput="updateInputsFromSlider(this)" onchange="autoSubmit()">
+                            <input type="range" id="sliderMax" min="0" max="500000000" step="500000" value="@(ViewBag.maxPrice ?? 500000000)" oninput="updateInputsFromSlider(this)" onchange="autoSubmit()">
                         </div>
                     </div>
 
