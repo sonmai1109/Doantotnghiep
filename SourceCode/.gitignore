@@ -1,0 +1,20 @@
+# Bỏ qua thư mục sinh ra khi Build
+[Bb]in/
+[Oo]bj/
+
+# Bỏ qua thư mục cấu hình ẩn của Visual Studio
+.vs/
+*.user
+*.suo
+
+# Bỏ qua thư viện NuGet (Sẽ tự động tải lại khi Restore)
+packages/
+*.nupkg
+
+# Bỏ qua các file rác của Hệ điều hành
+Thumbs.db
+.DS_Store
+
+# (Tùy chọn) Bỏ qua ảnh tải lên nếu quá nặng (Xóa dấu # ở đầu dòng dưới nếu muốn dùng)
+# Maison/Content/Images/SanPhams/
+# Maison/Content/Images/BienThes/
